@@ -1,0 +1,247 @@
+/* AutoGen-Style Three-Column Layout */
+
+/* Overall container setup */
+.bd-container {
+    max-width: none !important;
+    padding: 0 !important;
+}
+
+.bd-container__inner {
+    max-width: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    width: 100% !important;
+}
+
+/* Left Sidebar - Navigation */
+.bd-sidebar-primary {
+    width: 280px !important;
+    min-width: 280px !important;
+    max-width: 280px !important;
+    flex-shrink: 0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    height: 100vh !important;
+    overflow-y: auto !important;
+    padding: 1rem !important;
+    border-right: 1px solid #e9ecef !important;
+    background: #ffffff !important;
+}
+
+/* Main Content Area - Middle */
+.bd-main {
+    flex: 1 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.bd-main .bd-content {
+    flex: 1 !important;
+    padding: 2rem 3rem !important;
+    margin: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+}
+
+/* Right Sidebar - "On this page" */
+.bd-sidebar-secondary {
+    width: 250px !important;
+    min-width: 250px !important;
+    max-width: 250px !important;
+    flex-shrink: 0 !important;
+    position: sticky !important;
+    top: 1rem !important;
+    height: calc(100vh - 2rem) !important;
+    overflow-y: auto !important;
+    padding: 1rem !important;
+    background: transparent !important;
+    display: block !important;
+}
+
+/* Remove any conflicting margins/padding */
+.bd-article-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+.bd-article {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+/* Logo Styling */
+.bd-sidebar-primary .navbar-brand.logo {
+    display: flex !important;
+    align-items: center !important;
+    padding: 0.5rem 0 !important;
+    margin-bottom: 1.5rem !important;
+    border-bottom: 1px solid #e9ecef !important;
+}
+
+.bd-sidebar-primary .logo img {
+    max-height: 40px !important;
+    width: auto !important;
+}
+
+.bd-sidebar-primary .logo .title {
+    display: none !important;
+}
+
+/* Left Sidebar Navigation Styling */
+.bd-sidebar-primary .sidebar-primary-item {
+    margin-bottom: 1rem !important;
+}
+
+.bd-sidebar-primary .nav-link {
+    font-size: 0.9rem !important;
+    padding: 0.5rem 0.75rem !important;
+    border-radius: 4px !important;
+    margin-bottom: 2px !important;
+    color: #495057 !important;
+    text-decoration: none !important;
+}
+
+.bd-sidebar-primary .nav-link:hover {
+    background-color: #f8f9fa !important;
+    color: #0066cc !important;
+}
+
+.bd-sidebar-primary .nav-link.active {
+    background-color: #e7f3ff !important;
+    color: #0066cc !important;
+    font-weight: 500 !important;
+}
+
+/* Right Sidebar "On this page" Styling */
+.bd-sidebar-secondary .page-toc {
+    border-left: 1px solid #e9ecef !important;
+    padding-left: 1rem !important;
+}
+
+.bd-sidebar-secondary .onthispage {
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    color: #495057 !important;
+    margin-bottom: 0.75rem !important;
+    padding-left: 1rem !important;
+}
+
+.bd-sidebar-secondary .bd-toc .nav-link {
+    font-size: 0.8rem !important;
+    color: #6c757d !important;
+    padding: 0.2rem 0.5rem !important;
+    border-radius: 0 !important;
+    text-decoration: none !important;
+    display: block !important;
+    border-left: 2px solid transparent !important;
+    margin-left: -2px !important;
+}
+
+.bd-sidebar-secondary .bd-toc .nav-link:hover {
+    color: #0066cc !important;
+    background: transparent !important;
+    border-left-color: #e9ecef !important;
+}
+
+.bd-sidebar-secondary .bd-toc .nav-link.active {
+    color: #0066cc !important;
+    font-weight: 500 !important;
+    border-left-color: #0066cc !important;
+    background: transparent !important;
+}
+
+/* Typography */
+.bd-main .bd-content {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+}
+
+.bd-main .bd-content h1 {
+    font-size: 2.5rem !important;
+    margin-bottom: 1.5rem !important;
+    border-bottom: 2px solid #e9ecef !important;
+    padding-bottom: 0.5rem !important;
+}
+
+.bd-main .bd-content h2 {
+    font-size: 2rem !important;
+    margin-top: 2rem !important;
+    margin-bottom: 1rem !important;
+    color: #333 !important;
+}
+
+.bd-main .bd-content h3 {
+    font-size: 1.5rem !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.75rem !important;
+    color: #495057 !important;
+}
+
+/* Code blocks */
+.bd-main .bd-content pre {
+    background-color: #f8f9fa !important;
+    border: 1px solid #e9ecef !important;
+    border-radius: 6px !important;
+    padding: 1rem !important;
+    margin: 1rem 0 !important;
+    overflow-x: auto !important;
+}
+
+.bd-main .bd-content code {
+    background-color: #f1f3f4 !important;
+    padding: 0.2em 0.4em !important;
+    border-radius: 3px !important;
+    font-size: 0.9em !important;
+}
+
+/* Tables */
+.bd-main .bd-content table {
+    width: 100% !important;
+    margin: 1rem 0 !important;
+    border-collapse: collapse !important;
+}
+
+.bd-main .bd-content th,
+.bd-main .bd-content td {
+    padding: 0.75rem !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+.bd-main .bd-content th {
+    background-color: #f8f9fa !important;
+    font-weight: 600 !important;
+}
+
+/* Footer */
+.bd-footer {
+    margin-left: 280px !important;
+    margin-right: 250px !important;
+    border-top: 1px solid #e9ecef !important;
+    padding: 1rem 2rem !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .bd-container__inner {
+        flex-direction: column !important;
+    }
+
+    .bd-sidebar-primary,
+    .bd-sidebar-secondary {
+        display: none !important;
+    }
+
+    .bd-main .bd-content {
+        padding: 1.5rem !important;
+    }
+
+    .bd-footer {
+        margin: 0 !important;
+        padding: 1rem 1.5rem !important;
+    }
+}

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Console appender for general logging -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File appender for AutoHeal specific logging -->
+    <appender name="AUTOHEAL_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>target/logs/autoheal.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File appender for test execution logs -->
+    <appender name="TEST_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>target/logs/test-execution.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File appender for AutoHeal metrics -->
+    <appender name="METRICS_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>target/logs/autoheal-metrics.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- AutoHeal package logging -->
+    <logger name="com.autoheal" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="AUTOHEAL_FILE"/>
+    </logger>
+
+    <!-- AutoHeal adapter logging -->
+    <logger name="com.autoheal.impl.adapter" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="AUTOHEAL_FILE"/>
+    </logger>
+
+    <!-- AutoHeal AI service logging -->
+    <logger name="com.autoheal.impl.ai" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="AUTOHEAL_FILE"/>
+    </logger>
+
+    <!-- Test package logging -->
+    <logger name="com.example.tests" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="TEST_FILE"/>
+    </logger>
+
+    <!-- Page objects logging -->
+    <logger name="com.example.pages" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="TEST_FILE"/>
+    </logger>
+
+    <!-- Base classes logging -->
+    <logger name="com.example.base" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="TEST_FILE"/>
+    </logger>
+
+    <!-- Configuration logging -->
+    <logger name="com.example.config" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="AUTOHEAL_FILE"/>
+    </logger>
+
+    <!-- Metrics logging -->
+    <logger name="AUTOHEAL_METRICS" level="INFO" additivity="false">
+        <appender-ref ref="METRICS_FILE"/>
+    </logger>
+
+    <!-- Playwright logging (reduce noise) -->
+    <logger name="com.microsoft.playwright" level="WARN"/>
+
+    <!-- Root logger -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

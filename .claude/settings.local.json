@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mvn:*)",
+      "Bash(mvn exec:java:*)",
+      "Bash(java:*)",
+      "Bash(timeout 45 mvn exec:java:*)",
+      "Bash(copy \"C:\\Backup\\autoheal-locator\\temp_backup\\PlaywrightWebAutomationAdapter.java\" \"C:\\Backup\\autoheal-locator\\src\\main\\java\\com\\autoheal\\impl\\adapter\\PlaywrightWebAutomationAdapter.java\")",
+      "Bash(find:*)",
+      "Bash(jar tf:*)",
+      "Bash(timeout 60 java:*)",
+      "Bash(timeout 600 mvn exec:java -Dexec.mainClass=\"newSanjitTest\")",
+      "Bash(timeout 300 mvn exec:java -Dexec.mainClass=\"CacheTestExample\")",
+      "Bash(mv:*)",
+      "Bash(timeout 60 mvn exec:java -Dexec.mainClass=\"Password1CacheTest\")",
+      "Bash(timeout 90 mvn exec:java -Dexec.mainClass=\"Password1CacheTest\")",
+      "Bash(timeout 180 mvn exec:java -Dexec.mainClass=\"Password1CacheTest\")",
+      "Bash(timeout 180 mvn exec:java -Dexec.mainClass=\"YourExactScenarioTest\")",
+      "Bash(timeout 300 mvn exec:java -Dexec.mainClass=\"FinalCacheVerificationTest\")",
+      "Bash(javac:*)",
+      "Bash(timeout:*)",
+      "Read(//c/Backup/my-autoheal-project/src/test/java/org/example/utils/**)",
+      "Bash(copy \"C:\\Backup\\my-autoheal-project\\src\\test\\java\\org\\example\\utils\\SuiteReportManager.java\" \"C:\\Backup\\autoheal-locator\\src\\test\\java\\com\\autoheal\\utils\\SuiteReportManager.java\")",
+      "Read(//c/Backup/my-autoheal-project/**)",
+      "Read(//c/Backup/my-autoheal-project-cucumber/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,349 @@
+# Playwright AutoHeal Integration Guide
+
+## Overview
+
+This guide demonstrates how to integrate AutoHeal capabilities with your **Java-based** Playwright test automation framework. AutoHeal is a Java library that provides intelligent element location with self-healing capabilities, caching, and AI-powered recovery when selectors fail.
+
+## Project Structure
+
+```
+src/
+├── main/java/
+│   ├── com/autoheal/                          # AutoHeal core library
+│   │   ├── impl/adapter/
+│   │   │   ├── PlaywrightWebAutomationAdapter.java    # Playwright integration
+│   │   │   └── PlaywrightElementWrapper.java          # Element wrapper
+│   │   └── ...
+│   └── com/example/                           # Your test framework
+│       ├── base/
+│       │   ├── BasePage.java                  # Enhanced base page with AutoHeal
+│       │   └── BaseTest.java                  # Test base class
+│       ├── config/
+│       │   └── AutoHealConfigurationManager.java      # Configuration management
+│       ├── pages/
+│       │   ├── LoginPage.java                 # Example page with AutoHeal
+│       │   └── InventoryPage.java             # Example inventory page
+│       ├── tests/
+│       │   └── EnhancedLoginTest.java         # Comprehensive test examples
+│       └── reporting/
+│           └── AutoHealTestReporter.java      # Test reporting and metrics
+└── resources/
+    ├── autoheal-playwright.properties         # Configuration file
+    └── logback-test.xml                       # Logging configuration
+```
+
+## Quick Start
+
+### 1. Dependencies
+
+Your `pom.xml` already includes all necessary dependencies:
+
+```xml
+<dependency>
+    <groupId>com.microsoft.playwright</groupId>
+    <artifactId>playwright</artifactId>
+    <version>1.40.0</version>
+</dependency>
+```
+
+### 2. Configuration
+
+Configure AutoHeal properties in `src/main/resources/autoheal-playwright.properties`:
+
+```properties
+# Core AutoHeal Configuration
+autoheal.cache.maximum-size=15000
+autoheal.ai.provider=openai
+autoheal.ai.api-key=${OPENAI_API_KEY:}
+autoheal.performance.element-timeout=15s
+autoheal.features.enable-ai-healing=true
+
+# Test Environment
+autoheal.test.base-url=https://www.saucedemo.com
+autoheal.test.headless=false
+autoheal.test.browser=chromium
+```
+
+### 3. Base Classes
+
+#### BasePage with AutoHeal
+
+```java
+public abstract class BasePage {
+    protected final Page page;
+    protected final AutoHealLocator autoHeal;
+    
+    public BasePage(Page page) {
+        this.page = page;
+        this.adapter = new PlaywrightWebAutomationAdapter(page);
+        this.autoHeal = AutoHealLocator.builder()
+            .withWebAdapter(adapter)
+            .withConfiguration(AutoHealConfigurationManager.getConfiguration())
+            .build();
+    }
+    
+    protected void click(String selector, String description) {
+        PlaywrightElementWrapper.WrappedElement element = 
+            findElementWithHealing(selector, description);
+        element.click();
+    }
+}
+```
+
+#### BaseTest Setup
+
+```java
+public abstract class BaseTest {
+    protected static Playwright playwright;
+    protected static Browser browser;
+    protected Page page;
+    
+    @BeforeAll
+    static void setupPlaywright() {
+        playwright = Playwright.create();
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+            .setHeadless(false));
+    }
+    
+    @BeforeEach
+    void setupTest() {
+        BrowserContext context = browser.newContext();
+        page = context.newPage();
+    }
+}
+```
+
+### 4. Page Object Implementation
+
+```java
+public class LoginPage extends BasePage {
+    private static final String USERNAME_FIELD = "#user-name";
+    private static final String PASSWORD_FIELD = "#password";
+    private static final String LOGIN_BUTTON = "#login-button";
+    
+    // Descriptions help AutoHeal understand element purpose
+    private static final String USERNAME_DESCRIPTION = "Username input field for login";
+    private static final String PASSWORD_DESCRIPTION = "Password input field for login";
+    
+    public LoginPage enterUsername(String username) {
+        // AutoHeal will use semantic description if selector fails
+        type(USERNAME_FIELD, username, USERNAME_DESCRIPTION);
+        return this;
+    }
+    
+    public void login(String username, String password) {
+        enterUsername(username)
+            .enterPassword(password)
+            .clickLoginButton();
+    }
+}
+```
+
+### 5. Test Implementation
+
+```java
+@DisplayName("Enhanced Login Tests with AutoHeal")
+public class EnhancedLoginTest extends BaseTest {
+    
+    @Test
+    void testSuccessfulLogin() {
+        LoginPage loginPage = new LoginPage(page);
+        InventoryPage inventoryPage = new InventoryPage(page);
+        
+        // AutoHeal will handle selector changes and caching
+        loginPage.goToLoginPage("https://www.saucedemo.com");
+        
+        LoginPage.LoginResult result = loginPage.performValidatedLogin(
+            "standard_user", "secret_sauce");
+        
+        assertTrue(result.isSuccessful());
+        assertTrue(inventoryPage.isInventoryPageLoaded());
+    }
+}
+```
+
+## Advanced Features
+
+### 1. AutoHeal Metrics and Monitoring
+
+```java
+// Get AutoHeal performance metrics
+String metrics = loginPage.getAutoHealMetrics();
+logger.info("AutoHeal metrics: {}", metrics);
+
+// Check AutoHeal health status
+boolean healthy = loginPage.isAutoHealHealthy();
+
+// Clear cache for testing
+loginPage.clearAutoHealCache();
+```
+
+### 2. Configuration Management
+
+```java
+// Access configuration
+String baseUrl = AutoHealConfigurationManager.getBaseUrl();
+boolean aiEnabled = AutoHealConfigurationManager.isAIHealingEnabled();
+
+// Print current configuration
+AutoHealConfigurationManager.printConfiguration();
+```
+
+### 3. Test Reporting
+
+```java
+// Record test execution
+AutoHealTestReporter.recordTestStart("testLogin", "LoginTest");
+
+// Record healing events
+AutoHealTestReporter.recordHealingEvent(
+    "testLogin", "#old-selector", "#new-selector", 
+    "AI_HEALING", true, "Original selector not found");
+
+// Generate reports
+AutoHealTestReporter.generateReport();
+```
+
+## Running Tests
+
+### Command Line Options
+
+```bash
+# Run with different browsers
+mvn test -Dbrowser=firefox
+mvn test -Dbrowser=webkit
+
+# Run in headless mode
+mvn test -Dheadless=true
+
+# Enable tracing
+mvn test -Dtrace=true
+
+# Set custom base URL
+mvn test -DBASE_URL=https://staging.saucedemo.com
+
+# Enable AI healing with API key
+mvn test -DOPENAI_API_KEY=your-api-key
+```
+
+### Maven Profiles
+
+```bash
+# Run integration tests
+mvn test -Pintegration
+
+# Run performance tests  
+mvn test -Pperformance
+
+# Clean and run all tests
+mvn clean test
+```
+
+## Best Practices
+
+### 1. Selector Strategies
+
+```java
+// ✅ Good: Semantic descriptions help AutoHeal
+private static final String LOGIN_BUTTON = "#login-button";
+private static final String LOGIN_DESCRIPTION = "Submit login form button";
+
+// ✅ Good: Multiple selector strategies
+click(LOGIN_BUTTON, LOGIN_DESCRIPTION);
+
+// ❌ Avoid: Generic descriptions
+click("#login-button", "button");
+```
+
+### 2. Error Handling
+
+```java
+// ✅ Good: Validated operations with detailed results
+LoginPage.LoginResult result = loginPage.performValidatedLogin(username, password);
+if (!result.isSuccessful()) {
+    logger.error("Login failed: {}", result.getMessage());
+    captureScreenshot("login_failure");
+}
+```
+
+### 3. Configuration
+
+```java
+// ✅ Good: Environment-specific configuration
+autoheal.test.base-url=${BASE_URL:https://www.saucedemo.com}
+autoheal.test.environment=${TEST_ENV:local}
+
+// ✅ Good: Feature flags for different environments
+autoheal.features.enable-ai-healing=${AI_HEALING:true}
+autoheal.features.enable-visual-healing=${VISUAL_HEALING:false}
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **AutoHeal Not Working**
+   - Verify `autoheal-playwright.properties` is in resources
+   - Check OPENAI_API_KEY environment variable
+   - Enable DEBUG logging for `com.autoheal`
+
+2. **Slow Test Execution**
+   - Increase thread pool size: `autoheal.performance.thread-pool-size=16`
+   - Reduce element timeout: `autoheal.performance.element-timeout=10s`
+   - Disable visual healing: `autoheal.features.enable-visual-healing=false`
+
+3. **High Cache Miss Rate**
+   - Increase cache size: `autoheal.cache.maximum-size=20000`
+   - Extend cache duration: `autoheal.cache.expire-after-access=4h`
+   - Use consistent element descriptions
+
+### Debug Logging
+
+Enable detailed logging in `logback-test.xml`:
+
+```xml
+<logger name="com.autoheal" level="DEBUG"/>
+<logger name="com.example.pages" level="DEBUG"/>
+```
+
+### Report Analysis
+
+Check generated reports in `target/reports/autoheal/`:
+- `latest-report.html` - Visual test execution report
+- `latest-report.json` - Programmatic access to metrics
+- `autoheal-metrics-*.csv` - Data for trend analysis
+
+## Environment Variables
+
+```bash
+# Required for AI healing
+export OPENAI_API_KEY="your-openai-api-key"
+
+# Optional configuration
+export TEST_ENV="staging"
+export BASE_URL="https://staging.saucedemo.com"
+export HEADLESS="true"
+export BROWSER="firefox"
+```
+
+## Performance Tuning
+
+### For High-Volume Testing
+
+```properties
+autoheal.performance.thread-pool-size=20
+autoheal.performance.max-concurrent-requests=100
+autoheal.cache.maximum-size=25000
+autoheal.resilience.circuit-breaker-failure-threshold=10
+```
+
+### For Development/Debugging
+
+```properties
+autoheal.performance.thread-pool-size=4
+autoheal.playwright.slow-motion=100
+autoheal.features.enable-ai-healing=false
+logging.level.com.autoheal=DEBUG
+```
+
+This integration provides a robust, enterprise-ready test automation framework with self-healing capabilities, comprehensive reporting, and professional configuration management.

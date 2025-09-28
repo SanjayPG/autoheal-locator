@@ -1,0 +1,1810 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Selenium Integration Examples &#8212; AutoHeal Locator</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=9e0c438f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=51b770b3"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=d1c4098b"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/user-guide/examples/selenium-examples';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Page Object Model Examples" href="page-object-examples.html" />
+    <link rel="prev" title="Handling Multiple Elements - Smart Disambiguation" href="../multiple-elements.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="AutoHeal Locator - Home"/>
+    <img src="../../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="AutoHeal Locator - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quick-start.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../ai-configuration.html">
+    AI Configuration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../selenium-integration.html">
+    AutoHeal Locator - Complete Selenium Usage Guide
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../playwright-integration.html">
+    Playwright AutoHeal Integration Guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../spring-boot-integration.html">
+    Spring Boot Integration
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../performance.html">
+    Performance Optimization Guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../reporting.html">
+    AutoHeal Reporting System
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../multiple-elements.html">
+    Handling Multiple Elements - Smart Disambiguation
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="#">
+    Selenium Integration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="page-object-examples.html">
+    Page Object Model Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="cucumber-examples.html">
+    Cucumber Integration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../advanced/cost-optimization.html">
+    AutoHeal Cost Optimization Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../advanced/architecture.html">
+    Architecture Overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../advanced/configuration-reference.html">
+    AutoHeal AI Configuration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../advanced/troubleshooting.html">
+    Troubleshooting Guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contributing/development.html">
+    Development Guide
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator" title="Maven Central" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Maven Central</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://javadoc.io/doc/com.autoheal/autoheal-locator" title="JavaDoc" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-book fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">JavaDoc</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quick-start.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../ai-configuration.html">
+    AI Configuration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../selenium-integration.html">
+    AutoHeal Locator - Complete Selenium Usage Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../playwright-integration.html">
+    Playwright AutoHeal Integration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../spring-boot-integration.html">
+    Spring Boot Integration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../performance.html">
+    Performance Optimization Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reporting.html">
+    AutoHeal Reporting System
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../multiple-elements.html">
+    Handling Multiple Elements - Smart Disambiguation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Selenium Integration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="page-object-examples.html">
+    Page Object Model Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="cucumber-examples.html">
+    Cucumber Integration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../advanced/cost-optimization.html">
+    AutoHeal Cost Optimization Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../advanced/architecture.html">
+    Architecture Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../advanced/configuration-reference.html">
+    AutoHeal AI Configuration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../advanced/troubleshooting.html">
+    Troubleshooting Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/development.html">
+    Development Guide
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator" title="Maven Central" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Maven Central</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://javadoc.io/doc/com.autoheal/autoheal-locator" title="JavaDoc" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-book fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">JavaDoc</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="AutoHeal Locator - Home"/>
+    <img src="../../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="AutoHeal Locator - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+        <div class="sidebar-primary-item">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai-configuration.html">AI Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selenium-integration.html">AutoHeal Locator - Complete Selenium Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../playwright-integration.html">Playwright AutoHeal Integration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spring-boot-integration.html">Spring Boot Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Optimization Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reporting.html">AutoHeal Reporting System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multiple-elements.html">Handling Multiple Elements - Smart Disambiguation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Selenium Integration Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="page-object-examples.html">Page Object Model Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cucumber-examples.html">Cucumber Integration Examples</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/cost-optimization.html">AutoHeal Cost Optimization Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/architecture.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/configuration-reference.html">AutoHeal AI Configuration Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/troubleshooting.html">Troubleshooting Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development Guide</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><nav class="sidebar-indices-items" aria-labelledby="pst-indices-navigation-heading-2">
+  <p id="pst-indices-navigation-heading-2" class="sidebar-indices-items__title" role="heading" aria-level="1">Indices</p>
+  <ul class="indices-link">
+        <li class="toctree-l1">
+          <a class="reference internal"
+             href="../../../genindex.html"
+             accesskey="I">General Index</a>
+        </li>
+  </ul>
+</nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Selenium Integration Examples</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="selenium-integration-examples">
+<h1>Selenium Integration Examples<a class="headerlink" href="#selenium-integration-examples" title="Link to this heading">#</a></h1>
+<p>This page provides comprehensive examples of using AutoHeal with Selenium WebDriver for various web automation scenarios.</p>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#basic-setup"><span class="xref myst">Basic Setup</span></a></p></li>
+<li><p><a class="reference internal" href="#form-interactions"><span class="xref myst">Form Interactions</span></a></p></li>
+<li><p><a class="reference internal" href="#navigation--links"><span class="xref myst">Navigation &amp; Links</span></a></p></li>
+<li><p><a class="reference internal" href="#dynamic-content"><span class="xref myst">Dynamic Content</span></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/shutil.html#file-operations" title="Python 3.13"><span class="xref myst">File Operations</span></a></p></li>
+<li><p><a class="reference internal" href="#advanced-interactions"><span class="xref myst">Advanced Interactions</span></a></p></li>
+<li><p><a class="reference internal" href="#error-handling"><span class="xref myst">Error Handling</span></a></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="basic-setup">
+<h2>Basic Setup<a class="headerlink" href="#basic-setup" title="Link to this heading">#</a></h2>
+<section id="simple-test-class">
+<h3>Simple Test Class<a class="headerlink" href="#simple-test-class" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.AutoHealLocator</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.config.AutoHealConfiguration</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.config.AIConfig</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.impl.adapter.SeleniumWebAutomationAdapter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.model.AIProvider</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.openqa.selenium.WebDriver</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.openqa.selenium.WebElement</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.openqa.selenium.chrome.ChromeDriver</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">BasicAutoHealTest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">WebDriver</span><span class="w"> </span><span class="n">driver</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@BeforeEach</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">setUp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Initialize WebDriver</span>
+<span class="w">        </span><span class="n">driver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromeDriver</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Configure AutoHeal</span>
+<span class="w">        </span><span class="n">AutoHealConfiguration</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoHealConfiguration</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">ai</span><span class="p">(</span><span class="n">AIConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">provider</span><span class="p">(</span><span class="n">AIProvider</span><span class="p">.</span><span class="na">OPENAI</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">apiKey</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">getenv</span><span class="p">(</span><span class="s">&quot;OPENAI_API_KEY&quot;</span><span class="p">))</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Initialize AutoHeal</span>
+<span class="w">        </span><span class="n">autoHeal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">withWebAdapter</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">SeleniumWebAutomationAdapter</span><span class="p">(</span><span class="n">driver</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="na">withConfiguration</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">testBasicInteraction</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://example.com&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// AutoHeal automatically detects selector types</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">heading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;h1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;main page heading&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Welcome&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">heading</span><span class="p">.</span><span class="na">getText</span><span class="p">());</span>
+
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">button</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.btn-primary&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;primary action button&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">button</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@AfterEach</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">tearDown</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">shutdown</span><span class="p">();</span><span class="w"> </span><span class="c1">// Important: generates reports</span>
+<span class="w">        </span><span class="n">driver</span><span class="p">.</span><span class="na">quit</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="form-interactions">
+<h2>Form Interactions<a class="headerlink" href="#form-interactions" title="Link to this heading">#</a></h2>
+<section id="text-inputs">
+<h3>Text Inputs<a class="headerlink" href="#text-inputs" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testTextInputs</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://forms.example.com/registration&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Different selector types automatically detected</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">firstName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#firstName&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;first name input field&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">firstName</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;John&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">lastName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;//input[@name=&#39;lastName&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;last name input field&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">lastName</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;Doe&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;email&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;email address input field&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">email</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;john.doe@example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Clear and re-enter</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">phone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;input[type=&#39;tel&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;phone number input&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">phone</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span>
+<span class="w">    </span><span class="n">phone</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;+1234567890&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Verify input values</span>
+<span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;John&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">firstName</span><span class="p">.</span><span class="na">getAttribute</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;john.doe@example.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">.</span><span class="na">getAttribute</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="password-fields">
+<h3>Password Fields<a class="headerlink" href="#password-fields" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testPasswordFields</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://account.example.com/signup&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Password creation form</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#new-password&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;new password input field&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">password</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;SecurePassword123!&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">confirmPassword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#confirm-password&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;confirm password input field&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">confirmPassword</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;SecurePassword123!&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Check password strength indicator</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">strengthIndicator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.password-strength&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;password strength indicator&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">strengthIndicator</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;Strong&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Show/hide password toggle</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">toggleButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;//button[@aria-label=&#39;Show password&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;show password toggle&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">toggleButton</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">.</span><span class="na">getAttribute</span><span class="p">(</span><span class="s">&quot;type&quot;</span><span class="p">));</span><span class="w"> </span><span class="c1">// Password now visible</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="checkboxes-and-radio-buttons">
+<h3>Checkboxes and Radio Buttons<a class="headerlink" href="#checkboxes-and-radio-buttons" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testCheckboxesAndRadios</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://survey.example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Single checkbox</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">agreeTerms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#agree-terms&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;terms and conditions checkbox&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">agreeTerms</span><span class="p">.</span><span class="na">isSelected</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">agreeTerms</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">agreeTerms</span><span class="p">.</span><span class="na">isSelected</span><span class="p">());</span>
+
+<span class="w">    </span><span class="c1">// Multiple checkboxes - Using findElements for collections</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">allCheckboxes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElements</span><span class="p">(</span><span class="s">&quot;input[type=&#39;checkbox&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;all interest checkboxes&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Found &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">allCheckboxes</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; checkboxes&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Click first 3 checkboxes</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">min</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">allCheckboxes</span><span class="p">.</span><span class="na">size</span><span class="p">());</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">checkbox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">allCheckboxes</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">checkbox</span><span class="p">.</span><span class="na">isSelected</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">checkbox</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+<span class="w">            </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">checkbox</span><span class="p">.</span><span class="na">isSelected</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Alternative: Individual checkbox selection</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">interests</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="s">&quot;Technology&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Sports&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Music&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">interest</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">interests</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">checkbox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span>
+<span class="w">            </span><span class="s">&quot;//input[@type=&#39;checkbox&#39; and @value=&#39;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">interest</span><span class="p">.</span><span class="na">toLowerCase</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;&#39;]&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">interest</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; interest checkbox&quot;</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="n">checkbox</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">checkbox</span><span class="p">.</span><span class="na">isSelected</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Radio buttons</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">genderMale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;input[name=&#39;gender&#39;][value=&#39;male&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;male gender radio button&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">genderMale</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Verify only one radio is selected</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">genderFemale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;input[name=&#39;gender&#39;][value=&#39;female&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;female gender radio button&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">genderMale</span><span class="p">.</span><span class="na">isSelected</span><span class="p">());</span>
+<span class="w">    </span><span class="n">assertFalse</span><span class="p">(</span><span class="n">genderFemale</span><span class="p">.</span><span class="na">isSelected</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="dropdowns-and-select-elements">
+<h3>Dropdowns and Select Elements<a class="headerlink" href="#dropdowns-and-select-elements" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testDropdowns</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://checkout.example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Standard HTML select</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">countrySelect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;select[name=&#39;country&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;country selection dropdown&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Select</span><span class="w"> </span><span class="n">selectCountry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Select</span><span class="p">(</span><span class="n">countrySelect</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Different selection methods</span>
+<span class="w">    </span><span class="n">selectCountry</span><span class="p">.</span><span class="na">selectByVisibleText</span><span class="p">(</span><span class="s">&quot;United States&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;US&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">selectCountry</span><span class="p">.</span><span class="na">getFirstSelectedOption</span><span class="p">().</span><span class="na">getAttribute</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">selectCountry</span><span class="p">.</span><span class="na">selectByValue</span><span class="p">(</span><span class="s">&quot;CA&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Canada&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">selectCountry</span><span class="p">.</span><span class="na">getFirstSelectedOption</span><span class="p">().</span><span class="na">getText</span><span class="p">());</span>
+
+<span class="w">    </span><span class="n">selectCountry</span><span class="p">.</span><span class="na">selectByIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">selectCountry</span><span class="p">.</span><span class="na">getFirstSelectedOption</span><span class="p">().</span><span class="na">isSelected</span><span class="p">());</span>
+
+<span class="w">    </span><span class="c1">// Multi-select dropdown</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">skillsSelect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#skills&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;skills multi-select dropdown&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Select</span><span class="w"> </span><span class="n">multiSelect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Select</span><span class="p">(</span><span class="n">skillsSelect</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">multiSelect</span><span class="p">.</span><span class="na">isMultiple</span><span class="p">());</span>
+
+<span class="w">    </span><span class="n">multiSelect</span><span class="p">.</span><span class="na">selectByVisibleText</span><span class="p">(</span><span class="s">&quot;Java&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">multiSelect</span><span class="p">.</span><span class="na">selectByVisibleText</span><span class="p">(</span><span class="s">&quot;Python&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">multiSelect</span><span class="p">.</span><span class="na">selectByVisibleText</span><span class="p">(</span><span class="s">&quot;JavaScript&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">multiSelect</span><span class="p">.</span><span class="na">getAllSelectedOptions</span><span class="p">().</span><span class="na">size</span><span class="p">());</span>
+
+<span class="w">    </span><span class="c1">// Custom dropdown (div-based)</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">customDropdown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.custom-dropdown-trigger&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;custom dropdown menu&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">customDropdown</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">option</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;//div[@data-value=&#39;premium&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;premium plan option&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">option</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Verify selection</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">selectedValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.custom-dropdown-trigger .selected-text&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;selected dropdown value&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Premium Plan&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">selectedValue</span><span class="p">.</span><span class="na">getText</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="working-with-multiple-elements">
+<h3>Working with Multiple Elements<a class="headerlink" href="#working-with-multiple-elements" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testMultipleElements</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://catalog.example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Find all product cards - Synchronous (simple and direct)</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">products</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElements</span><span class="p">(</span><span class="s">&quot;.product-card&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;product cards on catalog page&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Found &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">products</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; products&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Process each product</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">products</span><span class="p">.</span><span class="na">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">product</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">products</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">product</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="na">className</span><span class="p">(</span><span class="s">&quot;product-title&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">product</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="na">className</span><span class="p">(</span><span class="s">&quot;product-price&quot;</span><span class="p">));</span>
+
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Product &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">title</span><span class="p">.</span><span class="na">getText</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; - &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">price</span><span class="p">.</span><span class="na">getText</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Find all navigation menu items</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">menuItems</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElements</span><span class="p">(</span><span class="s">&quot;.nav-item&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;navigation menu items&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">WebElement</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">menuItems</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Menu: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">item</span><span class="p">.</span><span class="na">getText</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Table rows processing</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tableRows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElements</span><span class="p">(</span><span class="s">&quot;//table[@id=&#39;results&#39;]//tr&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;result table rows&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Processing &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tableRows</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; table rows&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">WebElement</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">tableRows</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">cells</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row</span><span class="p">.</span><span class="na">findElements</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="na">tagName</span><span class="p">(</span><span class="s">&quot;td&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cells</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cells</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cells</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cells</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; | &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; | &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">status</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Form inputs validation</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">formInputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElements</span><span class="p">(</span><span class="s">&quot;input&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;all form input fields&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">WebElement</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">formInputs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="na">getAttribute</span><span class="p">(</span><span class="s">&quot;required&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Required field: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">input</span><span class="p">.</span><span class="na">getAttribute</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">));</span>
+
+<span class="w">            </span><span class="c1">// Highlight required fields</span>
+<span class="w">            </span><span class="p">((</span><span class="n">JavascriptExecutor</span><span class="p">)</span><span class="w"> </span><span class="n">driver</span><span class="p">).</span><span class="na">executeScript</span><span class="p">(</span>
+<span class="w">                </span><span class="s">&quot;arguments[0].style.border=&#39;2px solid red&#39;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Button collections</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">actionButtons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElements</span><span class="p">(</span><span class="s">&quot;.action-btn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;action buttons in toolbar&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Found &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">actionButtons</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; action buttons&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Click buttons with confirmation</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">WebElement</span><span class="w"> </span><span class="n">button</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">actionButtons</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">button</span><span class="p">.</span><span class="na">isEnabled</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">button</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;Preview&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">button</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">            </span><span class="c1">// Wait for preview to load</span>
+<span class="w">            </span><span class="n">WebDriverWait</span><span class="w"> </span><span class="n">wait</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">ofSeconds</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
+<span class="w">            </span><span class="n">wait</span><span class="p">.</span><span class="na">until</span><span class="p">(</span><span class="n">ExpectedConditions</span><span class="p">.</span><span class="na">visibilityOfElementLocated</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="na">className</span><span class="p">(</span><span class="s">&quot;preview-panel&quot;</span><span class="p">)));</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testAsyncMultipleElements</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://dashboard.example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Asynchronous approach for better performance</span>
+<span class="w">    </span><span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">cardsFuture</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElementsAsync</span><span class="p">(</span><span class="s">&quot;.dashboard-card&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dashboard summary cards&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">chartsFuture</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElementsAsync</span><span class="p">(</span><span class="s">&quot;.chart-container&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;analytics charts&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Process both results when ready</span>
+<span class="w">    </span><span class="n">CompletableFuture</span><span class="p">.</span><span class="na">allOf</span><span class="p">(</span><span class="n">cardsFuture</span><span class="p">,</span><span class="w"> </span><span class="n">chartsFuture</span><span class="p">).</span><span class="na">thenRun</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">cards</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cardsFuture</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
+<span class="w">            </span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">charts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chartsFuture</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
+
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Dashboard loaded with &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cards</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                             </span><span class="s">&quot; cards and &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">charts</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; charts&quot;</span><span class="p">);</span>
+
+<span class="w">            </span><span class="c1">// Process dashboard elements</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">WebElement</span><span class="w"> </span><span class="n">card</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">cards</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">String</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">card</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="na">className</span><span class="p">(</span><span class="s">&quot;card-title&quot;</span><span class="p">)).</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">                </span><span class="n">String</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">card</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="na">className</span><span class="p">(</span><span class="s">&quot;card-value&quot;</span><span class="p">)).</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}).</span><span class="na">join</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="navigation-links">
+<h2>Navigation &amp; Links<a class="headerlink" href="#navigation-links" title="Link to this heading">#</a></h2>
+<section id="link-navigation">
+<h3>Link Navigation<a class="headerlink" href="#link-navigation" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testLinkNavigation</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://news.example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Navigate by link text</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">homeLink</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Home&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;home navigation link&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">homeLink</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="na">getCurrentUrl</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;/home&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Partial link text</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">aboutLink</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;About Us&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;about page link&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">aboutLink</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="na">getTitle</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;About&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Link with specific attributes</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">contactLink</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;//a[@href=&#39;/contact&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;contact page link&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">contactLink</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// External link (opens in new tab)</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">originalWindow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">driver</span><span class="p">.</span><span class="na">getWindowHandle</span><span class="p">();</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">externalLink</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;//a[@target=&#39;_blank&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;external link opening in new tab&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">externalLink</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Switch to new tab</span>
+<span class="w">    </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">windows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">driver</span><span class="p">.</span><span class="na">getWindowHandles</span><span class="p">();</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">window</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">windows</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">window</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">originalWindow</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">driver</span><span class="p">.</span><span class="na">switchTo</span><span class="p">().</span><span class="na">window</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Verify new tab content</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">newTabContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;h1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;main heading in new tab&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertNotNull</span><span class="p">(</span><span class="n">newTabContent</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Close new tab and return</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">switchTo</span><span class="p">().</span><span class="na">window</span><span class="p">(</span><span class="n">originalWindow</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="breadcrumb-navigation">
+<h3>Breadcrumb Navigation<a class="headerlink" href="#breadcrumb-navigation" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testBreadcrumbNavigation</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://shop.example.com/electronics/phones/smartphones&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Navigate through breadcrumbs</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">homecrumb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;//nav[@aria-label=&#39;breadcrumb&#39;]//a[text()=&#39;Home&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;home breadcrumb&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">homecrumb</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+<span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;https://shop.example.com/&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">driver</span><span class="p">.</span><span class="na">getCurrentUrl</span><span class="p">());</span>
+
+<span class="w">    </span><span class="c1">// Go back to category</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">navigate</span><span class="p">().</span><span class="na">back</span><span class="p">();</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">categorycrumb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.breadcrumb-item a[href*=&#39;electronics&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;electronics category breadcrumb&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">categorycrumb</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="na">getCurrentUrl</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;/electronics&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="dynamic-content">
+<h2>Dynamic Content<a class="headerlink" href="#dynamic-content" title="Link to this heading">#</a></h2>
+<section id="ajax-and-loading-states">
+<h3>AJAX and Loading States<a class="headerlink" href="#ajax-and-loading-states" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testDynamicContent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://app.example.com/dashboard&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Trigger AJAX request</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">loadDataButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#load-data-btn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;load data button&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">loadDataButton</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Wait for loading indicator to appear</span>
+<span class="w">    </span><span class="n">WebDriverWait</span><span class="w"> </span><span class="n">wait</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">ofSeconds</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">loadingSpinner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.loading-spinner&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;data loading indicator&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">loadingSpinner</span><span class="p">.</span><span class="na">isDisplayed</span><span class="p">());</span>
+
+<span class="w">    </span><span class="c1">// Wait for loading to complete</span>
+<span class="w">    </span><span class="n">wait</span><span class="p">.</span><span class="na">until</span><span class="p">(</span><span class="n">ExpectedConditions</span><span class="p">.</span><span class="na">invisibilityOf</span><span class="p">(</span><span class="n">loadingSpinner</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Verify loaded content</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">dataTable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#data-table&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dynamically loaded data table&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataTable</span><span class="p">.</span><span class="na">findElements</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="na">tagName</span><span class="p">(</span><span class="s">&quot;tr&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">rows</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// Header + data rows</span>
+
+<span class="w">    </span><span class="c1">// Test infinite scroll</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">lastItem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.data-item:last-child&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;last item in scrollable list&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">((</span><span class="n">JavascriptExecutor</span><span class="p">)</span><span class="w"> </span><span class="n">driver</span><span class="p">).</span><span class="na">executeScript</span><span class="p">(</span><span class="s">&quot;arguments[0].scrollIntoView();&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">lastItem</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Wait for new items to load</span>
+<span class="w">    </span><span class="n">wait</span><span class="p">.</span><span class="na">until</span><span class="p">(</span><span class="n">ExpectedConditions</span><span class="p">.</span><span class="na">numberOfElementsToBeMoreThan</span><span class="p">(</span>
+<span class="w">        </span><span class="n">LocatorTypeDetector</span><span class="p">.</span><span class="na">autoCreateBy</span><span class="p">(</span><span class="s">&quot;.data-item&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">rows</span><span class="p">.</span><span class="na">size</span><span class="p">()</span>
+<span class="w">    </span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="real-time-updates">
+<h3>Real-time Updates<a class="headerlink" href="#real-time-updates" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testRealTimeUpdates</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://live.example.com/stock-ticker&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Initial stock price</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">stockPrice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#AAPL-price&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Apple stock price&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">initialPrice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stockPrice</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Wait for price update (real-time data)</span>
+<span class="w">    </span><span class="n">WebDriverWait</span><span class="w"> </span><span class="n">wait</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">ofSeconds</span><span class="p">(</span><span class="mi">30</span><span class="p">));</span>
+<span class="w">    </span><span class="n">wait</span><span class="p">.</span><span class="na">until</span><span class="p">(</span><span class="n">driver</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">currentPrice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#AAPL-price&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Apple stock price&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">!</span><span class="n">initialPrice</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">currentPrice</span><span class="p">.</span><span class="na">getText</span><span class="p">());</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="c1">// Verify price changed</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">updatedPrice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stockPrice</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">    </span><span class="n">assertNotEquals</span><span class="p">(</span><span class="n">initialPrice</span><span class="p">,</span><span class="w"> </span><span class="n">updatedPrice</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Test live notifications</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">notificationArea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.notifications&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;live notification area&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">wait</span><span class="p">.</span><span class="na">until</span><span class="p">(</span><span class="n">ExpectedConditions</span><span class="p">.</span><span class="na">textToBePresentInElement</span><span class="p">(</span><span class="n">notificationArea</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Price Alert&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="modal-dialogs">
+<h3>Modal Dialogs<a class="headerlink" href="#modal-dialogs" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testModalDialogs</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://admin.example.com/users&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Open modal dialog</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">addUserButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Add User&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;add new user button&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">addUserButton</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Wait for modal to appear</span>
+<span class="w">    </span><span class="n">WebDriverWait</span><span class="w"> </span><span class="n">wait</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">ofSeconds</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">modal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wait</span><span class="p">.</span><span class="na">until</span><span class="p">(</span><span class="n">ExpectedConditions</span><span class="p">.</span><span class="na">visibilityOfElementLocated</span><span class="p">(</span>
+<span class="w">        </span><span class="n">LocatorTypeDetector</span><span class="p">.</span><span class="na">autoCreateBy</span><span class="p">(</span><span class="s">&quot;#user-modal&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;user creation modal dialog&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Fill modal form</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">modalUsername</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#modal-username&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;username field in modal&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">modalUsername</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;newuser&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">modalEmail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#modal-email&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;email field in modal&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">modalEmail</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;newuser@example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Submit modal</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">saveButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;//div[@id=&#39;user-modal&#39;]//button[text()=&#39;Save&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;save button in modal&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">saveButton</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Wait for modal to close</span>
+<span class="w">    </span><span class="n">wait</span><span class="p">.</span><span class="na">until</span><span class="p">(</span><span class="n">ExpectedConditions</span><span class="p">.</span><span class="na">invisibilityOf</span><span class="p">(</span><span class="n">modal</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Verify user was added</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">userList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#users-table&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;users table&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">userList</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;newuser&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="file-operations">
+<h2>File Operations<a class="headerlink" href="#file-operations" title="Link to this heading">#</a></h2>
+<section id="file-upload">
+<h3>File Upload<a class="headerlink" href="#file-upload" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testFileUpload</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://upload.example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Simple file input</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">fileInput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;input[type=&#39;file&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;file upload input&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">filePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;user.dir&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/testfiles/sample.pdf&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">fileInput</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="n">filePath</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Verify file selected</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">fileName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fileInput</span><span class="p">.</span><span class="na">getAttribute</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">fileName</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;sample.pdf&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Upload button</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">uploadButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#upload-btn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;start upload button&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">uploadButton</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Wait for upload progress</span>
+<span class="w">    </span><span class="n">WebDriverWait</span><span class="w"> </span><span class="n">wait</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">ofSeconds</span><span class="p">(</span><span class="mi">30</span><span class="p">));</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">progressBar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.upload-progress&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;upload progress bar&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Wait for upload completion</span>
+<span class="w">    </span><span class="n">wait</span><span class="p">.</span><span class="na">until</span><span class="p">(</span><span class="n">ExpectedConditions</span><span class="p">.</span><span class="na">textToBePresentInElement</span><span class="p">(</span><span class="n">progressBar</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;100%&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Verify success message</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">successMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.upload-success&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;upload success notification&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">successMessage</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;Upload completed&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="multiple-file-upload">
+<h3>Multiple File Upload<a class="headerlink" href="#multiple-file-upload" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testMultipleFileUpload</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://gallery.example.com/upload&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Multiple file input</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">multiFileInput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;input[type=&#39;file&#39;][multiple]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;multiple files upload input&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">file1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;user.dir&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/testfiles/image1.jpg&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">file2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;user.dir&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/testfiles/image2.png&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">file2</span><span class="p">;</span><span class="w"> </span><span class="c1">// Newline-separated for multiple files</span>
+
+<span class="w">    </span><span class="n">multiFileInput</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="n">files</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Verify both files selected</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">fileList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.selected-files&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;list of selected files&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">fileList</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;image1.jpg&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">fileList</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;image2.png&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Upload all files</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">uploadAllButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Upload All&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;upload all files button&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">uploadAllButton</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Monitor upload progress for each file</span>
+<span class="w">    </span><span class="n">WebDriverWait</span><span class="w"> </span><span class="n">wait</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">ofSeconds</span><span class="p">(</span><span class="mi">60</span><span class="p">));</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">progressBars</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wait</span><span class="p">.</span><span class="na">until</span><span class="p">(</span><span class="n">ExpectedConditions</span><span class="p">.</span><span class="na">numberOfElementsToBeMoreThan</span><span class="p">(</span>
+<span class="w">        </span><span class="n">LocatorTypeDetector</span><span class="p">.</span><span class="na">autoCreateBy</span><span class="p">(</span><span class="s">&quot;.file-progress&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">progressBars</span><span class="p">.</span><span class="na">size</span><span class="p">());</span>
+
+<span class="w">    </span><span class="c1">// Wait for all uploads to complete</span>
+<span class="w">    </span><span class="n">wait</span><span class="p">.</span><span class="na">until</span><span class="p">(</span><span class="n">driver</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">completedUploads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">driver</span><span class="p">.</span><span class="na">findElements</span><span class="p">(</span>
+<span class="w">            </span><span class="n">LocatorTypeDetector</span><span class="p">.</span><span class="na">autoCreateBy</span><span class="p">(</span><span class="s">&quot;.file-progress.completed&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">completedUploads</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="download-files">
+<h3>Download Files<a class="headerlink" href="#download-files" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testFileDownload</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Set download directory</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">downloadDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;user.dir&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/downloads&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">File</span><span class="p">(</span><span class="n">downloadDir</span><span class="p">).</span><span class="na">mkdirs</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">ChromeOptions</span><span class="w"> </span><span class="n">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromeOptions</span><span class="p">();</span>
+<span class="w">    </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">prefs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="n">prefs</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;download.default_directory&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">downloadDir</span><span class="p">);</span>
+<span class="w">    </span><span class="n">options</span><span class="p">.</span><span class="na">setExperimentalOption</span><span class="p">(</span><span class="s">&quot;prefs&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">prefs</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">WebDriver</span><span class="w"> </span><span class="n">downloadDriver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromeDriver</span><span class="p">(</span><span class="n">options</span><span class="p">);</span>
+<span class="w">    </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">downloadAutoHeal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="na">withWebAdapter</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">SeleniumWebAutomationAdapter</span><span class="p">(</span><span class="n">downloadDriver</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">downloadDriver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://files.example.com&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Click download link</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">downloadLink</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">downloadAutoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span>
+<span class="w">            </span><span class="s">&quot;//a[contains(@href, &#39;.pdf&#39;)]&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;PDF file download link&quot;</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="n">downloadLink</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Wait for download to complete</span>
+<span class="w">        </span><span class="n">File</span><span class="w"> </span><span class="n">downloadedFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">File</span><span class="p">(</span><span class="n">downloadDir</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sample.pdf&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">WebDriverWait</span><span class="w"> </span><span class="n">wait</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WebDriverWait</span><span class="p">(</span><span class="n">downloadDriver</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">ofSeconds</span><span class="p">(</span><span class="mi">30</span><span class="p">));</span>
+<span class="w">        </span><span class="n">wait</span><span class="p">.</span><span class="na">until</span><span class="p">(</span><span class="n">driver</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">downloadedFile</span><span class="p">.</span><span class="na">exists</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">downloadedFile</span><span class="p">.</span><span class="na">length</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">downloadedFile</span><span class="p">.</span><span class="na">exists</span><span class="p">());</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">downloadedFile</span><span class="p">.</span><span class="na">length</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1000</span><span class="p">);</span><span class="w"> </span><span class="c1">// File has content</span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">downloadAutoHeal</span><span class="p">.</span><span class="na">shutdown</span><span class="p">();</span>
+<span class="w">        </span><span class="n">downloadDriver</span><span class="p">.</span><span class="na">quit</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="advanced-interactions">
+<h2>Advanced Interactions<a class="headerlink" href="#advanced-interactions" title="Link to this heading">#</a></h2>
+<section id="drag-and-drop">
+<h3>Drag and Drop<a class="headerlink" href="#drag-and-drop" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testDragAndDrop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://dragdrop.example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">Actions</span><span class="w"> </span><span class="n">actions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Actions</span><span class="p">(</span><span class="n">driver</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Simple drag and drop</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">sourceElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#draggable-1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;first draggable element&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">targetElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#drop-zone&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;drop target area&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">dragAndDrop</span><span class="p">(</span><span class="n">sourceElement</span><span class="p">,</span><span class="w"> </span><span class="n">targetElement</span><span class="p">).</span><span class="na">perform</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Verify drop success</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">dropZoneContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#drop-zone .dropped-item&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dropped item in target zone&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">dropZoneContent</span><span class="p">.</span><span class="na">isDisplayed</span><span class="p">());</span>
+
+<span class="w">    </span><span class="c1">// Complex drag and drop with offset</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">complexSource</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.complex-draggable&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;complex draggable element&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">complexTarget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.complex-target&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;complex target with specific position&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">clickAndHold</span><span class="p">(</span><span class="n">complexSource</span><span class="p">)</span>
+<span class="w">           </span><span class="p">.</span><span class="na">moveToElement</span><span class="p">(</span><span class="n">complexTarget</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">)</span><span class="w"> </span><span class="c1">// Offset within target</span>
+<span class="w">           </span><span class="p">.</span><span class="na">release</span><span class="p">()</span>
+<span class="w">           </span><span class="p">.</span><span class="na">perform</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// File drag and drop simulation</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">fileDropZone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.file-drop-zone&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;file drop zone area&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// JavaScript-based file drop (for testing file drag-drop interfaces)</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">jsDropFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">        var dt = new DataTransfer();</span>
+<span class="s">        dt.items.add(new File([&#39;file content&#39;], &#39;test.txt&#39;, {type: &#39;text/plain&#39;}));</span>
+<span class="s">        var event = new DragEvent(&#39;drop&#39;, {dataTransfer: dt});</span>
+<span class="s">        arguments[0].dispatchEvent(event);</span>
+<span class="s">        &quot;&quot;&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="p">((</span><span class="n">JavascriptExecutor</span><span class="p">)</span><span class="w"> </span><span class="n">driver</span><span class="p">).</span><span class="na">executeScript</span><span class="p">(</span><span class="n">jsDropFile</span><span class="p">,</span><span class="w"> </span><span class="n">fileDropZone</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Verify file drop success</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">droppedFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.dropped-file-info&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;information about dropped file&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">droppedFile</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;test.txt&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="mouse-actions">
+<h3>Mouse Actions<a class="headerlink" href="#mouse-actions" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testMouseActions</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://interactive.example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">Actions</span><span class="w"> </span><span class="n">actions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Actions</span><span class="p">(</span><span class="n">driver</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Hover to reveal submenu</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">mainMenu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.main-menu-item&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;main navigation menu item&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">moveToElement</span><span class="p">(</span><span class="n">mainMenu</span><span class="p">).</span><span class="na">perform</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">submenu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.submenu&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;submenu appearing on hover&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">submenu</span><span class="p">.</span><span class="na">isDisplayed</span><span class="p">());</span>
+
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">submenuItem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.submenu-item&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;item in submenu&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">submenuItem</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Right-click context menu</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">contextArea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#context-area&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;area with right-click context menu&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">contextClick</span><span class="p">(</span><span class="n">contextArea</span><span class="p">).</span><span class="na">perform</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">contextMenu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.context-menu&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;right-click context menu&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">contextMenu</span><span class="p">.</span><span class="na">isDisplayed</span><span class="p">());</span>
+
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">contextOption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.context-menu-option&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;option in context menu&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">contextOption</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Double-click action</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">doubleClickTarget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.double-click-target&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;element requiring double-click&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">doubleClick</span><span class="p">(</span><span class="n">doubleClickTarget</span><span class="p">).</span><span class="na">perform</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">doubleClickResult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.double-click-result&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;result of double-click action&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">doubleClickResult</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;Double-clicked&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Click and hold</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">holdTarget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.hold-target&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;element for click and hold&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">clickAndHold</span><span class="p">(</span><span class="n">holdTarget</span><span class="p">).</span><span class="na">perform</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Wait for hold effect</span>
+<span class="w">    </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">holdEffect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.hold-effect&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;effect triggered by holding&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">holdEffect</span><span class="p">.</span><span class="na">isDisplayed</span><span class="p">());</span>
+
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">release</span><span class="p">().</span><span class="na">perform</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="keyboard-actions">
+<h3>Keyboard Actions<a class="headerlink" href="#keyboard-actions" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testKeyboardActions</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://editor.example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">Actions</span><span class="w"> </span><span class="n">actions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Actions</span><span class="p">(</span><span class="n">driver</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Text editor interactions</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">textEditor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#editor&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;text editor area&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">textEditor</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Type text</span>
+<span class="w">    </span><span class="n">textEditor</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Select all and copy</span>
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">keyDown</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">CONTROL</span><span class="p">).</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">).</span><span class="na">keyUp</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">CONTROL</span><span class="p">).</span><span class="na">perform</span><span class="p">();</span>
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">keyDown</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">CONTROL</span><span class="p">).</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;c&quot;</span><span class="p">).</span><span class="na">keyUp</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">CONTROL</span><span class="p">).</span><span class="na">perform</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Move to new area and paste</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">pasteArea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#paste-area&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;area for pasting text&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">pasteArea</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">keyDown</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">CONTROL</span><span class="p">).</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;v&quot;</span><span class="p">).</span><span class="na">keyUp</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">CONTROL</span><span class="p">).</span><span class="na">perform</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pasteArea</span><span class="p">.</span><span class="na">getAttribute</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Undo action</span>
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">keyDown</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">CONTROL</span><span class="p">).</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;z&quot;</span><span class="p">).</span><span class="na">keyUp</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">CONTROL</span><span class="p">).</span><span class="na">perform</span><span class="p">();</span>
+<span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pasteArea</span><span class="p">.</span><span class="na">getAttribute</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Redo action</span>
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">keyDown</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">CONTROL</span><span class="p">).</span><span class="na">keyDown</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">SHIFT</span><span class="p">).</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;z&quot;</span><span class="p">).</span><span class="na">keyUp</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">SHIFT</span><span class="p">).</span><span class="na">keyUp</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">CONTROL</span><span class="p">).</span><span class="na">perform</span><span class="p">();</span>
+<span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pasteArea</span><span class="p">.</span><span class="na">getAttribute</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Navigation keys</span>
+<span class="w">    </span><span class="n">textEditor</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+<span class="w">    </span><span class="n">textEditor</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span>
+<span class="w">    </span><span class="n">textEditor</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;Line 1\nLine 2\nLine 3&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Go to beginning</span>
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">keyDown</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">CONTROL</span><span class="p">).</span><span class="na">sendKeys</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">HOME</span><span class="p">).</span><span class="na">keyUp</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">CONTROL</span><span class="p">).</span><span class="na">perform</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Select to end of line</span>
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">keyDown</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">SHIFT</span><span class="p">).</span><span class="na">sendKeys</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">END</span><span class="p">).</span><span class="na">keyUp</span><span class="p">(</span><span class="n">Keys</span><span class="p">.</span><span class="na">SHIFT</span><span class="p">).</span><span class="na">perform</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Type over selection</span>
+<span class="w">    </span><span class="n">actions</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;First Line&quot;</span><span class="p">).</span><span class="na">perform</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">editorContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">textEditor</span><span class="p">.</span><span class="na">getAttribute</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">editorContent</span><span class="p">.</span><span class="na">startsWith</span><span class="p">(</span><span class="s">&quot;First Line&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="error-handling">
+<h2>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading">#</a></h2>
+<section id="exception-handling">
+<h3>Exception Handling<a class="headerlink" href="#exception-handling" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testErrorHandling</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://forms.example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Handle element not found</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">nonExistentElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#does-not-exist&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;non-existent element&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">fail</span><span class="p">(</span><span class="s">&quot;Should have thrown exception&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">AutoHealException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;All healing strategies failed&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">getErrorCode</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ErrorCode</span><span class="p">.</span><span class="na">ELEMENT_NOT_FOUND</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Handle timeout</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Set very short timeout</span>
+<span class="w">        </span><span class="n">AutoHealConfiguration</span><span class="w"> </span><span class="n">quickTimeoutConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoHealConfiguration</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">performance</span><span class="p">(</span><span class="n">PerformanceConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">elementTimeout</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">ofMillis</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">quickAutoHeal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">withWebAdapter</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">SeleniumWebAutomationAdapter</span><span class="p">(</span><span class="n">driver</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="na">withConfiguration</span><span class="p">(</span><span class="n">quickTimeoutConfig</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">timeoutElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quickAutoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#slow-loading-element&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;very slow loading element&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">fail</span><span class="p">(</span><span class="s">&quot;Should have timed out&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">AutoHealException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">getErrorCode</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ErrorCode</span><span class="p">.</span><span class="na">TIMEOUT_EXCEEDED</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Graceful degradation</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">fallbackElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">fallbackElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#preferred-selector&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;preferred element&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">AutoHealException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Fallback to manual selector</span>
+<span class="w">        </span><span class="n">fallbackElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">driver</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="na">id</span><span class="p">(</span><span class="s">&quot;backup-selector&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">assertNotNull</span><span class="p">(</span><span class="n">fallbackElement</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="retry-logic">
+<h3>Retry Logic<a class="headerlink" href="#retry-logic" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testRetryLogic</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://unstable.example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Custom retry for flaky elements</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">flakyElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">retryFindElement</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.sometimes-present&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;element that sometimes loads&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">assertNotNull</span><span class="p">(</span><span class="n">flakyElement</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="n">WebElement</span><span class="w"> </span><span class="nf">retryFindElement</span><span class="p">(</span><span class="n">Supplier</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">elementSupplier</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">maxRetries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">attempt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">attempt</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">maxRetries</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">elementSupplier</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">attempt</span><span class="o">++</span><span class="p">;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">attempt</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">maxRetries</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">throw</span><span class="w"> </span><span class="n">e</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"> </span><span class="c1">// Wait before retry</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">ie</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">interrupt</span><span class="p">();</span>
+<span class="w">                </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="n">ie</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="s">&quot;Element not found after &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">maxRetries</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; attempts&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="validation-and-assertions">
+<h3>Validation and Assertions<a class="headerlink" href="#validation-and-assertions" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testValidationAndAssertions</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://form.example.com&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Validate form before submission</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">emailField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#email&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;email input field&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">emailField</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;invalid-email&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">submitButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Submit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;form submit button&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">submitButton</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Check for validation errors</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">emailError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.email-error&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;email validation error message&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">emailError</span><span class="p">.</span><span class="na">isDisplayed</span><span class="p">());</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">emailError</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;valid email&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Fix the email and resubmit</span>
+<span class="w">    </span><span class="n">emailField</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span>
+<span class="w">    </span><span class="n">emailField</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;valid@example.com&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">submitButton</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Verify error is gone</span>
+<span class="w">    </span><span class="n">WebDriverWait</span><span class="w"> </span><span class="n">wait</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WebDriverWait</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">ofSeconds</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
+<span class="w">    </span><span class="n">wait</span><span class="p">.</span><span class="na">until</span><span class="p">(</span><span class="n">ExpectedConditions</span><span class="p">.</span><span class="na">invisibilityOf</span><span class="p">(</span><span class="n">emailError</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// Check success state</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">successMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.success-message&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;form submission success message&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">successMessage</span><span class="p">.</span><span class="na">isDisplayed</span><span class="p">());</span>
+
+<span class="w">    </span><span class="c1">// Validate form data was processed</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="na">getCurrentUrl</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;success&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p>This comprehensive guide covers the major Selenium integration patterns with AutoHeal. The self-healing capabilities ensure your tests remain stable even when the underlying web application changes, while the universal selector support makes it easy to write maintainable test code.</p>
+<p>For more advanced topics, see:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="page-object-examples.html"><span class="std std-doc">Page Object Model Examples</span></a></p></li>
+<li><p><a class="reference internal" href="cucumber-examples.html"><span class="std std-doc">Cucumber Integration</span></a></p></li>
+<li><p><a class="reference internal" href="../performance.html"><span class="std std-doc">Performance Optimization</span></a></p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  <div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item">
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../multiple-elements.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Handling Multiple Elements - Smart Disambiguation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="page-object-examples.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Page Object Model Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+                </footer>
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-setup">Basic Setup</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-test-class">Simple Test Class</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#form-interactions">Form Interactions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#text-inputs">Text Inputs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#password-fields">Password Fields</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checkboxes-and-radio-buttons">Checkboxes and Radio Buttons</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dropdowns-and-select-elements">Dropdowns and Select Elements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-multiple-elements">Working with Multiple Elements</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation-links">Navigation &amp; Links</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#link-navigation">Link Navigation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#breadcrumb-navigation">Breadcrumb Navigation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-content">Dynamic Content</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ajax-and-loading-states">AJAX and Loading States</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real-time-updates">Real-time Updates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modal-dialogs">Modal Dialogs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-operations">File Operations</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#file-upload">File Upload</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-file-upload">Multiple File Upload</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-files">Download Files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-interactions">Advanced Interactions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#drag-and-drop">Drag and Drop</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mouse-actions">Mouse Actions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keyboard-actions">Keyboard Actions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-handling">Error Handling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exception-handling">Exception Handling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#retry-logic">Retry Logic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-and-assertions">Validation and Assertions</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/docs/user-guide/examples/selenium-examples.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, AutoHeal Team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1239 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Development Guide &#8212; AutoHeal Locator</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=9e0c438f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=51b770b3"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=d1c4098b"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/contributing/development';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Troubleshooting Guide" href="../advanced/troubleshooting.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="AutoHeal Locator - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="AutoHeal Locator - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/installation.html">
+    Installation Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/quick-start.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/ai-configuration.html">
+    AI Configuration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/selenium-integration.html">
+    AutoHeal Locator - Complete Selenium Usage Guide
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../user-guide/playwright-integration.html">
+    Playwright AutoHeal Integration Guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../user-guide/spring-boot-integration.html">
+    Spring Boot Integration
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../user-guide/performance.html">
+    Performance Optimization Guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../user-guide/reporting.html">
+    AutoHeal Reporting System
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../user-guide/multiple-elements.html">
+    Handling Multiple Elements - Smart Disambiguation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../user-guide/examples/selenium-examples.html">
+    Selenium Integration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../user-guide/examples/page-object-examples.html">
+    Page Object Model Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../user-guide/examples/cucumber-examples.html">
+    Cucumber Integration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../advanced/cost-optimization.html">
+    AutoHeal Cost Optimization Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../advanced/architecture.html">
+    Architecture Overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../advanced/configuration-reference.html">
+    AutoHeal AI Configuration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../advanced/troubleshooting.html">
+    Troubleshooting Guide
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="#">
+    Development Guide
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator" title="Maven Central" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Maven Central</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://javadoc.io/doc/com.autoheal/autoheal-locator" title="JavaDoc" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-book fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">JavaDoc</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/installation.html">
+    Installation Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/quick-start.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/ai-configuration.html">
+    AI Configuration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/selenium-integration.html">
+    AutoHeal Locator - Complete Selenium Usage Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/playwright-integration.html">
+    Playwright AutoHeal Integration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/spring-boot-integration.html">
+    Spring Boot Integration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/performance.html">
+    Performance Optimization Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/reporting.html">
+    AutoHeal Reporting System
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/multiple-elements.html">
+    Handling Multiple Elements - Smart Disambiguation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/examples/selenium-examples.html">
+    Selenium Integration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/examples/page-object-examples.html">
+    Page Object Model Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user-guide/examples/cucumber-examples.html">
+    Cucumber Integration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../advanced/cost-optimization.html">
+    AutoHeal Cost Optimization Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../advanced/architecture.html">
+    Architecture Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../advanced/configuration-reference.html">
+    AutoHeal AI Configuration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../advanced/troubleshooting.html">
+    Troubleshooting Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Development Guide
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator" title="Maven Central" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Maven Central</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://javadoc.io/doc/com.autoheal/autoheal-locator" title="JavaDoc" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-book fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">JavaDoc</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="AutoHeal Locator - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="AutoHeal Locator - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+        <div class="sidebar-primary-item">
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/quick-start.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/ai-configuration.html">AI Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/selenium-integration.html">AutoHeal Locator - Complete Selenium Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/playwright-integration.html">Playwright AutoHeal Integration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/spring-boot-integration.html">Spring Boot Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/performance.html">Performance Optimization Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/reporting.html">AutoHeal Reporting System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/multiple-elements.html">Handling Multiple Elements - Smart Disambiguation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/examples/selenium-examples.html">Selenium Integration Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/examples/page-object-examples.html">Page Object Model Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/examples/cucumber-examples.html">Cucumber Integration Examples</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cost-optimization.html">AutoHeal Cost Optimization Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/architecture.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/configuration-reference.html">AutoHeal AI Configuration Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting Guide</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Development Guide</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><nav class="sidebar-indices-items" aria-labelledby="pst-indices-navigation-heading-2">
+  <p id="pst-indices-navigation-heading-2" class="sidebar-indices-items__title" role="heading" aria-level="1">Indices</p>
+  <ul class="indices-link">
+        <li class="toctree-l1">
+          <a class="reference internal"
+             href="../../genindex.html"
+             accesskey="I">General Index</a>
+        </li>
+  </ul>
+</nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Development Guide</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="development-guide">
+<h1>Development Guide<a class="headerlink" href="#development-guide" title="Link to this heading">#</a></h1>
+<p>Contributing to AutoHeal Locator development.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Java 11 or higher</p></li>
+<li><p>Maven 3.6+</p></li>
+<li><p>Git</p></li>
+<li><p>IDE (IntelliJ IDEA recommended)</p></li>
+<li><p>OpenAI API key for testing</p></li>
+</ul>
+</section>
+<section id="development-setup">
+<h2>Development Setup<a class="headerlink" href="#development-setup" title="Link to this heading">#</a></h2>
+<section id="clone-and-setup">
+<h3>1. Clone and Setup<a class="headerlink" href="#clone-and-setup" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/yourusername/autoheal-locator.git
+<span class="nb">cd</span><span class="w"> </span>autoheal-locator
+
+<span class="c1"># Install dependencies</span>
+mvn<span class="w"> </span>clean<span class="w"> </span>install
+</pre></div>
+</div>
+</section>
+<section id="ide-configuration">
+<h3>2. IDE Configuration<a class="headerlink" href="#ide-configuration" title="Link to this heading">#</a></h3>
+<p><strong>IntelliJ IDEA:</strong></p>
+<ol class="arabic simple">
+<li><p>Import as Maven project</p></li>
+<li><p>Enable annotation processing</p></li>
+<li><p>Install recommended plugins:</p>
+<ul class="simple">
+<li><p>Lombok</p></li>
+<li><p>SonarLint</p></li>
+<li><p>CheckStyle</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="environment-variables">
+<h3>3. Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading">#</a></h3>
+<p>Create <code class="docutils literal notranslate"><span class="pre">.env</span></code> file (not committed):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>your-test-api-key
+<span class="nv">TEST_BROWSER</span><span class="o">=</span>chrome
+</pre></div>
+</div>
+</section>
+</section>
+<section id="project-structure">
+<h2>Project Structure<a class="headerlink" href="#project-structure" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>src/
+├── main/java/com/autoheal/
+│   ├── core/                    # Core interfaces
+│   ├── impl/                    # Implementations
+│   ├── config/                  # Configuration classes
+│   ├── model/                   # Data models
+│   ├── exception/               # Custom exceptions
+│   ├── monitoring/              # Metrics and health
+│   └── util/                    # Utilities
+├── test/java/com/autoheal/
+│   ├── unit/                    # Unit tests
+│   ├── integration/             # Integration tests
+│   └── performance/             # Performance tests
+└── test/resources/              # Test configurations
+</pre></div>
+</div>
+</section>
+<section id="coding-standards">
+<h2>Coding Standards<a class="headerlink" href="#coding-standards" title="Link to this heading">#</a></h2>
+<section id="code-style">
+<h3>Code Style<a class="headerlink" href="#code-style" title="Link to this heading">#</a></h3>
+<p>We use Google Java Style with modifications:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- In pom.xml --&gt;</span>
+<span class="nt">&lt;plugin&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>com.google.googlejavaformat<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>google-java-format-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;configuration&gt;</span>
+<span class="w">        </span><span class="nt">&lt;style&gt;</span>GOOGLE<span class="nt">&lt;/style&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/configuration&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+</pre></div>
+</div>
+<p><strong>Key Rules:</strong></p>
+<ul class="simple">
+<li><p>2-space indentation</p></li>
+<li><p>100-character line limit</p></li>
+<li><p>No wildcard imports</p></li>
+<li><p>Use Optional for nullable returns</p></li>
+<li><p>Builder pattern for complex objects</p></li>
+</ul>
+</section>
+<section id="documentation">
+<h3>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>JavaDoc</strong>: Required for all public APIs</p></li>
+<li><p><strong>README</strong>: Update for significant changes</p></li>
+<li><p><strong>CHANGELOG</strong>: Document all changes</p></li>
+</ul>
+<p>Example JavaDoc:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * Locates web elements using AI-powered healing strategies.</span>
+<span class="cm"> *</span>
+<span class="cm"> * @param description Natural language description of the element</span>
+<span class="cm"> * @param fallbackSelector Optional CSS/XPath selector as fallback</span>
+<span class="cm"> * @return Located WebElement</span>
+<span class="cm"> * @throws ElementNotFoundException if element cannot be found</span>
+<span class="cm"> * @throws AutoHealException if configuration or AI service issues occur</span>
+<span class="cm"> */</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">WebElement</span><span class="w"> </span><span class="nf">findElement</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">description</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">fallbackSelector</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Implementation</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing-guidelines">
+<h2>Testing Guidelines<a class="headerlink" href="#testing-guidelines" title="Link to this heading">#</a></h2>
+<section id="test-structure">
+<h3>Test Structure<a class="headerlink" href="#test-structure" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;Should find element using AI when CSS selector fails&quot;</span><span class="p">)</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">shouldFindElementUsingAIWhenCSSSelectorFails</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Given</span>
+<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="na">cssSelector</span><span class="p">(</span><span class="s">&quot;#missing&quot;</span><span class="p">))).</span><span class="na">thenThrow</span><span class="p">(</span><span class="n">NoSuchElementException</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">    </span><span class="n">when</span><span class="p">(</span><span class="n">aiService</span><span class="p">.</span><span class="na">analyzeElement</span><span class="p">(</span><span class="n">any</span><span class="p">())).</span><span class="na">thenReturn</span><span class="p">(</span><span class="n">successfulResult</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// When</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">locator</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Submit button&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#missing&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Then</span>
+<span class="w">    </span><span class="n">assertThat</span><span class="p">(</span><span class="n">result</span><span class="p">).</span><span class="na">isNotNull</span><span class="p">();</span>
+<span class="w">    </span><span class="n">verify</span><span class="p">(</span><span class="n">aiService</span><span class="p">).</span><span class="na">analyzeElement</span><span class="p">(</span><span class="n">any</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="test-categories">
+<h3>Test Categories<a class="headerlink" href="#test-categories" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Unit Tests</strong>: Fast, isolated, mocked dependencies</p></li>
+<li><p><strong>Integration Tests</strong>: Test component interactions</p></li>
+<li><p><strong>Performance Tests</strong>: Measure response times and costs</p></li>
+</ol>
+</section>
+<section id="running-tests">
+<h3>Running Tests<a class="headerlink" href="#running-tests" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># All tests</span>
+mvn<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># Unit tests only</span>
+mvn<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-Dtest<span class="o">=</span><span class="s2">&quot;*Test&quot;</span>
+
+<span class="c1"># Integration tests only</span>
+mvn<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-Dtest<span class="o">=</span><span class="s2">&quot;*IntegrationTest&quot;</span>
+
+<span class="c1"># With coverage</span>
+mvn<span class="w"> </span><span class="nb">test</span><span class="w"> </span>jacoco:report
+</pre></div>
+</div>
+</section>
+<section id="test-data">
+<h3>Test Data<a class="headerlink" href="#test-data" title="Link to this heading">#</a></h3>
+<p>Use test builders for complex objects:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LocatorRequestBuilder</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">LocatorRequest</span><span class="p">.</span><span class="na">Builder</span><span class="w"> </span><span class="nf">aLocatorRequest</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">LocatorRequest</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">description</span><span class="p">(</span><span class="s">&quot;Test element&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">pageUrl</span><span class="p">(</span><span class="s">&quot;http://example.com&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">elementType</span><span class="p">(</span><span class="n">ElementType</span><span class="p">.</span><span class="na">BUTTON</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="making-changes">
+<h2>Making Changes<a class="headerlink" href="#making-changes" title="Link to this heading">#</a></h2>
+<section id="branch-strategy">
+<h3>1. Branch Strategy<a class="headerlink" href="#branch-strategy" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code>: Stable release branch</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">develop</span></code>: Integration branch</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feature/description</span></code>: Feature branches</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hotfix/description</span></code>: Critical fixes</p></li>
+</ul>
+</section>
+<section id="development-workflow">
+<h3>2. Development Workflow<a class="headerlink" href="#development-workflow" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create feature branch</span>
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/ai-provider-support
+
+<span class="c1"># Make changes and test</span>
+mvn<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># Commit with conventional commits</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add Azure OpenAI provider support&quot;</span>
+
+<span class="c1"># Push and create PR</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>feature/ai-provider-support
+</pre></div>
+</div>
+</section>
+<section id="commit-messages">
+<h3>3. Commit Messages<a class="headerlink" href="#commit-messages" title="Link to this heading">#</a></h3>
+<p>Use <a class="reference external" href="https://www.conventionalcommits.org/">Conventional Commits</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">scope</span><span class="p">):</span> <span class="n">description</span>
+
+<span class="n">feat</span><span class="p">(</span><span class="n">ai</span><span class="p">):</span> <span class="n">add</span> <span class="n">support</span> <span class="k">for</span> <span class="n">Azure</span> <span class="n">OpenAI</span>
+<span class="n">fix</span><span class="p">(</span><span class="n">cache</span><span class="p">):</span> <span class="n">resolve</span> <span class="n">memory</span> <span class="n">leak</span> <span class="ow">in</span> <span class="n">selector</span> <span class="n">cache</span>
+<span class="n">docs</span><span class="p">(</span><span class="n">readme</span><span class="p">):</span> <span class="n">update</span> <span class="n">installation</span> <span class="n">instructions</span>
+<span class="n">test</span><span class="p">(</span><span class="n">integration</span><span class="p">):</span> <span class="n">add</span> <span class="n">tests</span> <span class="k">for</span> <span class="n">new</span> <span class="n">AI</span> <span class="n">provider</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="performance-considerations">
+<h2>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading">#</a></h2>
+<section id="profiling">
+<h3>Profiling<a class="headerlink" href="#profiling" title="Link to this heading">#</a></h3>
+<p>Use JProfiler or async-profiler:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add to JVM args</span>
+-javaagent:async-profiler.jar<span class="o">=</span>start,event<span class="o">=</span>cpu,file<span class="o">=</span>profile.html
+</pre></div>
+</div>
+</section>
+<section id="benchmarking">
+<h3>Benchmarking<a class="headerlink" href="#benchmarking" title="Link to this heading">#</a></h3>
+<p>We use JMH for performance tests:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@BenchmarkMode</span><span class="p">(</span><span class="n">Mode</span><span class="p">.</span><span class="na">AverageTime</span><span class="p">)</span>
+<span class="nd">@OutputTimeUnit</span><span class="p">(</span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">MILLISECONDS</span><span class="p">)</span>
+<span class="nd">@State</span><span class="p">(</span><span class="n">Scope</span><span class="p">.</span><span class="na">Benchmark</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LocatorBenchmark</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Benchmark</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">WebElement</span><span class="w"> </span><span class="nf">findElementWithCache</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">locator</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Submit button&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="memory-testing">
+<h3>Memory Testing<a class="headerlink" href="#memory-testing" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Heap dump analysis</span>
+jmap<span class="w"> </span>-dump:live,format<span class="o">=</span>b,file<span class="o">=</span>heap.hprof<span class="w"> </span>&lt;pid&gt;
+
+<span class="c1"># GC monitoring</span>
+java<span class="w"> </span>-XX:+PrintGCDetails<span class="w"> </span>-XX:+PrintGCTimeStamps<span class="w"> </span>YourTest
+</pre></div>
+</div>
+</section>
+</section>
+<section id="release-process">
+<h2>Release Process<a class="headerlink" href="#release-process" title="Link to this heading">#</a></h2>
+<section id="version-management">
+<h3>1. Version Management<a class="headerlink" href="#version-management" title="Link to this heading">#</a></h3>
+<p>We use Semantic Versioning:</p>
+<ul class="simple">
+<li><p><strong>MAJOR</strong>: Breaking API changes</p></li>
+<li><p><strong>MINOR</strong>: New features, backwards compatible</p></li>
+<li><p><strong>PATCH</strong>: Bug fixes</p></li>
+</ul>
+</section>
+<section id="release-checklist">
+<h3>2. Release Checklist<a class="headerlink" href="#release-checklist" title="Link to this heading">#</a></h3>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> All tests passing</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Documentation updated</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> <a class="reference external" href="http://CHANGELOG.md">CHANGELOG.md</a> updated</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Version bumped in pom.xml</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Performance regression tests pass</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Security scan clean</p></li>
+</ul>
+</section>
+<section id="maven-release">
+<h3>3. Maven Release<a class="headerlink" href="#maven-release" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prepare release</span>
+mvn<span class="w"> </span>release:prepare
+
+<span class="c1"># Perform release</span>
+mvn<span class="w"> </span>release:perform
+
+<span class="c1"># Deploy to Central</span>
+mvn<span class="w"> </span>deploy<span class="w"> </span>-P<span class="w"> </span>release
+</pre></div>
+</div>
+</section>
+</section>
+<section id="debugging-tips">
+<h2>Debugging Tips<a class="headerlink" href="#debugging-tips" title="Link to this heading">#</a></h2>
+<section id="enable-debug-logging">
+<h3>1. Enable Debug Logging<a class="headerlink" href="#enable-debug-logging" title="Link to this heading">#</a></h3>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="na">logging.level.com.autoheal</span><span class="o">=</span><span class="s">DEBUG</span>
+<span class="na">logging.level.com.autoheal.ai</span><span class="o">=</span><span class="s">TRACE</span>
+</pre></div>
+</div>
+</section>
+<section id="local-ai-service-testing">
+<h3>2. Local AI Service Testing<a class="headerlink" href="#local-ai-service-testing" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Mock AI service for testing</span>
+<span class="nd">@TestConfiguration</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TestAIConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="nd">@Primary</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">AIService</span><span class="w"> </span><span class="nf">mockAIService</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Mockito</span><span class="p">.</span><span class="na">mock</span><span class="p">(</span><span class="n">AIService</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="browser-debugging">
+<h3>3. Browser Debugging<a class="headerlink" href="#browser-debugging" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Keep browser open for inspection</span>
+<span class="n">ChromeOptions</span><span class="w"> </span><span class="n">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromeOptions</span><span class="p">();</span>
+<span class="n">options</span><span class="p">.</span><span class="na">addArguments</span><span class="p">(</span><span class="s">&quot;--remote-debugging-port=9222&quot;</span><span class="p">);</span>
+<span class="n">WebDriver</span><span class="w"> </span><span class="n">driver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromeDriver</span><span class="p">(</span><span class="n">options</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="getting-help">
+<h2>Getting Help<a class="headerlink" href="#getting-help" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Slack</strong>: #autoheal-dev</p></li>
+<li><p><strong>Email</strong>: <a class="reference external" href="mailto:dev&#37;&#52;&#48;autoheal&#46;com">dev<span>&#64;</span>autoheal<span>&#46;</span>com</a></p></li>
+<li><p><strong>Issues</strong>: GitHub Issues for bugs</p></li>
+<li><p><strong>Discussions</strong>: GitHub Discussions for questions</p></li>
+</ul>
+</section>
+<section id="code-review-guidelines">
+<h2>Code Review Guidelines<a class="headerlink" href="#code-review-guidelines" title="Link to this heading">#</a></h2>
+<section id="what-to-review">
+<h3>What to Review<a class="headerlink" href="#what-to-review" title="Link to this heading">#</a></h3>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Functionality correctness</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Performance impact</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Security considerations</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Test coverage</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Documentation quality</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Code style compliance</p></li>
+</ul>
+</section>
+<section id="review-process">
+<h3>Review Process<a class="headerlink" href="#review-process" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Automated checks must pass</p></li>
+<li><p>At least one approving review required</p></li>
+<li><p>Performance tests for significant changes</p></li>
+<li><p>Security review for API changes</p></li>
+</ol>
+<p>Thank you for contributing to AutoHeal Locator! 🎉</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  <div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item">
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../advanced/troubleshooting.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Troubleshooting Guide</p>
+      </div>
+    </a>
+</div></div>
+  
+</div>
+                </footer>
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#development-setup">Development Setup</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-and-setup">1. Clone and Setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ide-configuration">2. IDE Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables">3. Environment Variables</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-structure">Project Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coding-standards">Coding Standards</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-style">Code Style</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-guidelines">Testing Guidelines</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-structure">Test Structure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-categories">Test Categories</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-tests">Running Tests</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-data">Test Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-changes">Making Changes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#branch-strategy">1. Branch Strategy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#development-workflow">2. Development Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commit-messages">3. Commit Messages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-considerations">Performance Considerations</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling">Profiling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmarking">Benchmarking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-testing">Memory Testing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release-process">Release Process</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#version-management">1. Version Management</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#release-checklist">2. Release Checklist</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maven-release">3. Maven Release</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-tips">Debugging Tips</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-debug-logging">1. Enable Debug Logging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-ai-service-testing">2. Local AI Service Testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#browser-debugging">3. Browser Debugging</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-help">Getting Help</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-review-guidelines">Code Review Guidelines</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-review">What to Review</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#review-process">Review Process</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/docs/contributing/development.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, AutoHeal Team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

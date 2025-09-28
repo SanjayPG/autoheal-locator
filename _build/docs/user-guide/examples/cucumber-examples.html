@@ -1,0 +1,2038 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Cucumber Integration Examples &#8212; AutoHeal Locator</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=9e0c438f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=51b770b3"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=d1c4098b"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/user-guide/examples/cucumber-examples';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="AutoHeal Cost Optimization Examples" href="../../advanced/cost-optimization.html" />
+    <link rel="prev" title="Page Object Model Examples" href="page-object-examples.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="AutoHeal Locator - Home"/>
+    <img src="../../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="AutoHeal Locator - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quick-start.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../ai-configuration.html">
+    AI Configuration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../selenium-integration.html">
+    AutoHeal Locator - Complete Selenium Usage Guide
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../playwright-integration.html">
+    Playwright AutoHeal Integration Guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../spring-boot-integration.html">
+    Spring Boot Integration
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../performance.html">
+    Performance Optimization Guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../reporting.html">
+    AutoHeal Reporting System
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../multiple-elements.html">
+    Handling Multiple Elements - Smart Disambiguation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="selenium-examples.html">
+    Selenium Integration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="page-object-examples.html">
+    Page Object Model Examples
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="#">
+    Cucumber Integration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../advanced/cost-optimization.html">
+    AutoHeal Cost Optimization Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../advanced/architecture.html">
+    Architecture Overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../advanced/configuration-reference.html">
+    AutoHeal AI Configuration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../advanced/troubleshooting.html">
+    Troubleshooting Guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contributing/development.html">
+    Development Guide
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator" title="Maven Central" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Maven Central</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://javadoc.io/doc/com.autoheal/autoheal-locator" title="JavaDoc" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-book fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">JavaDoc</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../installation.html">
+    Installation Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../quick-start.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../ai-configuration.html">
+    AI Configuration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../selenium-integration.html">
+    AutoHeal Locator - Complete Selenium Usage Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../playwright-integration.html">
+    Playwright AutoHeal Integration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../spring-boot-integration.html">
+    Spring Boot Integration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../performance.html">
+    Performance Optimization Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reporting.html">
+    AutoHeal Reporting System
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../multiple-elements.html">
+    Handling Multiple Elements - Smart Disambiguation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="selenium-examples.html">
+    Selenium Integration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="page-object-examples.html">
+    Page Object Model Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Cucumber Integration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../advanced/cost-optimization.html">
+    AutoHeal Cost Optimization Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../advanced/architecture.html">
+    Architecture Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../advanced/configuration-reference.html">
+    AutoHeal AI Configuration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../advanced/troubleshooting.html">
+    Troubleshooting Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/development.html">
+    Development Guide
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator" title="Maven Central" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Maven Central</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://javadoc.io/doc/com.autoheal/autoheal-locator" title="JavaDoc" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-book fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">JavaDoc</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="AutoHeal Locator - Home"/>
+    <img src="../../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="AutoHeal Locator - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+        <div class="sidebar-primary-item">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick-start.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">User Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ai-configuration.html">AI Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../selenium-integration.html">AutoHeal Locator - Complete Selenium Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../playwright-integration.html">Playwright AutoHeal Integration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spring-boot-integration.html">Spring Boot Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Optimization Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reporting.html">AutoHeal Reporting System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multiple-elements.html">Handling Multiple Elements - Smart Disambiguation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="selenium-examples.html">Selenium Integration Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="page-object-examples.html">Page Object Model Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cucumber Integration Examples</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/cost-optimization.html">AutoHeal Cost Optimization Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/architecture.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/configuration-reference.html">AutoHeal AI Configuration Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced/troubleshooting.html">Troubleshooting Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development.html">Development Guide</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><nav class="sidebar-indices-items" aria-labelledby="pst-indices-navigation-heading-2">
+  <p id="pst-indices-navigation-heading-2" class="sidebar-indices-items__title" role="heading" aria-level="1">Indices</p>
+  <ul class="indices-link">
+        <li class="toctree-l1">
+          <a class="reference internal"
+             href="../../../genindex.html"
+             accesskey="I">General Index</a>
+        </li>
+  </ul>
+</nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Cucumber Integration Examples</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="cucumber-integration-examples">
+<h1>Cucumber Integration Examples<a class="headerlink" href="#cucumber-integration-examples" title="Link to this heading">#</a></h1>
+<p>This guide demonstrates how to integrate AutoHeal with Cucumber for behavior-driven testing, combining natural language test scenarios with intelligent element location.</p>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#basic-setup"><span class="xref myst">Basic Setup</span></a></p></li>
+<li><p><a class="reference internal" href="#feature-files"><span class="xref myst">Feature Files</span></a></p></li>
+<li><p><a class="reference internal" href="#step-definitions"><span class="xref myst">Step Definitions</span></a></p></li>
+<li><p><a class="reference internal" href="#hooks-and-configuration"><span class="xref myst">Hooks and Configuration</span></a></p></li>
+<li><p><a class="reference internal" href="#data-tables"><span class="xref myst">Data Tables</span></a></p></li>
+<li><p><a class="reference internal" href="#scenario-outlines"><span class="xref myst">Scenario Outlines</span></a></p></li>
+<li><p><a class="reference internal" href="#best-practices"><span class="xref myst">Best Practices</span></a></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="basic-setup">
+<h2>Basic Setup<a class="headerlink" href="#basic-setup" title="Link to this heading">#</a></h2>
+<section id="dependencies">
+<h3>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">#</a></h3>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;dependencies&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- AutoHeal --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>com.autoheal<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>autoheal-locator<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;version&gt;</span>1.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Cucumber --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>io.cucumber<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>cucumber-java<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;version&gt;</span>7.15.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>io.cucumber<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>cucumber-junit-platform-engine<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;version&gt;</span>7.15.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">        </span><span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Selenium --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.seleniumhq.selenium<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>selenium-java<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;version&gt;</span>4.15.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- JUnit 5 --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.junit.platform<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>junit-platform-suite<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;version&gt;</span>1.10.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">        </span><span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;/dependencies&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="test-runner">
+<h3>Test Runner<a class="headerlink" href="#test-runner" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.platform.suite.api.*</span><span class="p">;</span>
+
+<span class="nd">@Suite</span>
+<span class="nd">@IncludeEngines</span><span class="p">(</span><span class="s">&quot;cucumber&quot;</span><span class="p">)</span>
+<span class="nd">@SelectClasspathResource</span><span class="p">(</span><span class="s">&quot;features&quot;</span><span class="p">)</span>
+<span class="nd">@ConfigurationParameter</span><span class="p">(</span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cucumber.plugin&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;pretty,html:target/cucumber-reports,json:target/cucumber-reports/Cucumber.json&quot;</span><span class="p">)</span>
+<span class="nd">@ConfigurationParameter</span><span class="p">(</span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cucumber.glue&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.yourcompany.stepdefinitions&quot;</span><span class="p">)</span>
+<span class="nd">@ConfigurationParameter</span><span class="p">(</span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cucumber.features&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;src/test/resources/features&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CucumberTestRunner</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="feature-files">
+<h2>Feature Files<a class="headerlink" href="#feature-files" title="Link to this heading">#</a></h2>
+<section id="login-feature">
+<h3>Login Feature<a class="headerlink" href="#login-feature" title="Link to this heading">#</a></h3>
+<div class="highlight-gherkin notranslate"><div class="highlight"><pre><span></span><span class="nt">@login</span>
+<span class="k">Feature:</span><span class="nf"> User Authentication</span>
+<span class="nf">  As a user</span>
+<span class="nf">  I want to log into the application</span>
+<span class="nf">  So that I can access my account</span>
+
+<span class="nf">  </span><span class="k">Background:</span>
+<span class="k">    Given </span><span class="nf">I am on the login page</span>
+
+<span class="nf">  </span><span class="nt">@smoke</span><span class="nf"> </span><span class="nt">@positive</span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Successful login with valid credentials</span>
+<span class="k">    When </span><span class="nf">I enter username &quot;</span><span class="s">john.doe@example.com</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I enter password &quot;</span><span class="s">validpassword</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I click the login button</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should be logged in successfully</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I should see the welcome message &quot;</span><span class="s">Welcome, John</span><span class="nf">&quot;</span>
+
+<span class="nf">  </span><span class="nt">@negative</span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Failed login with invalid credentials</span>
+<span class="k">    When </span><span class="nf">I enter username &quot;</span><span class="s">john.doe@example.com</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I enter password &quot;</span><span class="s">wrongpassword</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I click the login button</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should see an error message &quot;</span><span class="s">Invalid credentials</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I should remain on the login page</span>
+
+<span class="nf">  </span><span class="nt">@negative</span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Login with empty credentials</span>
+<span class="k">    When </span><span class="nf">I click the login button</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should see validation errors</span>
+<span class="k">      |</span><span class="s"> field</span><span class="k">    |</span><span class="s"> message</span><span class="k">                |</span>
+<span class="k">      |</span><span class="s"> username</span><span class="k"> |</span><span class="s"> Username is required</span><span class="k">   |</span>
+<span class="k">      |</span><span class="s"> password</span><span class="k"> |</span><span class="s"> Password is required</span><span class="k">   |</span>
+
+<span class="nf">  </span><span class="nt">@security</span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Account lockout after multiple failed attempts</span>
+<span class="k">    Given </span><span class="nf">I have made </span><span class="s">2</span><span class="nf"> failed login attempts</span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">I enter username &quot;</span><span class="s">john.doe@example.com</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I enter password &quot;</span><span class="s">wrongpassword</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I click the login button</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should see an error message &quot;</span><span class="s">Account locked due to multiple failed attempts</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">the login button should be disabled</span>
+</pre></div>
+</div>
+</section>
+<section id="e-commerce-feature">
+<h3>E-commerce Feature<a class="headerlink" href="#e-commerce-feature" title="Link to this heading">#</a></h3>
+<div class="highlight-gherkin notranslate"><div class="highlight"><pre><span></span><span class="nt">@ecommerce</span>
+<span class="k">Feature:</span><span class="nf"> Product Purchase Flow</span>
+<span class="nf">  As a customer</span>
+<span class="nf">  I want to purchase products</span>
+<span class="nf">  So that I can buy items I need</span>
+
+<span class="nf">  </span><span class="k">Background:</span>
+<span class="k">    Given </span><span class="nf">I am logged in as a customer</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I am on the products page</span>
+
+<span class="nf">  </span><span class="nt">@smoke</span><span class="nf"> </span><span class="nt">@positive</span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Complete purchase flow</span>
+<span class="k">    When </span><span class="nf">I search for &quot;</span><span class="s">laptop</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I select the first product from search results</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I add the product to cart</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I go to checkout</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I fill in shipping information:</span>
+<span class="k">      |</span><span class="s"> field</span><span class="k">     |</span><span class="s"> value</span><span class="k">           |</span>
+<span class="k">      |</span><span class="s"> firstName</span><span class="k"> |</span><span class="s"> John</span><span class="k">            |</span>
+<span class="k">      |</span><span class="s"> lastName</span><span class="k">  |</span><span class="s"> Doe</span><span class="k">             |</span>
+<span class="k">      |</span><span class="s"> address</span><span class="k">   |</span><span class="s"> 123 Main St</span><span class="k">     |</span>
+<span class="k">      |</span><span class="s"> city</span><span class="k">      |</span><span class="s"> New York</span><span class="k">        |</span>
+<span class="k">      |</span><span class="s"> zipCode</span><span class="k">   |</span><span class="s"> 10001</span><span class="k">           |</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I select payment method &quot;</span><span class="s">Credit Card</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I enter payment details:</span>
+<span class="k">      |</span><span class="s"> cardNumber</span><span class="k"> |</span><span class="s"> 4532015112830366</span><span class="k"> |</span>
+<span class="k">      |</span><span class="s"> expiryDate</span><span class="k"> |</span><span class="s"> 12/25</span><span class="k">            |</span>
+<span class="k">      |</span><span class="s"> cvv</span><span class="k">        |</span><span class="s"> 123</span><span class="k">              |</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I place the order</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should see order confirmation</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I should receive an order number</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">the order should appear in my order history</span>
+
+<span class="nf">  </span><span class="nt">@negative</span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Checkout with invalid payment information</span>
+<span class="k">    Given </span><span class="nf">I have items in my cart</span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">I go to checkout</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I fill in valid shipping information</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I enter invalid payment details:</span>
+<span class="k">      |</span><span class="s"> cardNumber</span><span class="k"> |</span><span class="s"> 1234567890123456</span><span class="k"> |</span>
+<span class="k">      |</span><span class="s"> expiryDate</span><span class="k"> |</span><span class="s"> 01/20</span><span class="k">            |</span>
+<span class="k">      |</span><span class="s"> cvv</span><span class="k">        |</span><span class="s"> 999</span><span class="k">              |</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I place the order</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should see payment error &quot;</span><span class="s">Invalid card details</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I should remain on the checkout page</span>
+</pre></div>
+</div>
+</section>
+<section id="admin-dashboard-feature">
+<h3>Admin Dashboard Feature<a class="headerlink" href="#admin-dashboard-feature" title="Link to this heading">#</a></h3>
+<div class="highlight-gherkin notranslate"><div class="highlight"><pre><span></span><span class="nt">@admin</span>
+<span class="k">Feature:</span><span class="nf"> User Management</span>
+<span class="nf">  As an administrator</span>
+<span class="nf">  I want to manage user accounts</span>
+<span class="nf">  So that I can maintain system security</span>
+
+<span class="nf">  </span><span class="k">Background:</span>
+<span class="k">    Given </span><span class="nf">I am logged in as an administrator</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I am on the user management page</span>
+
+<span class="nf">  </span><span class="nt">@crud</span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Create a new user account</span>
+<span class="k">    When </span><span class="nf">I click the &quot;</span><span class="s">Add User</span><span class="nf">&quot; button</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I fill in the user creation form:</span>
+<span class="k">      |</span><span class="s"> firstName</span><span class="k"> |</span><span class="s"> Jane</span><span class="k">               |</span>
+<span class="k">      |</span><span class="s"> lastName</span><span class="k">  |</span><span class="s"> Smith</span><span class="k">              |</span>
+<span class="k">      |</span><span class="s"> email</span><span class="k">     |</span><span class="s"> jane.smith@example.com</span><span class="k"> |</span>
+<span class="k">      |</span><span class="s"> role</span><span class="k">      |</span><span class="s"> User</span><span class="k">               |</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I save the user</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should see success message &quot;</span><span class="s">User created successfully</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">the user &quot;</span><span class="s">jane.smith@example.com</span><span class="nf">&quot; should appear in the users list</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">the user should have role &quot;</span><span class="s">User</span><span class="nf">&quot;</span>
+
+<span class="nf">  </span><span class="nt">@crud</span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Edit existing user details</span>
+<span class="k">    Given </span><span class="nf">a user &quot;</span><span class="s">john.doe@example.com</span><span class="nf">&quot; exists</span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">I search for user &quot;</span><span class="s">john.doe@example.com</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I click the edit button for that user</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I update the user information:</span>
+<span class="k">      |</span><span class="s"> firstName</span><span class="k"> |</span><span class="s"> Jonathan</span><span class="k">    |</span>
+<span class="k">      |</span><span class="s"> role</span><span class="k">      |</span><span class="s"> Admin</span><span class="k">       |</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I save the changes</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should see success message &quot;</span><span class="s">User updated successfully</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">the user details should be updated in the system</span>
+
+<span class="nf">  </span><span class="nt">@crud</span><span class="nf"> </span><span class="nt">@confirmation</span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Delete user with confirmation</span>
+<span class="k">    Given </span><span class="nf">a user &quot;</span><span class="s">test.user@example.com</span><span class="nf">&quot; exists</span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">I search for user &quot;</span><span class="s">test.user@example.com</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I click the delete button for that user</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I confirm the deletion</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should see success message &quot;</span><span class="s">User deleted successfully</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">the user &quot;</span><span class="s">test.user@example.com</span><span class="nf">&quot; should not appear in the users list</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="step-definitions">
+<h2>Step Definitions<a class="headerlink" href="#step-definitions" title="Link to this heading">#</a></h2>
+<section id="login-step-definitions">
+<h3>Login Step Definitions<a class="headerlink" href="#login-step-definitions" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nn">com.yourcompany.stepdefinitions</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.AutoHealLocator</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.yourcompany.pages.LoginPage</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.yourcompany.pages.HomePage</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io.cucumber.java.en.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io.cucumber.datatable.DataTable</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.openqa.selenium.WebDriver</span><span class="p">;</span>
+
+<span class="kn">import static</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.Assertions.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoginSteps</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">WebDriver</span><span class="w"> </span><span class="n">driver</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">LoginPage</span><span class="w"> </span><span class="n">loginPage</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">HomePage</span><span class="w"> </span><span class="n">homePage</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Constructor injection from hooks</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">LoginSteps</span><span class="p">(</span><span class="n">TestContext</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">driver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getDriver</span><span class="p">();</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">autoHeal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getAutoHeal</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Given</span><span class="p">(</span><span class="s">&quot;I am on the login page&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_am_on_the_login_page</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://example.com/login&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">loginPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LoginPage</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">loginPage</span><span class="p">.</span><span class="na">isLoaded</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Login page should be loaded&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I enter username {string}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_enter_username</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">username</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">loginPage</span><span class="p">.</span><span class="na">enterUsername</span><span class="p">(</span><span class="n">username</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I enter password {string}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_enter_password</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">loginPage</span><span class="p">.</span><span class="na">enterPassword</span><span class="p">(</span><span class="n">password</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I click the login button&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_click_the_login_button</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">loginPage</span><span class="p">.</span><span class="na">clickLoginButton</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;I should be logged in successfully&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_should_be_logged_in_successfully</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">homePage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HomePage</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">homePage</span><span class="p">.</span><span class="na">isLoaded</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Home page should be loaded after successful login&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;I should see the welcome message {string}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_should_see_the_welcome_message</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">expectedMessage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">actualMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">homePage</span><span class="p">.</span><span class="na">getWelcomeMessage</span><span class="p">();</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">actualMessage</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="n">expectedMessage</span><span class="p">),</span>
+<span class="w">            </span><span class="s">&quot;Expected welcome message: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">expectedMessage</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;, but got: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">actualMessage</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;I should see an error message {string}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_should_see_an_error_message</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">expectedError</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">actualError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loginPage</span><span class="p">.</span><span class="na">getErrorMessage</span><span class="p">();</span>
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">expectedError</span><span class="p">,</span><span class="w"> </span><span class="n">actualError</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Error message mismatch&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;I should remain on the login page&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_should_remain_on_the_login_page</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">loginPage</span><span class="p">.</span><span class="na">isLoaded</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Should remain on login page after failed login&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;I should see validation errors&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_should_see_validation_errors</span><span class="p">(</span><span class="n">DataTable</span><span class="w"> </span><span class="n">dataTable</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">validationErrors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataTable</span><span class="p">.</span><span class="na">asMaps</span><span class="p">();</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">validationErrors</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">field</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">error</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;field&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">expectedMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">error</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;message&quot;</span><span class="p">);</span>
+
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">actualMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loginPage</span><span class="p">.</span><span class="na">getFieldValidationError</span><span class="p">(</span><span class="n">field</span><span class="p">);</span>
+<span class="w">            </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">expectedMessage</span><span class="p">,</span><span class="w"> </span><span class="n">actualMessage</span><span class="p">,</span>
+<span class="w">                </span><span class="s">&quot;Validation error mismatch for field: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">field</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Given</span><span class="p">(</span><span class="s">&quot;I have made {int} failed login attempts&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_have_made_failed_login_attempts</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">attempts</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">attempts</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">loginPage</span><span class="p">.</span><span class="na">enterUsername</span><span class="p">(</span><span class="s">&quot;john.doe@example.com&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">loginPage</span><span class="p">.</span><span class="na">enterPassword</span><span class="p">(</span><span class="s">&quot;wrongpassword&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">loginPage</span><span class="p">.</span><span class="na">clickLoginButton</span><span class="p">();</span>
+<span class="w">            </span><span class="n">loginPage</span><span class="p">.</span><span class="na">waitForErrorMessage</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;the login button should be disabled&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">the_login_button_should_be_disabled</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">assertFalse</span><span class="p">(</span><span class="n">loginPage</span><span class="p">.</span><span class="na">isLoginButtonEnabled</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Login button should be disabled after account lockout&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="e-commerce-step-definitions">
+<h3>E-commerce Step Definitions<a class="headerlink" href="#e-commerce-step-definitions" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nn">com.yourcompany.stepdefinitions</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.AutoHealLocator</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.yourcompany.pages.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io.cucumber.java.en.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io.cucumber.datatable.DataTable</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.openqa.selenium.WebDriver</span><span class="p">;</span>
+
+<span class="kn">import static</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.Assertions.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">EcommerceSteps</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">WebDriver</span><span class="w"> </span><span class="n">driver</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ProductsPage</span><span class="w"> </span><span class="n">productsPage</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ProductDetailPage</span><span class="w"> </span><span class="n">productDetailPage</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">CartPage</span><span class="w"> </span><span class="n">cartPage</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">CheckoutPage</span><span class="w"> </span><span class="n">checkoutPage</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">OrderConfirmationPage</span><span class="w"> </span><span class="n">confirmationPage</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">EcommerceSteps</span><span class="p">(</span><span class="n">TestContext</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">driver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getDriver</span><span class="p">();</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">autoHeal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getAutoHeal</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Given</span><span class="p">(</span><span class="s">&quot;I am logged in as a customer&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_am_logged_in_as_a_customer</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Login with customer credentials</span>
+<span class="w">        </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://example.com/login&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">LoginPage</span><span class="w"> </span><span class="n">loginPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LoginPage</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">);</span>
+<span class="w">        </span><span class="n">loginPage</span><span class="p">.</span><span class="na">loginWithCredentials</span><span class="p">(</span><span class="s">&quot;customer@example.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;password123&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Given</span><span class="p">(</span><span class="s">&quot;I am on the products page&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_am_on_the_products_page</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://example.com/products&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">productsPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ProductsPage</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">productsPage</span><span class="p">.</span><span class="na">isLoaded</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Products page should be loaded&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I search for {string}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_search_for</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">searchTerm</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">productsPage</span><span class="p">.</span><span class="na">searchForProduct</span><span class="p">(</span><span class="n">searchTerm</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I select the first product from search results&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_select_the_first_product_from_search_results</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">productDetailPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">productsPage</span><span class="p">.</span><span class="na">clickFirstProduct</span><span class="p">();</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">productDetailPage</span><span class="p">.</span><span class="na">isLoaded</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Product detail page should be loaded&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I add the product to cart&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_add_the_product_to_cart</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">productDetailPage</span><span class="p">.</span><span class="na">addToCart</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I go to checkout&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_go_to_checkout</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cartPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">productDetailPage</span><span class="p">.</span><span class="na">goToCart</span><span class="p">();</span>
+<span class="w">        </span><span class="n">checkoutPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cartPage</span><span class="p">.</span><span class="na">proceedToCheckout</span><span class="p">();</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">checkoutPage</span><span class="p">.</span><span class="na">isLoaded</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Checkout page should be loaded&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I fill in shipping information:&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_fill_in_shipping_information</span><span class="p">(</span><span class="n">DataTable</span><span class="w"> </span><span class="n">dataTable</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">shippingInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataTable</span><span class="p">.</span><span class="na">asMap</span><span class="p">();</span>
+<span class="w">        </span><span class="n">checkoutPage</span><span class="p">.</span><span class="na">fillShippingInformation</span><span class="p">(</span><span class="n">shippingInfo</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I select payment method {string}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_select_payment_method</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">paymentMethod</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">checkoutPage</span><span class="p">.</span><span class="na">selectPaymentMethod</span><span class="p">(</span><span class="n">paymentMethod</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I enter payment details:&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_enter_payment_details</span><span class="p">(</span><span class="n">DataTable</span><span class="w"> </span><span class="n">dataTable</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">paymentDetails</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataTable</span><span class="p">.</span><span class="na">asMap</span><span class="p">();</span>
+<span class="w">        </span><span class="n">checkoutPage</span><span class="p">.</span><span class="na">fillPaymentDetails</span><span class="p">(</span><span class="n">paymentDetails</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I place the order&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_place_the_order</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">checkoutPage</span><span class="p">.</span><span class="na">placeOrder</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;I should see order confirmation&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_should_see_order_confirmation</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">confirmationPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">OrderConfirmationPage</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">confirmationPage</span><span class="p">.</span><span class="na">isLoaded</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Order confirmation page should be loaded&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;I should receive an order number&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_should_receive_an_order_number</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">orderNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">confirmationPage</span><span class="p">.</span><span class="na">getOrderNumber</span><span class="p">();</span>
+<span class="w">        </span><span class="n">assertNotNull</span><span class="p">(</span><span class="n">orderNumber</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Order number should be present&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertFalse</span><span class="p">(</span><span class="n">orderNumber</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Order number should not be empty&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;the order should appear in my order history&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">the_order_should_appear_in_my_order_history</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">orderNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">confirmationPage</span><span class="p">.</span><span class="na">getOrderNumber</span><span class="p">();</span>
+<span class="w">        </span><span class="n">OrderHistoryPage</span><span class="w"> </span><span class="n">orderHistoryPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">confirmationPage</span><span class="p">.</span><span class="na">goToOrderHistory</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">orderHistoryPage</span><span class="p">.</span><span class="na">isOrderPresent</span><span class="p">(</span><span class="n">orderNumber</span><span class="p">),</span>
+<span class="w">            </span><span class="s">&quot;Order &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">orderNumber</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; should appear in order history&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Given</span><span class="p">(</span><span class="s">&quot;I have items in my cart&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_have_items_in_my_cart</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Add a sample item to cart</span>
+<span class="w">        </span><span class="n">i_am_on_the_products_page</span><span class="p">();</span>
+<span class="w">        </span><span class="n">i_search_for</span><span class="p">(</span><span class="s">&quot;test product&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">i_select_the_first_product_from_search_results</span><span class="p">();</span>
+<span class="w">        </span><span class="n">i_add_the_product_to_cart</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I fill in valid shipping information&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_fill_in_valid_shipping_information</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">validShippingInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<span class="w">            </span><span class="s">&quot;firstName&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;John&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;lastName&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Doe&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;address&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;123 Main St&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;city&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;New York&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;zipCode&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;10001&quot;</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="n">checkoutPage</span><span class="p">.</span><span class="na">fillShippingInformation</span><span class="p">(</span><span class="n">validShippingInfo</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I enter invalid payment details:&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_enter_invalid_payment_details</span><span class="p">(</span><span class="n">DataTable</span><span class="w"> </span><span class="n">dataTable</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">invalidPaymentDetails</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataTable</span><span class="p">.</span><span class="na">asMap</span><span class="p">();</span>
+<span class="w">        </span><span class="n">checkoutPage</span><span class="p">.</span><span class="na">fillPaymentDetails</span><span class="p">(</span><span class="n">invalidPaymentDetails</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;I should see payment error {string}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_should_see_payment_error</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">expectedError</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">actualError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">checkoutPage</span><span class="p">.</span><span class="na">getPaymentError</span><span class="p">();</span>
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">expectedError</span><span class="p">,</span><span class="w"> </span><span class="n">actualError</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Payment error message mismatch&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;I should remain on the checkout page&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_should_remain_on_the_checkout_page</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">checkoutPage</span><span class="p">.</span><span class="na">isLoaded</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Should remain on checkout page after payment error&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="admin-step-definitions">
+<h3>Admin Step Definitions<a class="headerlink" href="#admin-step-definitions" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nn">com.yourcompany.stepdefinitions</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.AutoHealLocator</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.yourcompany.pages.UserManagementPage</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.yourcompany.pages.CreateUserPage</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.yourcompany.pages.EditUserPage</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io.cucumber.java.en.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io.cucumber.datatable.DataTable</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.openqa.selenium.WebDriver</span><span class="p">;</span>
+
+<span class="kn">import static</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.Assertions.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AdminSteps</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">WebDriver</span><span class="w"> </span><span class="n">driver</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">UserManagementPage</span><span class="w"> </span><span class="n">userManagementPage</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">CreateUserPage</span><span class="w"> </span><span class="n">createUserPage</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">EditUserPage</span><span class="w"> </span><span class="n">editUserPage</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">AdminSteps</span><span class="p">(</span><span class="n">TestContext</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">driver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getDriver</span><span class="p">();</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">autoHeal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getAutoHeal</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Given</span><span class="p">(</span><span class="s">&quot;I am logged in as an administrator&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_am_logged_in_as_an_administrator</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://example.com/login&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">LoginPage</span><span class="w"> </span><span class="n">loginPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LoginPage</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">);</span>
+<span class="w">        </span><span class="n">loginPage</span><span class="p">.</span><span class="na">loginWithCredentials</span><span class="p">(</span><span class="s">&quot;admin@example.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;adminpassword&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Given</span><span class="p">(</span><span class="s">&quot;I am on the user management page&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_am_on_the_user_management_page</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://example.com/admin/users&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">userManagementPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UserManagementPage</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">isLoaded</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;User management page should be loaded&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I click the {string} button&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_click_the_button</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">buttonText</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;Add User&quot;</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">buttonText</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">createUserPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">clickAddUser</span><span class="p">();</span>
+<span class="w">            </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">createUserPage</span><span class="p">.</span><span class="na">isLoaded</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Create user page should be loaded&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I fill in the user creation form:&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_fill_in_the_user_creation_form</span><span class="p">(</span><span class="n">DataTable</span><span class="w"> </span><span class="n">dataTable</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">userDetails</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataTable</span><span class="p">.</span><span class="na">asMap</span><span class="p">();</span>
+<span class="w">        </span><span class="n">createUserPage</span><span class="p">.</span><span class="na">fillUserForm</span><span class="p">(</span><span class="n">userDetails</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I save the user&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_save_the_user</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">userManagementPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createUserPage</span><span class="p">.</span><span class="na">saveUser</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;I should see success message {string}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_should_see_success_message</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">expectedMessage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">actualMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">getSuccessMessage</span><span class="p">();</span>
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">expectedMessage</span><span class="p">,</span><span class="w"> </span><span class="n">actualMessage</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Success message mismatch&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;the user {string} should appear in the users list&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">the_user_should_appear_in_the_users_list</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">userEmail</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">isUserPresent</span><span class="p">(</span><span class="n">userEmail</span><span class="p">),</span>
+<span class="w">            </span><span class="s">&quot;User &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">userEmail</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; should appear in the users list&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;the user should have role {string}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">the_user_should_have_role</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">expectedRole</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// This would need to be implemented to check user role in the table</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">actualRole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">getUserRole</span><span class="p">(</span><span class="s">&quot;jane.smith@example.com&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">expectedRole</span><span class="p">,</span><span class="w"> </span><span class="n">actualRole</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;User role mismatch&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Given</span><span class="p">(</span><span class="s">&quot;a user {string} exists&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">a_user_exists</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">userEmail</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Create user if not exists, or verify user exists</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">isUserPresent</span><span class="p">(</span><span class="n">userEmail</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">createTestUser</span><span class="p">(</span><span class="n">userEmail</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I search for user {string}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_search_for_user</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">userEmail</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">searchUser</span><span class="p">(</span><span class="n">userEmail</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I click the edit button for that user&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_click_the_edit_button_for_that_user</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">editUserPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">clickEditButton</span><span class="p">();</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">editUserPage</span><span class="p">.</span><span class="na">isLoaded</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Edit user page should be loaded&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I update the user information:&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_update_the_user_information</span><span class="p">(</span><span class="n">DataTable</span><span class="w"> </span><span class="n">dataTable</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">updatedInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataTable</span><span class="p">.</span><span class="na">asMap</span><span class="p">();</span>
+<span class="w">        </span><span class="n">editUserPage</span><span class="p">.</span><span class="na">updateUserInfo</span><span class="p">(</span><span class="n">updatedInfo</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I save the changes&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_save_the_changes</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">userManagementPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">editUserPage</span><span class="p">.</span><span class="na">saveChanges</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;the user details should be updated in the system&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">the_user_details_should_be_updated_in_the_system</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Verify the changes are reflected in the user list</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">updatedName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">getUserName</span><span class="p">(</span><span class="s">&quot;john.doe@example.com&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Jonathan&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">updatedName</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;User name should be updated&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I click the delete button for that user&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_click_the_delete_button_for_that_user</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">clickDeleteButton</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I confirm the deletion&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_confirm_the_deletion</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">confirmDeletion</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;the user {string} should not appear in the users list&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">the_user_should_not_appear_in_the_users_list</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">userEmail</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">assertFalse</span><span class="p">(</span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">isUserPresent</span><span class="p">(</span><span class="n">userEmail</span><span class="p">),</span>
+<span class="w">            </span><span class="s">&quot;User &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">userEmail</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; should not appear in the users list after deletion&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Helper method to create test user</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">createTestUser</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">CreateUserPage</span><span class="w"> </span><span class="n">createPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">clickAddUser</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">testUser</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<span class="w">            </span><span class="s">&quot;firstName&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Test&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;lastName&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;User&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;email&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;role&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;User&quot;</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="n">createPage</span><span class="p">.</span><span class="na">fillUserForm</span><span class="p">(</span><span class="n">testUser</span><span class="p">);</span>
+<span class="w">        </span><span class="n">createPage</span><span class="p">.</span><span class="na">saveUser</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="hooks-and-configuration">
+<h2>Hooks and Configuration<a class="headerlink" href="#hooks-and-configuration" title="Link to this heading">#</a></h2>
+<section id="test-context">
+<h3>Test Context<a class="headerlink" href="#test-context" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nn">com.yourcompany.context</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.AutoHealLocator</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.config.AutoHealConfiguration</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.config.AIConfig</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.config.ReportingConfig</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.impl.adapter.SeleniumWebAutomationAdapter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.autoheal.model.AIProvider</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.openqa.selenium.WebDriver</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.openqa.selenium.chrome.ChromeDriver</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.openqa.selenium.chrome.ChromeOptions</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TestContext</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">WebDriver</span><span class="w"> </span><span class="n">driver</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">scenarioName</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">scenarioName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">scenarioName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scenarioName</span><span class="p">;</span>
+<span class="w">        </span><span class="n">setupWebDriver</span><span class="p">();</span>
+<span class="w">        </span><span class="n">setupAutoHeal</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setupWebDriver</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ChromeOptions</span><span class="w"> </span><span class="n">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromeOptions</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Configure based on environment</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;headless&quot;</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">options</span><span class="p">.</span><span class="na">addArguments</span><span class="p">(</span><span class="s">&quot;--headless&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">options</span><span class="p">.</span><span class="na">addArguments</span><span class="p">(</span><span class="s">&quot;--disable-web-security&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">options</span><span class="p">.</span><span class="na">addArguments</span><span class="p">(</span><span class="s">&quot;--no-sandbox&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">options</span><span class="p">.</span><span class="na">addArguments</span><span class="p">(</span><span class="s">&quot;--disable-dev-shm-usage&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">driver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromeDriver</span><span class="p">(</span><span class="n">options</span><span class="p">);</span>
+<span class="w">        </span><span class="n">driver</span><span class="p">.</span><span class="na">manage</span><span class="p">().</span><span class="na">window</span><span class="p">().</span><span class="na">maximize</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setupAutoHeal</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">AutoHealConfiguration</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoHealConfiguration</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">ai</span><span class="p">(</span><span class="n">AIConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">provider</span><span class="p">(</span><span class="n">AIProvider</span><span class="p">.</span><span class="na">OPENAI</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">apiKey</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">getenv</span><span class="p">(</span><span class="s">&quot;OPENAI_API_KEY&quot;</span><span class="p">))</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">reporting</span><span class="p">(</span><span class="n">ReportingConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">enabled</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">generateHTML</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">generateJSON</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">consoleLogging</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">reportNamePrefix</span><span class="p">(</span><span class="s">&quot;Cucumber_&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">scenarioName</span><span class="p">.</span><span class="na">replaceAll</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;_&quot;</span><span class="p">))</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">autoHeal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">withWebAdapter</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">SeleniumWebAutomationAdapter</span><span class="p">(</span><span class="n">driver</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="na">withConfiguration</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">cleanup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">autoHeal</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">shutdown</span><span class="p">();</span><span class="w"> </span><span class="c1">// Generate AutoHeal reports</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">driver</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">driver</span><span class="p">.</span><span class="na">quit</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Getters</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">WebDriver</span><span class="w"> </span><span class="nf">getDriver</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">driver</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="nf">getAutoHeal</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getScenarioName</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">scenarioName</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="cucumber-hooks">
+<h3>Cucumber Hooks<a class="headerlink" href="#cucumber-hooks" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nn">com.yourcompany.hooks</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.yourcompany.context.TestContext</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io.cucumber.java.After</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io.cucumber.java.Before</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io.cucumber.java.Scenario</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.openqa.selenium.OutputType</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.openqa.selenium.TakesScreenshot</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CucumberHooks</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">TestContext</span><span class="w"> </span><span class="n">testContext</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">CucumberHooks</span><span class="p">(</span><span class="n">TestContext</span><span class="w"> </span><span class="n">testContext</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">testContext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">testContext</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Before</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setUp</span><span class="p">(</span><span class="n">Scenario</span><span class="w"> </span><span class="n">scenario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Starting scenario: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">scenario</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">        </span><span class="n">testContext</span><span class="p">.</span><span class="na">initialize</span><span class="p">(</span><span class="n">scenario</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@After</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">tearDown</span><span class="p">(</span><span class="n">Scenario</span><span class="w"> </span><span class="n">scenario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Take screenshot if scenario failed</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">scenario</span><span class="p">.</span><span class="na">isFailed</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">testContext</span><span class="p">.</span><span class="na">getDriver</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="kt">byte</span><span class="o">[]</span><span class="w"> </span><span class="n">screenshot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">TakesScreenshot</span><span class="p">)</span><span class="w"> </span><span class="n">testContext</span><span class="p">.</span><span class="na">getDriver</span><span class="p">())</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">getScreenshotAs</span><span class="p">(</span><span class="n">OutputType</span><span class="p">.</span><span class="na">BYTES</span><span class="p">);</span>
+<span class="w">                </span><span class="n">scenario</span><span class="p">.</span><span class="na">attach</span><span class="p">(</span><span class="n">screenshot</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;image/png&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Screenshot&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Failed to capture screenshot: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// Log scenario completion</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scenario</span><span class="p">.</span><span class="na">isFailed</span><span class="p">()</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;FAILED&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PASSED&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Scenario &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">scenario</span><span class="p">.</span><span class="na">getName</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">status</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Cleanup resources</span>
+<span class="w">        </span><span class="n">testContext</span><span class="p">.</span><span class="na">cleanup</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Before</span><span class="p">(</span><span class="s">&quot;@smoke&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">beforeSmokeTest</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Running smoke test - ensuring critical functionality&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Before</span><span class="p">(</span><span class="s">&quot;@admin&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">beforeAdminTest</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Running admin test - additional security checks may apply&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@After</span><span class="p">(</span><span class="s">&quot;@report&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">afterReportTest</span><span class="p">(</span><span class="n">Scenario</span><span class="w"> </span><span class="n">scenario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Generate additional reports for scenarios tagged with @report</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Generating detailed report for: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">scenario</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="configuration-properties">
+<h3>Configuration Properties<a class="headerlink" href="#configuration-properties" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span><span class="w"> </span><span class="nn">com.yourcompany.config</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TestConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">BASE_URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;base.url&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;https://example.com&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">BROWSER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;browser&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;chrome&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">HEADLESS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Boolean</span><span class="p">.</span><span class="na">parseBoolean</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;headless&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;false&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">IMPLICIT_WAIT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;implicit.wait&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;10&quot;</span><span class="p">));</span>
+
+<span class="w">    </span><span class="c1">// AI Configuration</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">AI_PROVIDER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;ai.provider&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;OPENAI&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">OPENAI_API_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getenv</span><span class="p">(</span><span class="s">&quot;OPENAI_API_KEY&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Environment-specific configurations</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getLoginUrl</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">BASE_URL</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/login&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getProductsUrl</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">BASE_URL</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/products&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getAdminUrl</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">BASE_URL</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/admin&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="data-tables">
+<h2>Data Tables<a class="headerlink" href="#data-tables" title="Link to this heading">#</a></h2>
+<section id="using-data-tables-effectively">
+<h3>Using Data Tables Effectively<a class="headerlink" href="#using-data-tables-effectively" title="Link to this heading">#</a></h3>
+<div class="highlight-gherkin notranslate"><div class="highlight"><pre><span></span><span class="k">Feature:</span><span class="nf"> User Registration with Data Tables</span>
+
+<span class="nf">  @registration</span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Register multiple users with different roles</span>
+<span class="k">    Given </span><span class="nf">I am on the registration page</span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">I create users with the following details:</span>
+<span class="k">      |</span><span class="s"> firstName</span><span class="k"> |</span><span class="s"> lastName</span><span class="k"> |</span><span class="s"> email</span><span class="k">              |</span><span class="s"> role</span><span class="k">  |</span><span class="s"> department</span><span class="k"> |</span>
+<span class="k">      |</span><span class="s"> John</span><span class="k">      |</span><span class="s"> Doe</span><span class="k">      |</span><span class="s"> john@example.com</span><span class="k">   |</span><span class="s"> Admin</span><span class="k"> |</span><span class="s"> IT</span><span class="k">         |</span>
+<span class="k">      |</span><span class="s"> Jane</span><span class="k">      |</span><span class="s"> Smith</span><span class="k">    |</span><span class="s"> jane@example.com</span><span class="k">   |</span><span class="s"> User</span><span class="k">  |</span><span class="s"> Sales</span><span class="k">      |</span>
+<span class="k">      |</span><span class="s"> Bob</span><span class="k">       |</span><span class="s"> Johnson</span><span class="k">  |</span><span class="s"> bob@example.com</span><span class="k">    |</span><span class="s"> User</span><span class="k">  |</span><span class="s"> Marketing</span><span class="k">  |</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">all users should be created successfully</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">each user should have the correct role assigned</span>
+
+<span class="nf">  </span><span class="nt">@validation</span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Form validation with multiple field errors</span>
+<span class="k">    Given </span><span class="nf">I am on the registration page</span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">I submit the form with invalid data:</span>
+<span class="k">      |</span><span class="s"> field</span><span class="k">     |</span><span class="s"> value</span><span class="k">          |</span><span class="s"> expectedError</span><span class="k">              |</span>
+<span class="k">      |</span><span class="s"> email</span><span class="k">     |</span><span class="s"> invalid-email</span><span class="k">  |</span><span class="s"> Please enter a valid email</span><span class="k"> |</span>
+<span class="k">      |</span><span class="s"> password</span><span class="k">  |</span><span class="s"> 123</span><span class="k">            |</span><span class="s"> Password too short</span><span class="k">         |</span>
+<span class="k">      |</span><span class="s"> phone</span><span class="k">     |</span><span class="s"> abc123</span><span class="k">         |</span><span class="s"> Invalid phone number</span><span class="k">       |</span>
+<span class="k">      |</span><span class="s"> age</span><span class="k">       |</span><span class="s"> 150</span><span class="k">            |</span><span class="s"> Age must be realistic</span><span class="k">      |</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should see all validation errors displayed</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">the form should not be submitted</span>
+</pre></div>
+</div>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Step definition for data tables</span>
+<span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I create users with the following details:&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_create_users_with_the_following_details</span><span class="p">(</span><span class="n">DataTable</span><span class="w"> </span><span class="n">dataTable</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataTable</span><span class="p">.</span><span class="na">asMaps</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">users</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Navigate to add user page</span>
+<span class="w">        </span><span class="n">CreateUserPage</span><span class="w"> </span><span class="n">createUserPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">clickAddUser</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Fill form with user data</span>
+<span class="w">        </span><span class="n">createUserPage</span><span class="p">.</span><span class="na">fillUserForm</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Save user</span>
+<span class="w">        </span><span class="n">userManagementPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createUserPage</span><span class="p">.</span><span class="na">saveUser</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Verify success message</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">userManagementPage</span><span class="p">.</span><span class="na">getSuccessMessage</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;created successfully&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I submit the form with invalid data:&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_submit_the_form_with_invalid_data</span><span class="p">(</span><span class="n">DataTable</span><span class="w"> </span><span class="n">dataTable</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">validationTests</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataTable</span><span class="p">.</span><span class="na">asMaps</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">validationTests</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">field</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;field&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">expectedError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;expectedError&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Clear form and enter invalid value</span>
+<span class="w">        </span><span class="n">registrationPage</span><span class="p">.</span><span class="na">clearForm</span><span class="p">();</span>
+<span class="w">        </span><span class="n">registrationPage</span><span class="p">.</span><span class="na">enterFieldValue</span><span class="p">(</span><span class="n">field</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="w">        </span><span class="n">registrationPage</span><span class="p">.</span><span class="na">submitForm</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Verify error message</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">actualError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">registrationPage</span><span class="p">.</span><span class="na">getFieldError</span><span class="p">(</span><span class="n">field</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">expectedError</span><span class="p">,</span><span class="w"> </span><span class="n">actualError</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;Validation error mismatch for field: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">field</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="scenario-outlines">
+<h2>Scenario Outlines<a class="headerlink" href="#scenario-outlines" title="Link to this heading">#</a></h2>
+<section id="parameterized-testing">
+<h3>Parameterized Testing<a class="headerlink" href="#parameterized-testing" title="Link to this heading">#</a></h3>
+<div class="highlight-gherkin notranslate"><div class="highlight"><pre><span></span><span class="k">Feature:</span><span class="nf"> Login with Multiple Credentials</span>
+
+<span class="nf">  @parameterized</span>
+<span class="nf">  </span><span class="k">Scenario Outline:</span><span class="nf"> Login attempts with different credentials</span>
+<span class="k">    Given </span><span class="nf">I am on the login page</span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">I enter username &quot;</span><span class="nv">&lt;username&gt;</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I enter password &quot;</span><span class="nv">&lt;password&gt;</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">I click the login button</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should see the result &quot;</span><span class="nv">&lt;result&gt;</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">the page should be &quot;</span><span class="nv">&lt;expectedPage&gt;</span><span class="nf">&quot;</span>
+
+<span class="nf">    </span><span class="k">Examples:</span>
+<span class="k">      |</span><span class="nv"> username</span><span class="k">           |</span><span class="nv"> password</span><span class="k">      |</span><span class="nv"> result</span><span class="k">                    |</span><span class="nv"> expectedPage</span><span class="k"> |</span>
+<span class="k">      |</span><span class="s"> admin@example.com</span><span class="k">  |</span><span class="s"> validpass</span><span class="k">     |</span><span class="s"> Welcome, Admin</span><span class="k">           |</span><span class="s"> home</span><span class="k">         |</span>
+<span class="k">      |</span><span class="s"> user@example.com</span><span class="k">   |</span><span class="s"> validpass</span><span class="k">     |</span><span class="s"> Welcome, User</span><span class="k">            |</span><span class="s"> home</span><span class="k">         |</span>
+<span class="k">      |</span><span class="s"> admin@example.com</span><span class="k">  |</span><span class="s"> wrongpass</span><span class="k">     |</span><span class="s"> Invalid credentials</span><span class="k">      |</span><span class="s"> login</span><span class="k">        |</span>
+<span class="k">      |</span><span class="s"> invalid@email</span><span class="k">      |</span><span class="s"> validpass</span><span class="k">     |</span><span class="s"> Invalid email format</span><span class="k">     |</span><span class="s"> login</span><span class="k">        |</span>
+<span class="k">      |                    |</span><span class="s"> validpass</span><span class="k">     |</span><span class="s"> Username is required</span><span class="k">     |</span><span class="s"> login</span><span class="k">        |</span>
+<span class="k">      |</span><span class="s"> user@example.com</span><span class="k">   |               |</span><span class="s"> Password is required</span><span class="k">     |</span><span class="s"> login</span><span class="k">        |</span>
+
+<span class="nf">  </span><span class="nt">@boundary</span>
+<span class="nf">  </span><span class="k">Scenario Outline:</span><span class="nf"> Password strength validation</span>
+<span class="k">    Given </span><span class="nf">I am on the registration page</span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">I enter password &quot;</span><span class="nv">&lt;password&gt;</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">the password strength should be &quot;</span><span class="nv">&lt;strength&gt;</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">the registration button should be &quot;</span><span class="nv">&lt;buttonState&gt;</span><span class="nf">&quot;</span>
+
+<span class="nf">    </span><span class="k">Examples:</span>
+<span class="k">      |</span><span class="nv"> password</span><span class="k">           |</span><span class="nv"> strength</span><span class="k"> |</span><span class="nv"> buttonState</span><span class="k"> |</span>
+<span class="k">      |</span><span class="s"> 123</span><span class="k">                |</span><span class="s"> Weak</span><span class="k">     |</span><span class="s"> disabled</span><span class="k">    |</span>
+<span class="k">      |</span><span class="s"> password123</span><span class="k">        |</span><span class="s"> Fair</span><span class="k">     |</span><span class="s"> disabled</span><span class="k">    |</span>
+<span class="k">      |</span><span class="s"> Password123</span><span class="k">        |</span><span class="s"> Good</span><span class="k">     |</span><span class="s"> enabled</span><span class="k">     |</span>
+<span class="k">      |</span><span class="s"> Password123!</span><span class="k">       |</span><span class="s"> Strong</span><span class="k">   |</span><span class="s"> enabled</span><span class="k">     |</span>
+<span class="k">      |</span><span class="s"> P@ssw0rd123!</span><span class="k">       |</span><span class="s"> Strong</span><span class="k">   |</span><span class="s"> enabled</span><span class="k">     |</span>
+
+<span class="nf">  </span><span class="nt">@ecommerce</span>
+<span class="nf">  </span><span class="k">Scenario Outline:</span><span class="nf"> Product search with different terms</span>
+<span class="k">    Given </span><span class="nf">I am on the products page</span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">I search for &quot;</span><span class="nv">&lt;searchTerm&gt;</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should see &quot;</span><span class="nv">&lt;resultCount&gt;</span><span class="nf">&quot; products</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">the first product should contain &quot;</span><span class="nv">&lt;expectedText&gt;</span><span class="nf">&quot;</span>
+
+<span class="nf">    </span><span class="k">Examples:</span>
+<span class="k">      |</span><span class="nv"> searchTerm</span><span class="k"> |</span><span class="nv"> resultCount</span><span class="k"> |</span><span class="nv"> expectedText</span><span class="k"> |</span>
+<span class="k">      |</span><span class="s"> laptop</span><span class="k">     |</span><span class="s"> 5</span><span class="k">           |</span><span class="s"> Laptop</span><span class="k">       |</span>
+<span class="k">      |</span><span class="s"> phone</span><span class="k">      |</span><span class="s"> 8</span><span class="k">           |</span><span class="s"> Phone</span><span class="k">        |</span>
+<span class="k">      |</span><span class="s"> tablet</span><span class="k">     |</span><span class="s"> 3</span><span class="k">           |</span><span class="s"> Tablet</span><span class="k">       |</span>
+<span class="k">      |</span><span class="s"> mouse</span><span class="k">      |</span><span class="s"> 12</span><span class="k">          |</span><span class="s"> Mouse</span><span class="k">        |</span>
+<span class="k">      |</span><span class="s"> keyboard</span><span class="k">   |</span><span class="s"> 6</span><span class="k">           |</span><span class="s"> Keyboard</span><span class="k">     |</span>
+</pre></div>
+</div>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Step definitions for scenario outlines</span>
+<span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;I should see the result {string}&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_should_see_the_result</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">expectedResult</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">expectedResult</span><span class="p">.</span><span class="na">startsWith</span><span class="p">(</span><span class="s">&quot;Welcome&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Success case</span>
+<span class="w">        </span><span class="n">HomePage</span><span class="w"> </span><span class="n">homePage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HomePage</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">);</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">welcomeMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">homePage</span><span class="p">.</span><span class="na">getWelcomeMessage</span><span class="p">();</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">welcomeMessage</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="n">expectedResult</span><span class="p">.</span><span class="na">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">)),</span>
+<span class="w">            </span><span class="s">&quot;Welcome message should contain: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">expectedResult</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Error case</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">actualError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loginPage</span><span class="p">.</span><span class="na">getErrorMessage</span><span class="p">();</span>
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">expectedResult</span><span class="p">,</span><span class="w"> </span><span class="n">actualError</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Error message mismatch&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;the page should be {string}&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">the_page_should_be</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">expectedPage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;home&quot;</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">expectedPage</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">HomePage</span><span class="w"> </span><span class="n">homePage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HomePage</span><span class="p">(</span><span class="n">driver</span><span class="p">,</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">homePage</span><span class="p">.</span><span class="na">isLoaded</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Should be on home page&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;login&quot;</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">expectedPage</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">loginPage</span><span class="p">.</span><span class="na">isLoaded</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Should remain on login page&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;the password strength should be {string}&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">the_password_strength_should_be</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">expectedStrength</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">actualStrength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">registrationPage</span><span class="p">.</span><span class="na">getPasswordStrength</span><span class="p">();</span>
+<span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">expectedStrength</span><span class="p">,</span><span class="w"> </span><span class="n">actualStrength</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Password strength mismatch&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;the registration button should be {string}&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">the_registration_button_should_be</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">expectedState</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">boolean</span><span class="w"> </span><span class="n">isEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">registrationPage</span><span class="p">.</span><span class="na">isRegistrationButtonEnabled</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;enabled&quot;</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">expectedState</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">isEnabled</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Registration button should be enabled&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;disabled&quot;</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">expectedState</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">assertFalse</span><span class="p">(</span><span class="n">isEnabled</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Registration button should be disabled&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<section id="feature-organization">
+<h3>1. Feature Organization<a class="headerlink" href="#feature-organization" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>src/test/resources/features/
+├── authentication/
+│   ├── login.feature
+│   ├── logout.feature
+│   └── password-reset.feature
+├── user-management/
+│   ├── create-user.feature
+│   ├── edit-user.feature
+│   └── delete-user.feature
+├── ecommerce/
+│   ├── product-search.feature
+│   ├── shopping-cart.feature
+│   └── checkout.feature
+└── admin/
+    ├── dashboard.feature
+    └── reports.feature
+</pre></div>
+</div>
+</section>
+<section id="meaningful-tags">
+<h3>2. Meaningful Tags<a class="headerlink" href="#meaningful-tags" title="Link to this heading">#</a></h3>
+<div class="highlight-gherkin notranslate"><div class="highlight"><pre><span></span><span class="nt">@smoke</span><span class="nf"> </span><span class="nt">@login</span><span class="nf"> </span><span class="nt">@positive</span>
+<span class="k">Scenario:</span><span class="nf"> Successful login</span>
+
+<span class="nf">@regression @user-management @negative</span>
+<span class="nf">Scenario: Create user with duplicate email</span>
+
+<span class="nf">@integration @ecommerce @payment</span>
+<span class="nf">Scenario: Complete purchase flow</span>
+
+<span class="nf">@security @admin @authorization</span>
+<span class="nf">Scenario: Access control validation</span>
+</pre></div>
+</div>
+</section>
+<section id="step-definition-organization">
+<h3>3. Step Definition Organization<a class="headerlink" href="#step-definition-organization" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Organize by domain, not by page</span>
+<span class="kn">package</span><span class="w"> </span><span class="nn">com.yourcompany.stepdefinitions</span><span class="p">;</span>
+
+<span class="c1">// AuthenticationSteps.java - handles all auth-related steps</span>
+<span class="c1">// UserManagementSteps.java - handles user CRUD operations</span>
+<span class="c1">// EcommerceSteps.java - handles shopping and purchasing</span>
+<span class="c1">// CommonSteps.java - handles shared/generic steps</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CommonSteps</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Given</span><span class="p">(</span><span class="s">&quot;I wait for {int} seconds&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_wait_for_seconds</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">seconds</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* handle */</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Then</span><span class="p">(</span><span class="s">&quot;the page title should contain {string}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">the_page_title_should_contain</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">expectedTitle</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="na">getTitle</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="n">expectedTitle</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="error-handling-in-steps">
+<h3>4. Error Handling in Steps<a class="headerlink" href="#error-handling-in-steps" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@When</span><span class="p">(</span><span class="s">&quot;I perform an action that might fail&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">i_perform_an_action_that_might_fail</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Primary action with AutoHeal</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.dynamic-selector&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;target element&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">element</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Log the failure for debugging</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Primary action failed: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+
+<span class="w">        </span><span class="c1">// Try fallback approach</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">fallbackElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#fallback-selector&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;fallback element&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">fallbackElement</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="reporting-integration">
+<h3>5. Reporting Integration<a class="headerlink" href="#reporting-integration" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Enhanced hooks with AutoHeal reporting</span>
+<span class="nd">@After</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">tearDown</span><span class="p">(</span><span class="n">Scenario</span><span class="w"> </span><span class="n">scenario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Capture AutoHeal metrics</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">testContext</span><span class="p">.</span><span class="na">getAutoHeal</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">AutoHealMetrics</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">testContext</span><span class="p">.</span><span class="na">getAutoHeal</span><span class="p">().</span><span class="na">getMetrics</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Attach metrics to Cucumber report</span>
+<span class="w">        </span><span class="n">scenario</span><span class="p">.</span><span class="na">attach</span><span class="p">(</span>
+<span class="w">            </span><span class="n">metrics</span><span class="p">.</span><span class="na">toJson</span><span class="p">().</span><span class="na">getBytes</span><span class="p">(),</span>
+<span class="w">            </span><span class="s">&quot;application/json&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;AutoHeal Metrics&quot;</span>
+<span class="w">        </span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Log healing activities</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">metrics</span><span class="p">.</span><span class="na">getHealingCount</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">scenario</span><span class="p">.</span><span class="na">log</span><span class="p">(</span><span class="s">&quot;AutoHeal performed &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="na">getHealingCount</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; healing operations&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Generate reports</span>
+<span class="w">    </span><span class="n">testContext</span><span class="p">.</span><span class="na">cleanup</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="environment-configuration">
+<h3>6. Environment Configuration<a class="headerlink" href="#environment-configuration" title="Link to this heading">#</a></h3>
+<div class="highlight-gherkin notranslate"><div class="highlight"><pre><span></span><span class="c"># Run specific environments</span>
+<span class="nt">@dev</span>
+<span class="k">Scenario:</span><span class="nf"> Development environment test</span>
+
+<span class="nf">@staging</span>
+<span class="nf">Scenario: Staging environment test</span>
+
+<span class="nf">@prod</span>
+<span class="nf">Scenario: Production environment test</span>
+</pre></div>
+</div>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Environment-specific configuration</span>
+<span class="nd">@Before</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">configureEnvironment</span><span class="p">(</span><span class="n">Scenario</span><span class="w"> </span><span class="n">scenario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;test.env&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dev&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">environment</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&quot;dev&quot;</span><span class="p">:</span>
+<span class="w">            </span><span class="n">TestConfig</span><span class="p">.</span><span class="na">setBaseUrl</span><span class="p">(</span><span class="s">&quot;https://dev.example.com&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&quot;staging&quot;</span><span class="p">:</span>
+<span class="w">            </span><span class="n">TestConfig</span><span class="p">.</span><span class="na">setBaseUrl</span><span class="p">(</span><span class="s">&quot;https://staging.example.com&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="s">&quot;prod&quot;</span><span class="p">:</span>
+<span class="w">            </span><span class="n">TestConfig</span><span class="p">.</span><span class="na">setBaseUrl</span><span class="p">(</span><span class="s">&quot;https://example.com&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="parallel-execution">
+<h3>7. Parallel Execution<a class="headerlink" href="#parallel-execution" title="Link to this heading">#</a></h3>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Maven Surefire Plugin Configuration --&gt;</span>
+<span class="nt">&lt;plugin&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>3.0.0-M9<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;configuration&gt;</span>
+<span class="w">        </span><span class="nt">&lt;parallel&gt;</span>methods<span class="nt">&lt;/parallel&gt;</span>
+<span class="w">        </span><span class="nt">&lt;threadCount&gt;</span>3<span class="nt">&lt;/threadCount&gt;</span>
+<span class="w">        </span><span class="nt">&lt;properties&gt;</span>
+<span class="w">            </span><span class="nt">&lt;configurationParameters&gt;</span>
+<span class="w">                </span>cucumber.execution.parallel.enabled=true
+<span class="w">                </span>cucumber.execution.parallel.config.strategy=dynamic
+<span class="w">            </span><span class="nt">&lt;/configurationParameters&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/properties&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/configuration&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+</pre></div>
+</div>
+<p>This comprehensive Cucumber integration guide demonstrates how AutoHeal enhances BDD testing by providing reliable element location even when application selectors change, ensuring your behavior-driven tests remain stable and maintainable.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  <div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item">
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="page-object-examples.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Page Object Model Examples</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../advanced/cost-optimization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">AutoHeal Cost Optimization Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+                </footer>
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-setup">Basic Setup</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-runner">Test Runner</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-files">Feature Files</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#login-feature">Login Feature</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#e-commerce-feature">E-commerce Feature</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#admin-dashboard-feature">Admin Dashboard Feature</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-definitions">Step Definitions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#login-step-definitions">Login Step Definitions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#e-commerce-step-definitions">E-commerce Step Definitions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#admin-step-definitions">Admin Step Definitions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hooks-and-configuration">Hooks and Configuration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-context">Test Context</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cucumber-hooks">Cucumber Hooks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-properties">Configuration Properties</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-tables">Data Tables</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-data-tables-effectively">Using Data Tables Effectively</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario-outlines">Scenario Outlines</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameterized-testing">Parameterized Testing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-organization">1. Feature Organization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaningful-tags">2. Meaningful Tags</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-definition-organization">3. Step Definition Organization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-handling-in-steps">4. Error Handling in Steps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reporting-integration">5. Reporting Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-configuration">6. Environment Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-execution">7. Parallel Execution</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/docs/user-guide/examples/cucumber-examples.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, AutoHeal Team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

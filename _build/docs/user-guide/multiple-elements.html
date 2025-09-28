@@ -1,0 +1,1269 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Handling Multiple Elements - Smart Disambiguation &#8212; AutoHeal Locator</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=9e0c438f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=51b770b3"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=d1c4098b"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/user-guide/multiple-elements';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Selenium Integration Examples" href="examples/selenium-examples.html" />
+    <link rel="prev" title="AutoHeal Reporting System" href="reporting.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="AutoHeal Locator - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="AutoHeal Locator - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation.html">
+    Installation Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="quick-start.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="ai-configuration.html">
+    AI Configuration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="selenium-integration.html">
+    AutoHeal Locator - Complete Selenium Usage Guide
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="playwright-integration.html">
+    Playwright AutoHeal Integration Guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="spring-boot-integration.html">
+    Spring Boot Integration
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="performance.html">
+    Performance Optimization Guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="reporting.html">
+    AutoHeal Reporting System
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="#">
+    Handling Multiple Elements - Smart Disambiguation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="examples/selenium-examples.html">
+    Selenium Integration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="examples/page-object-examples.html">
+    Page Object Model Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="examples/cucumber-examples.html">
+    Cucumber Integration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../advanced/cost-optimization.html">
+    AutoHeal Cost Optimization Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../advanced/architecture.html">
+    Architecture Overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../advanced/configuration-reference.html">
+    AutoHeal AI Configuration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../advanced/troubleshooting.html">
+    Troubleshooting Guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contributing/development.html">
+    Development Guide
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator" title="Maven Central" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Maven Central</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://javadoc.io/doc/com.autoheal/autoheal-locator" title="JavaDoc" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-book fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">JavaDoc</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation.html">
+    Installation Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="quick-start.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="ai-configuration.html">
+    AI Configuration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="selenium-integration.html">
+    AutoHeal Locator - Complete Selenium Usage Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="playwright-integration.html">
+    Playwright AutoHeal Integration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="spring-boot-integration.html">
+    Spring Boot Integration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="performance.html">
+    Performance Optimization Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="reporting.html">
+    AutoHeal Reporting System
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Handling Multiple Elements - Smart Disambiguation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples/selenium-examples.html">
+    Selenium Integration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples/page-object-examples.html">
+    Page Object Model Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples/cucumber-examples.html">
+    Cucumber Integration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../advanced/cost-optimization.html">
+    AutoHeal Cost Optimization Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../advanced/architecture.html">
+    Architecture Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../advanced/configuration-reference.html">
+    AutoHeal AI Configuration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../advanced/troubleshooting.html">
+    Troubleshooting Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributing/development.html">
+    Development Guide
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator" title="Maven Central" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Maven Central</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://javadoc.io/doc/com.autoheal/autoheal-locator" title="JavaDoc" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-book fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">JavaDoc</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="AutoHeal Locator - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="AutoHeal Locator - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+        <div class="sidebar-primary-item">
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">User Guide</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ai-configuration.html">AI Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selenium-integration.html">AutoHeal Locator - Complete Selenium Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="playwright-integration.html">Playwright AutoHeal Integration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spring-boot-integration.html">Spring Boot Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Optimization Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reporting.html">AutoHeal Reporting System</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Handling Multiple Elements - Smart Disambiguation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/selenium-examples.html">Selenium Integration Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/page-object-examples.html">Page Object Model Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/cucumber-examples.html">Cucumber Integration Examples</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cost-optimization.html">AutoHeal Cost Optimization Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/architecture.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/configuration-reference.html">AutoHeal AI Configuration Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development Guide</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><nav class="sidebar-indices-items" aria-labelledby="pst-indices-navigation-heading-2">
+  <p id="pst-indices-navigation-heading-2" class="sidebar-indices-items__title" role="heading" aria-level="1">Indices</p>
+  <ul class="indices-link">
+        <li class="toctree-l1">
+          <a class="reference internal"
+             href="../../genindex.html"
+             accesskey="I">General Index</a>
+        </li>
+  </ul>
+</nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Handling Multiple Elements - Smart Disambiguation</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="handling-multiple-elements-smart-disambiguation">
+<h1>Handling Multiple Elements - Smart Disambiguation<a class="headerlink" href="#handling-multiple-elements-smart-disambiguation" title="Link to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>When multiple elements match the same locator, AutoHeal’s AI uses contextual descriptions to intelligently select the correct element. This eliminates the need for complex, brittle selectors and makes tests more maintainable.</p>
+</section>
+<hr class="docutils" />
+<section id="how-ai-disambiguation-works">
+<h2>How AI Disambiguation Works<a class="headerlink" href="#how-ai-disambiguation-works" title="Link to this heading">#</a></h2>
+<section id="context-based-selection">
+<h3>1. Context-Based Selection<a class="headerlink" href="#context-based-selection" title="Link to this heading">#</a></h3>
+<p>AutoHeal analyzes the element description to understand the intended context:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Page has multiple &quot;Submit&quot; buttons - AI selects based on description</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">orderSubmit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Submit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;submit order button in checkout form&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">reviewSubmit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Submit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;submit review button in product page&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">contactSubmit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Submit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;submit contact form button&quot;</span><span class="p">);</span>
+
+<span class="c1">// ✅ &quot;checkout form&quot; → AI finds submit button within checkout context</span>
+<span class="c1">// ✅ &quot;product page&quot; → AI finds submit button in review section</span>
+<span class="c1">// ✅ &quot;contact form&quot; → AI finds submit button in contact section</span>
+</pre></div>
+</div>
+</section>
+<section id="location-based-disambiguation">
+<h3>2. Location-Based Disambiguation<a class="headerlink" href="#location-based-disambiguation" title="Link to this heading">#</a></h3>
+<p>AI considers the element’s position and surrounding context:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Multiple &quot;Edit&quot; buttons on a user management page</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">editProfile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Edit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;edit button next to user profile&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">editSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Edit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;edit button in settings section&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">editPreferences</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Edit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;edit button at bottom of preferences&quot;</span><span class="p">);</span>
+
+<span class="c1">// AI-powered analysis finds the correct &quot;Edit&quot; button based on location</span>
+</pre></div>
+</div>
+</section>
+<section id="semantic-understanding">
+<h3>3. Semantic Understanding<a class="headerlink" href="#semantic-understanding" title="Link to this heading">#</a></h3>
+<p>AutoHeal understands business context and common UI patterns:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// E-commerce site with multiple &quot;Add to Cart&quot; buttons</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">addMainProduct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Add to Cart&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;add main product to cart&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">addAccessory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Add to Cart&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;add recommended accessory to cart&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">addWarranty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Add to Cart&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;add extended warranty to cart&quot;</span><span class="p">);</span>
+
+<span class="c1">// AI understands &quot;main product&quot;, &quot;accessory&quot;, &quot;warranty&quot; contexts</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="common-disambiguation-scenarios">
+<h2>Common Disambiguation Scenarios<a class="headerlink" href="#common-disambiguation-scenarios" title="Link to this heading">#</a></h2>
+<section id="form-buttons">
+<h3>1. Form Buttons<a class="headerlink" href="#form-buttons" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Registration form with multiple buttons</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">createAccount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Create Account&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;create new account button&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">loginInstead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Sign In&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sign in instead button&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">forgotPassword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Forgot Password&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;forgot password link&quot;</span><span class="p">);</span>
+
+<span class="c1">// Payment form with multiple submit options</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">payNow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Pay Now&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pay now button for immediate payment&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">payLater</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Pay Later&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pay later option button&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">saveDraft</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Save Draft&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;save order as draft button&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="navigation-elements">
+<h3>2. Navigation Elements<a class="headerlink" href="#navigation-elements" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Multiple &quot;Home&quot; links in different navigation areas</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">mainNavHome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Home&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;home link in main navigation&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">breadcrumbHome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Home&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;home link in breadcrumb navigation&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">footerHome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Home&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;home link in footer&quot;</span><span class="p">);</span>
+
+<span class="c1">// Tabs with similar names</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">personalInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Personal&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;personal information tab&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">personalPrefs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Personal&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;personal preferences tab&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="data-tables">
+<h3>3. Data Tables<a class="headerlink" href="#data-tables" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Table with multiple action buttons per row</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">editUser1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Edit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;edit button for John Doe user row&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">editUser2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Edit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;edit button for Jane Smith user row&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">deleteUser1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Delete&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;delete button for John Doe user row&quot;</span><span class="p">);</span>
+
+<span class="c1">// AI uses surrounding table data to identify the correct row</span>
+</pre></div>
+</div>
+</section>
+<section id="modal-dialogs">
+<h3>4. Modal Dialogs<a class="headerlink" href="#modal-dialogs" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Multiple modals with similar buttons</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">confirmDelete</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Confirm&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;confirm button in delete confirmation dialog&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">confirmSave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Confirm&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;confirm button in save changes dialog&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">confirmLogout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Confirm&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;confirm button in logout confirmation&quot;</span><span class="p">);</span>
+
+<span class="c1">// AI identifies the active modal and its context</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="best-practices-for-descriptions">
+<h2>Best Practices for Descriptions<a class="headerlink" href="#best-practices-for-descriptions" title="Link to this heading">#</a></h2>
+<section id="include-context-information">
+<h3>1. Include Context Information<a class="headerlink" href="#include-context-information" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// ❌ Vague descriptions - Hard to disambiguate</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Submit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;submit button&quot;</span><span class="p">);</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Edit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;edit button&quot;</span><span class="p">);</span>
+
+<span class="c1">// ✅ Contextual descriptions - Easy to disambiguate</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Submit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;submit button in contact form&quot;</span><span class="p">);</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Edit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;edit button in user profile section&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="specify-location-when-helpful">
+<h3>2. Specify Location When Helpful<a class="headerlink" href="#specify-location-when-helpful" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✅ Include location context</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Search&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;search button in header navigation&quot;</span><span class="p">);</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Search&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;search button in product filter sidebar&quot;</span><span class="p">);</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Add&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;add item button at top of shopping list&quot;</span><span class="p">);</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Add&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;add item button at bottom of shopping list&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="mention-surrounding-elements">
+<h3>3. Mention Surrounding Elements<a class="headerlink" href="#mention-surrounding-elements" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✅ Reference nearby elements for context</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Save&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;save button next to cancel button&quot;</span><span class="p">);</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Next&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;next button below form fields&quot;</span><span class="p">);</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Upload&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;upload button in file attachment area&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="use-business-terminology">
+<h3>4. Use Business Terminology<a class="headerlink" href="#use-business-terminology" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✅ Use domain-specific language</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Checkout&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;checkout button in shopping cart&quot;</span><span class="p">);</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Apply&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;apply coupon code button&quot;</span><span class="p">);</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Subscribe&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;subscribe to newsletter button in footer&quot;</span><span class="p">);</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Book Now&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;book appointment button for dentist&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="advanced-disambiguation-techniques">
+<h2>Advanced Disambiguation Techniques<a class="headerlink" href="#advanced-disambiguation-techniques" title="Link to this heading">#</a></h2>
+<section id="hierarchical-context">
+<h3>1. Hierarchical Context<a class="headerlink" href="#hierarchical-context" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Multi-level context for complex pages</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">saveProfile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Save&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;save button in personal information section of user profile page&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">saveSettings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Save&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;save button in notification preferences section of settings page&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="temporal-context">
+<h3>2. Temporal Context<a class="headerlink" href="#temporal-context" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Time-based disambiguation</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">morningSlot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Book&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;book 9 AM appointment slot&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">afternoonSlot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Book&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;book 2 PM appointment slot&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">emergencySlot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Book&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;book emergency appointment slot&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="state-based-selection">
+<h3>3. State-Based Selection<a class="headerlink" href="#state-based-selection" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Select based on element state or content</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">activeTab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Dashboard&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;active dashboard tab&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">inactiveTab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Reports&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;inactive reports tab&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">enabledBtn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Process&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;enabled process button&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">disabledBtn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Process&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;disabled process button&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="working-with-lists-and-collections">
+<h2>Working with Lists and Collections<a class="headerlink" href="#working-with-lists-and-collections" title="Link to this heading">#</a></h2>
+<section id="specific-item-selection">
+<h3>1. Specific Item Selection<a class="headerlink" href="#specific-item-selection" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Select specific items from lists</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">firstProduct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Add to Cart&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;add to cart button for first product in search results&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">lastProduct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Add to Cart&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;add to cart button for last product in search results&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">featuredProduct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Add to Cart&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;add to cart button for featured product&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="category-based-selection">
+<h3>2. Category-Based Selection<a class="headerlink" href="#category-based-selection" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Select based on category or type</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">electronicsFilter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Electronics&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;electronics category filter in product search&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">clothingFilter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Clothing&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;clothing category filter in product search&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="dynamic-list-handling">
+<h3>3. Dynamic List Handling<a class="headerlink" href="#dynamic-list-handling" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Handle dynamically generated lists</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">newMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Reply&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;reply button for newest message in inbox&quot;</span><span class="p">);</span>
+<span class="n">WebElement</span><span class="w"> </span><span class="n">importantMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Reply&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;reply button for message marked as important&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="debugging-disambiguation">
+<h2>Debugging Disambiguation<a class="headerlink" href="#debugging-disambiguation" title="Link to this heading">#</a></h2>
+<section id="enable-debug-logging">
+<h3>1. Enable Debug Logging<a class="headerlink" href="#enable-debug-logging" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">AutoHealConfiguration</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoHealConfiguration</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">logging</span><span class="p">(</span><span class="n">LoggingConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="na">logAIRequests</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">logDisambiguationDetails</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">verboseLogging</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">build</span><span class="p">())</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="c1">// Logs will show:</span>
+<span class="c1">// - Number of matching elements found</span>
+<span class="c1">// - AI reasoning for element selection</span>
+<span class="c1">// - Confidence scores for each candidate</span>
+</pre></div>
+</div>
+</section>
+<section id="review-healing-reports">
+<h3>2. Review Healing Reports<a class="headerlink" href="#review-healing-reports" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Generate detailed reports</span>
+<span class="p">.</span><span class="na">reporting</span><span class="p">(</span><span class="n">ReportingConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">enabled</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">generateHTML</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">includeDisambiguationDetails</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">())</span>
+
+<span class="c1">// Reports include:</span>
+<span class="c1">// - Screenshots showing all matching elements</span>
+<span class="c1">// - AI decision reasoning</span>
+<span class="c1">// - Alternative elements considered</span>
+<span class="c1">// - Confidence scores and selection criteria</span>
+</pre></div>
+</div>
+</section>
+<section id="test-disambiguation-logic">
+<h3>3. Test Disambiguation Logic<a class="headerlink" href="#test-disambiguation-logic" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">testButtonDisambiguation</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Test page with multiple &quot;Save&quot; buttons</span>
+<span class="w">    </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://example.com/user-profile&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Should find profile save button</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">profileSave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Save&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;save button in profile information section&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Should find settings save button</span>
+<span class="w">    </span><span class="n">WebElement</span><span class="w"> </span><span class="n">settingsSave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Save&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;save button in account settings section&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Verify different elements were selected</span>
+<span class="w">    </span><span class="n">assertNotEquals</span><span class="p">(</span><span class="n">profileSave</span><span class="p">,</span><span class="w"> </span><span class="n">settingsSave</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Verify correct sections</span>
+<span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">profileSave</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;Save Profile&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">||</span>
+<span class="w">               </span><span class="n">profileSave</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="n">By</span><span class="p">.</span><span class="na">xpath</span><span class="p">(</span><span class="s">&quot;./ancestor::*[@class*=&#39;profile&#39;]&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="performance-considerations">
+<h2>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading">#</a></h2>
+<section id="disambiguation-caching">
+<h3>1. Disambiguation Caching<a class="headerlink" href="#disambiguation-caching" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// AI disambiguation results are cached to improve performance</span>
+<span class="n">AutoHealConfiguration</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoHealConfiguration</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">cache</span><span class="p">(</span><span class="n">CacheConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="na">enabled</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">cacheDisambiguationResults</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w">  </span><span class="c1">// Cache AI decisions</span>
+<span class="w">        </span><span class="p">.</span><span class="na">maxSize</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">build</span><span class="p">())</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="c1">// Subsequent calls with same description will use cached results</span>
+</pre></div>
+</div>
+</section>
+<section id="optimize-descriptions">
+<h3>2. Optimize Descriptions<a class="headerlink" href="#optimize-descriptions" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// ✅ Concise but descriptive</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Submit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;submit order form&quot;</span><span class="p">);</span>
+
+<span class="c1">// ❌ Unnecessarily verbose - slower AI processing</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Submit&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;the submit button that is used to submit the order form when the user wants to complete their purchase after filling in all the required fields&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="batch-disambiguation">
+<h3>3. Batch Disambiguation<a class="headerlink" href="#batch-disambiguation" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// When finding multiple related elements, batch the requests</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">LocatorRequest</span><span class="o">&gt;</span><span class="w"> </span><span class="n">requests</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">LocatorRequest</span><span class="p">(</span><span class="s">&quot;Edit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;edit user profile button&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">LocatorRequest</span><span class="p">(</span><span class="s">&quot;Edit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;edit user settings button&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="n">LocatorRequest</span><span class="p">(</span><span class="s">&quot;Delete&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;delete user account button&quot;</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="n">List</span><span class="o">&lt;</span><span class="n">WebElement</span><span class="o">&gt;</span><span class="w"> </span><span class="n">elements</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElementsBatch</span><span class="p">(</span><span class="n">requests</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="troubleshooting-common-issues">
+<h2>Troubleshooting Common Issues<a class="headerlink" href="#troubleshooting-common-issues" title="Link to this heading">#</a></h2>
+<section id="incorrect-element-selected">
+<h3>1. Incorrect Element Selected<a class="headerlink" href="#incorrect-element-selected" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: AI selects wrong element despite good description</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add more specific context</span>
+<span class="c1">// Instead of:</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Save&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;save button&quot;</span><span class="p">);</span>
+
+<span class="c1">// Use:</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Save&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;save button in the blue form at the top of the page&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="disambiguation-too-slow">
+<h3>2. Disambiguation Too Slow<a class="headerlink" href="#disambiguation-too-slow" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: AI takes too long to disambiguate</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Use more specific selectors when possible</span>
+<span class="c1">// Instead of:</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;button&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;submit button&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// Many button elements</span>
+
+<span class="c1">// Use:</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;input[type=&#39;submit&#39;]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;submit button&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// Fewer matches</span>
+</pre></div>
+</div>
+</section>
+<section id="inconsistent-selection">
+<h3>3. Inconsistent Selection<a class="headerlink" href="#inconsistent-selection" title="Link to this heading">#</a></h3>
+<p><strong>Problem</strong>: Same description returns different elements on different runs</p>
+<p><strong>Solution</strong>:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Make descriptions more deterministic</span>
+<span class="c1">// Instead of:</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Save&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;save button&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// Ambiguous</span>
+
+<span class="c1">// Use:</span>
+<span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Save&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;save button in user profile form&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// Specific context</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="performance.html"><span class="std std-doc">Performance Optimization</span></a> - Optimize disambiguation performance</p></li>
+<li><p><a class="reference internal" href="#./examples/"><span class="xref myst">Usage Examples</span></a> - See more real-world disambiguation scenarios</p></li>
+<li><p><a class="reference internal" href="#./troubleshooting.md"><span class="xref myst">Troubleshooting Guide</span></a> - Debug disambiguation issues</p></li>
+</ol>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  <div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item">
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="reporting.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">AutoHeal Reporting System</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="examples/selenium-examples.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Selenium Integration Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+                </footer>
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-ai-disambiguation-works">How AI Disambiguation Works</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#context-based-selection">1. Context-Based Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#location-based-disambiguation">2. Location-Based Disambiguation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#semantic-understanding">3. Semantic Understanding</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-disambiguation-scenarios">Common Disambiguation Scenarios</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#form-buttons">1. Form Buttons</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navigation-elements">2. Navigation Elements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-tables">3. Data Tables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modal-dialogs">4. Modal Dialogs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-for-descriptions">Best Practices for Descriptions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#include-context-information">1. Include Context Information</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specify-location-when-helpful">2. Specify Location When Helpful</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mention-surrounding-elements">3. Mention Surrounding Elements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-business-terminology">4. Use Business Terminology</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-disambiguation-techniques">Advanced Disambiguation Techniques</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hierarchical-context">1. Hierarchical Context</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-context">2. Temporal Context</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#state-based-selection">3. State-Based Selection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-lists-and-collections">Working with Lists and Collections</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specific-item-selection">1. Specific Item Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#category-based-selection">2. Category-Based Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-list-handling">3. Dynamic List Handling</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-disambiguation">Debugging Disambiguation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-debug-logging">1. Enable Debug Logging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#review-healing-reports">2. Review Healing Reports</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-disambiguation-logic">3. Test Disambiguation Logic</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-considerations">Performance Considerations</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disambiguation-caching">1. Disambiguation Caching</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimize-descriptions">2. Optimize Descriptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-disambiguation">3. Batch Disambiguation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting-common-issues">Troubleshooting Common Issues</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#incorrect-element-selected">1. Incorrect Element Selected</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disambiguation-too-slow">2. Disambiguation Too Slow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inconsistent-selection">3. Inconsistent Selection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/docs/user-guide/multiple-elements.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, AutoHeal Team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

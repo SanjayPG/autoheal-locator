@@ -1,0 +1,2933 @@
+# AutoHeal Locator - Complete Selenium Usage Guide
+
+[![Build Status](https://github.com/autoheal/autoheal-locator/workflows/CI/badge.svg)](https://github.com/autoheal/autoheal-locator/actions)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A comprehensive guide to using AutoHeal Locator with Selenium WebDriver for enterprise-grade test automation with AI-powered self-healing capabilities.
+
+## Table of Contents
+- [Quick Start](#quick-start)
+- [Installation](#installation)
+- [Basic Usage](#basic-usage)
+- [Creating Selenium Wrappers](#creating-selenium-wrappers)
+- [Advanced Configuration](#advanced-configuration)
+- [AI Service Configuration](#ai-service-configuration)
+- [Page Object Model Integration](#page-object-model-integration)
+- [Test Framework Integration](#test-framework-integration)
+- [Monitoring & Metrics](#monitoring--metrics)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
+
+## Quick Start
+
+### Step 1: Add Maven Dependency
+
+```xml
+<dependencies>
+    <!-- AutoHeal Locator -->
+    <dependency>
+        <groupId>org.example</groupId>
+        <artifactId>autoheal-locator</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </dependency>
+    
+    <!-- Selenium WebDriver -->
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>4.15.0</version>
+    </dependency>
+    
+    <!-- Optional: AI Service Dependencies -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.16.0</version>
+    </dependency>
+</dependencies>
+```
+
+### Step 2: Basic Setup
+
+```java
+import com.autoheal.AutoHealLocator;
+import com.autoheal.config.AutoHealConfiguration;
+import com.autoheal.impl.adapter.SeleniumWebAutomationAdapter;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class BasicAutoHealExample {
+    public static void main(String[] args) {
+        // Initialize WebDriver
+        WebDriver driver = new ChromeDriver();
+        
+        // Create AutoHeal instance with simple constructor
+        AutoHealLocator autoHeal = new AutoHealLocator(driver);
+        
+        try {
+            driver.get("https://example.com");
+            
+            // Find element with healing capabilities
+            WebElement submitButton = autoHeal.findElement("#submit-btn", "Submit button");
+            submitButton.click();
+            
+        } finally {
+            autoHeal.shutdown();
+            driver.quit();
+        }
+    }
+}
+```
+
+## Installation
+
+### Maven Configuration
+
+```xml
+<project>
+    <properties>
+        <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>15</maven.compiler.target>
+        <selenium.version>4.15.0</selenium.version>
+        <autoheal.version>1.0-SNAPSHOT</autoheal.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>autoheal-locator</artifactId>
+            <version>${autoheal.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+    </dependencies>
+</project>
+```
+
+### Gradle Configuration
+
+```gradle
+dependencies {
+    implementation 'org.example:autoheal-locator:1.0-SNAPSHOT'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.15.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.0'
+}
+```
+
+## Basic Usage
+
+### Simple Element Location
+
+```java
+import com.autoheal.AutoHealLocator;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class SimpleExample {
+    private WebDriver driver;
+    private AutoHealLocator autoHeal;
+    
+    public void setUp() {
+        driver = new ChromeDriver();
+        autoHeal = new AutoHealLocator(driver);
+    }
+    
+    public void testLogin() {
+        driver.get("https://saucedemo.com");
+        
+        // AutoHeal will try original selector first, then AI healing if it fails
+        WebElement usernameField = autoHeal.findElement("#user-name", "Username input field");
+        WebElement passwordField = autoHeal.findElement("#password", "Password input field");
+        WebElement loginButton = autoHeal.findElement("#login-button", "Login submit button");
+        
+        usernameField.sendKeys("standard_user");
+        passwordField.sendKeys("secret_sauce");
+        loginButton.click();
+    }
+    
+    public void tearDown() {
+        autoHeal.shutdown();
+        driver.quit();
+    }
+}
+```
+
+### Async Operations
+
+```java
+import java.util.concurrent.CompletableFuture;
+import java.util.List;
+
+public class AsyncExample {
+    private AutoHealLocator autoHeal;
+    
+    public void performAsyncOperations() {
+        // Find multiple elements asynchronously
+        CompletableFuture<WebElement> username = autoHeal.findElementAsync("#username", "Username field");
+        CompletableFuture<WebElement> password = autoHeal.findElementAsync("#password", "Password field");
+        CompletableFuture<WebElement> submit = autoHeal.findElementAsync("#submit", "Submit button");
+        
+        // Execute all operations in parallel
+        CompletableFuture.allOf(username, password, submit)
+            .thenRun(() -> {
+                try {
+                    username.get().sendKeys("testuser");
+                    password.get().sendKeys("testpass");
+                    submit.get().click();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        
+        // Check element presence without exceptions
+        CompletableFuture<Boolean> isElementPresent = autoHeal
+            .isElementPresentAsync("#optional-element", "Optional element");
+        
+        isElementPresent.thenAccept(present -> {
+            if (present) {
+                System.out.println("Optional element is present");
+            }
+        });
+    }
+}
+```
+
+## Creating Selenium Wrappers
+
+### Basic Selenium Wrapper Class
+
+```java
+package com.example.wrapper;
+
+import com.autoheal.AutoHealLocator;
+import com.autoheal.config.AutoHealConfiguration;
+import com.autoheal.config.AIConfig;
+import com.autoheal.config.CacheConfig;
+import com.autoheal.config.PerformanceConfig;
+import com.autoheal.impl.adapter.SeleniumWebAutomationAdapter;
+import com.autoheal.model.AIProvider;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.time.Duration;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+/**
+ * Enhanced Selenium wrapper with AutoHeal capabilities
+ */
+public class AutoHealSeleniumWrapper {
+    private static final Logger logger = LoggerFactory.getLogger(AutoHealSeleniumWrapper.class);
+    
+    private final WebDriver driver;
+    private final AutoHealLocator autoHeal;
+    private final SeleniumWebAutomationAdapter adapter;
+    
+    public AutoHealSeleniumWrapper(WebDriver driver) {
+        this.driver = driver;
+        this.adapter = new SeleniumWebAutomationAdapter(driver);
+        this.autoHeal = createConfiguredAutoHeal();
+        
+        logger.info("AutoHealSeleniumWrapper initialized for driver: {}", 
+                   driver.getClass().getSimpleName());
+    }
+    
+    /**
+     * Create AutoHeal with optimized configuration
+     */
+    private AutoHealLocator createConfiguredAutoHeal() {
+        AutoHealConfiguration config = AutoHealConfiguration.builder()
+            .cache(CacheConfig.builder()
+                .maximumSize(10000)
+                .expireAfterWrite(Duration.ofHours(24))
+                .expireAfterAccess(Duration.ofHours(2))
+                .recordStats(true)
+                .build())
+            .ai(AIConfig.builder()
+                .provider(AIProvider.OPENAI)
+                .timeout(Duration.ofSeconds(30))
+                .maxRetries(3)
+                .visualAnalysisEnabled(false) // Enable if you have AI visual analysis
+                .build())
+            .performance(PerformanceConfig.builder()
+                .threadPoolSize(8)
+                .elementTimeout(Duration.ofSeconds(10))
+                .enableMetrics(true)
+                .build())
+            .build();
+            
+        return AutoHealLocator.builder()
+            .withWebAdapter(adapter)
+            .withConfiguration(config)
+            .build();
+    }
+    
+    // ==================== ENHANCED ELEMENT FINDING METHODS ====================
+    
+    /**
+     * Find element with AutoHeal - synchronous
+     */
+    public WebElement findElement(String selector, String description) {
+        try {
+            WebElement element = autoHeal.findElement(selector, description);
+            logger.debug("Found element '{}' using selector: {}", description, selector);
+            return element;
+        } catch (Exception e) {
+            logger.error("Failed to find element '{}' with selector '{}': {}", 
+                        description, selector, e.getMessage());
+            throw e;
+        }
+    }
+    
+    /**
+     * Find element with AutoHeal - asynchronous
+     */
+    public CompletableFuture<WebElement> findElementAsync(String selector, String description) {
+        return autoHeal.findElementAsync(selector, description)
+            .whenComplete((element, throwable) -> {
+                if (throwable != null) {
+                    logger.error("Async element finding failed for '{}': {}", 
+                               description, throwable.getMessage());
+                } else {
+                    logger.debug("Async found element '{}' using selector: {}", description, selector);
+                }
+            });
+    }
+    
+    /**
+     * Find multiple elements with AutoHeal
+     */
+    public CompletableFuture<List<WebElement>> findElements(String selector, String description) {
+        return autoHeal.findElementsAsync(selector, description);
+    }
+    
+    /**
+     * Check if element exists without throwing exceptions
+     */
+    public boolean isElementPresent(String selector, String description) {
+        try {
+            return autoHeal.isElementPresentAsync(selector, description).get();
+        } catch (Exception e) {
+            logger.debug("Element presence check failed for '{}': {}", description, e.getMessage());
+            return false;
+        }
+    }
+    
+    // ==================== ENHANCED INTERACTION METHODS ====================
+    
+    /**
+     * Click element with AutoHeal
+     */
+    public void click(String selector, String description) {
+        WebElement element = findElement(selector, description);
+        element.click();
+        logger.info("Clicked on element: {}", description);
+    }
+    
+    /**
+     * Type text into element with AutoHeal
+     */
+    public void sendKeys(String selector, String text, String description) {
+        WebElement element = findElement(selector, description);
+        element.clear();
+        element.sendKeys(text);
+        logger.info("Typed '{}' into element: {}", text, description);
+    }
+    
+    /**
+     * Get text from element with AutoHeal
+     */
+    public String getText(String selector, String description) {
+        WebElement element = findElement(selector, description);
+        String text = element.getText();
+        logger.debug("Retrieved text '{}' from element: {}", text, description);
+        return text;
+    }
+    
+    /**
+     * Get attribute value with AutoHeal
+     */
+    public String getAttribute(String selector, String attributeName, String description) {
+        WebElement element = findElement(selector, description);
+        String value = element.getAttribute(attributeName);
+        logger.debug("Retrieved attribute '{}' = '{}' from element: {}", 
+                    attributeName, value, description);
+        return value;
+    }
+    
+    /**
+     * Check if element is displayed
+     */
+    public boolean isDisplayed(String selector, String description) {
+        try {
+            WebElement element = findElement(selector, description);
+            boolean displayed = element.isDisplayed();
+            logger.debug("Element '{}' displayed: {}", description, displayed);
+            return displayed;
+        } catch (Exception e) {
+            logger.debug("Element '{}' not displayed or not found: {}", description, e.getMessage());
+            return false;
+        }
+    }
+    
+    /**
+     * Check if element is enabled
+     */
+    public boolean isEnabled(String selector, String description) {
+        try {
+            WebElement element = findElement(selector, description);
+            boolean enabled = element.isEnabled();
+            logger.debug("Element '{}' enabled: {}", description, enabled);
+            return enabled;
+        } catch (Exception e) {
+            logger.debug("Element '{}' not enabled or not found: {}", description, e.getMessage());
+            return false;
+        }
+    }
+    
+    // ==================== UTILITY METHODS ====================
+    
+    /**
+     * Get WebDriver instance
+     */
+    public WebDriver getDriver() {
+        return driver;
+    }
+    
+    /**
+     * Navigate to URL
+     */
+    public void navigateTo(String url) {
+        driver.get(url);
+        logger.info("Navigated to: {}", url);
+    }
+    
+    /**
+     * Get current URL
+     */
+    public String getCurrentUrl() {
+        return driver.getCurrentUrl();
+    }
+    
+    /**
+     * Get page title
+     */
+    public String getTitle() {
+        return driver.getTitle();
+    }
+    
+    /**
+     * Execute JavaScript
+     */
+    public Object executeScript(String script, Object... args) {
+        return ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(script, args);
+    }
+    
+    // ==================== AUTOHEAL SPECIFIC METHODS ====================
+    
+    /**
+     * Get AutoHeal performance metrics
+     */
+    public String getMetrics() {
+        try {
+            var metrics = autoHeal.getMetrics();
+            return String.format(
+                "AutoHeal Metrics:\n" +
+                "- Success Rate: %.2f%%\n" +
+                "- Cache Hit Rate: %.2f%%\n" +
+                "- Total Requests: %d",
+                metrics.getLocatorMetrics().getSuccessRate() * 100,
+                metrics.getCacheMetrics().getHitRate() * 100,
+                metrics.getLocatorMetrics().getTotalRequests()
+            );
+        } catch (Exception e) {
+            logger.error("Failed to get AutoHeal metrics: {}", e.getMessage());
+            return "Metrics unavailable";
+        }
+    }
+    
+    /**
+     * Check AutoHeal health status
+     */
+    public boolean isAutoHealHealthy() {
+        try {
+            return autoHeal.getHealthStatus().isOverall();
+        } catch (Exception e) {
+            logger.error("Failed to check AutoHeal health: {}", e.getMessage());
+            return false;
+        }
+    }
+    
+    /**
+     * Clear AutoHeal cache
+     */
+    public void clearCache() {
+        autoHeal.clearCache();
+        logger.info("AutoHeal cache cleared");
+    }
+    
+    /**
+     * Shutdown wrapper and cleanup resources
+     */
+    public void shutdown() {
+        try {
+            autoHeal.shutdown();
+            adapter.shutdown();
+            logger.info("AutoHealSeleniumWrapper shutdown completed");
+        } catch (Exception e) {
+            logger.error("Error during shutdown: {}", e.getMessage());
+        }
+    }
+}
+```
+
+### Advanced Wrapper with Fluent Interface
+
+```java
+package com.example.wrapper;
+
+import com.autoheal.config.LocatorOptions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+/**
+ * Fluent interface wrapper for AutoHeal Selenium operations
+ */
+public class FluentAutoHealWrapper {
+    private final AutoHealSeleniumWrapper wrapper;
+    
+    public FluentAutoHealWrapper(WebDriver driver) {
+        this.wrapper = new AutoHealSeleniumWrapper(driver);
+    }
+    
+    /**
+     * Fluent element builder
+     */
+    public ElementBuilder element(String selector) {
+        return new ElementBuilder(selector);
+    }
+    
+    public class ElementBuilder {
+        private final String selector;
+        private String description;
+        private LocatorOptions options = LocatorOptions.defaultOptions();
+        
+        public ElementBuilder(String selector) {
+            this.selector = selector;
+        }
+        
+        public ElementBuilder describedAs(String description) {
+            this.description = description;
+            return this;
+        }
+        
+        public ElementBuilder withOptions(LocatorOptions options) {
+            this.options = options;
+            return this;
+        }
+        
+        public ElementBuilder withTimeout(int seconds) {
+            this.options = LocatorOptions.builder()
+                .elementTimeout(java.time.Duration.ofSeconds(seconds))
+                .build();
+            return this;
+        }
+        
+        public ElementBuilder withRetries(int maxRetries) {
+            this.options = LocatorOptions.builder()
+                .retryCount(maxRetries)
+                .build();
+            return this;
+        }
+        
+        // Action methods
+        public FluentAutoHealWrapper click() {
+            wrapper.click(selector, description != null ? description : "Element with selector: " + selector);
+            return FluentAutoHealWrapper.this;
+        }
+        
+        public FluentAutoHealWrapper type(String text) {
+            wrapper.sendKeys(selector, text, description != null ? description : "Input field with selector: " + selector);
+            return FluentAutoHealWrapper.this;
+        }
+        
+        public String getText() {
+            return wrapper.getText(selector, description != null ? description : "Text element with selector: " + selector);
+        }
+        
+        public String getAttribute(String attributeName) {
+            return wrapper.getAttribute(selector, attributeName, description != null ? description : "Element with selector: " + selector);
+        }
+        
+        public boolean isDisplayed() {
+            return wrapper.isDisplayed(selector, description != null ? description : "Element with selector: " + selector);
+        }
+        
+        public boolean isEnabled() {
+            return wrapper.isEnabled(selector, description != null ? description : "Element with selector: " + selector);
+        }
+        
+        public WebElement get() {
+            return wrapper.findElement(selector, description != null ? description : "Element with selector: " + selector);
+        }
+    }
+    
+    // Navigation methods
+    public FluentAutoHealWrapper navigateTo(String url) {
+        wrapper.navigateTo(url);
+        return this;
+    }
+    
+    // Utility methods
+    public String getMetrics() {
+        return wrapper.getMetrics();
+    }
+    
+    public void shutdown() {
+        wrapper.shutdown();
+    }
+}
+
+// Usage example:
+public class FluentExample {
+    public void testFluentInterface() {
+        WebDriver driver = new ChromeDriver();
+        FluentAutoHealWrapper autoHeal = new FluentAutoHealWrapper(driver);
+        
+        autoHeal
+            .navigateTo("https://saucedemo.com")
+            .element("#user-name")
+                .describedAs("Username input field")
+                .withTimeout(10)
+                .type("standard_user")
+            .element("#password")
+                .describedAs("Password input field")
+                .type("secret_sauce")
+            .element("#login-button")
+                .describedAs("Login submit button")
+                .click();
+        
+        autoHeal.shutdown();
+        driver.quit();
+    }
+}
+```
+
+## Advanced Configuration
+
+### Complete Configuration Example
+
+```java
+package com.example.config;
+
+import com.autoheal.AutoHealLocator;
+import com.autoheal.config.*;
+import com.autoheal.impl.adapter.SeleniumWebAutomationAdapter;
+import com.autoheal.impl.ai.ResilientAIService;
+import com.autoheal.impl.cache.CaffeineBasedSelectorCache;
+import com.autoheal.model.AIProvider;
+import com.autoheal.model.ExecutionStrategy;
+import org.openqa.selenium.WebDriver;
+
+import java.time.Duration;
+
+public class AutoHealConfigurationFactory {
+    
+    /**
+     * Create production-ready AutoHeal configuration
+     */
+    public static AutoHealLocator createProductionAutoHeal(WebDriver driver) {
+        // Cache Configuration
+        CacheConfig cacheConfig = CacheConfig.builder()
+            .maximumSize(10000)
+            .expireAfterWrite(Duration.ofHours(24))
+            .expireAfterAccess(Duration.ofHours(2))
+            .recordStats(true)
+            .build();
+        
+        // AI Configuration
+        AIConfig aiConfig = AIConfig.builder()
+            .provider(AIProvider.OPENAI)
+            .apiKey(System.getenv("OPENAI_API_KEY"))
+            .timeout(Duration.ofSeconds(30))
+            .maxRetries(3)
+            .visualAnalysisEnabled(false)
+            .build();
+        
+        // Performance Configuration
+        PerformanceConfig performanceConfig = PerformanceConfig.builder()
+            .threadPoolSize(16)
+            .elementTimeout(Duration.ofSeconds(15))
+            .enableMetrics(true)
+            .maxConcurrentRequests(10)
+            .executionStrategy(ExecutionStrategy.COST_OPTIMIZED)
+            .build();
+        
+        // Resilience Configuration
+        ResilienceConfig resilienceConfig = ResilienceConfig.builder()
+            .circuitBreakerFailureThreshold(5)
+            .circuitBreakerTimeout(Duration.ofMinutes(5))
+            .retryMaxAttempts(3)
+            .retryDelay(Duration.ofMillis(500))
+            .build();
+        
+        // Main Configuration
+        AutoHealConfiguration config = AutoHealConfiguration.builder()
+            .cacheConfig(cacheConfig)
+            .aiConfig(aiConfig)
+            .performanceConfig(performanceConfig)
+            .resilienceConfig(resilienceConfig)
+            .enableCaching(true)
+            .enableRetries(true)
+            .enableMetrics(true)
+            .build();
+        
+        // Create AutoHeal instance
+        return AutoHealLocator.builder()
+            .withWebAdapter(new SeleniumWebAutomationAdapter(driver))
+            .withConfiguration(config)
+            .build();
+    }
+    
+    /**
+     * Create development/testing AutoHeal configuration
+     */
+    public static AutoHealLocator createDevelopmentAutoHeal(WebDriver driver) {
+        AutoHealConfiguration config = AutoHealConfiguration.builder()
+            .cache(CacheConfig.builder()
+                .maximumSize(1000)
+                .expireAfterWrite(Duration.ofHours(1))
+                .build())
+            .ai(AIConfig.builder()
+                .provider(AIProvider.MOCK) // Use mock for testing
+                .timeout(Duration.ofSeconds(5))
+                .build())
+            .performance(PerformanceConfig.builder()
+                .threadPoolSize(4)
+                .elementTimeout(Duration.ofSeconds(5))
+                .enableMetrics(true)
+                .build())
+            .build();
+            
+        return AutoHealLocator.builder()
+            .withWebAdapter(new SeleniumWebAutomationAdapter(driver))
+            .withConfiguration(config)
+            .build();
+    }
+    
+    /**
+     * Create custom AutoHeal with specific requirements
+     */
+    public static AutoHealLocator createCustomAutoHeal(WebDriver driver, 
+                                                      Duration elementTimeout,
+                                                      int cacheSize,
+                                                      boolean enableAI) {
+        AutoHealConfiguration.Builder configBuilder = AutoHealConfiguration.builder()
+            .cache(CacheConfig.builder()
+                .maximumSize(cacheSize)
+                .expireAfterWrite(Duration.ofHours(12))
+                .build())
+            .performance(PerformanceConfig.builder()
+                .threadPoolSize(8)
+                .elementTimeout(elementTimeout)
+                .enableMetrics(true)
+                .build());
+        
+        if (enableAI) {
+            configBuilder.ai(AIConfig.builder()
+                .provider(AIProvider.OPENAI)
+                .timeout(Duration.ofSeconds(15))
+                .build());
+        } else {
+            configBuilder.ai(AIConfig.builder()
+                .provider(AIProvider.MOCK)
+                .build());
+        }
+        
+        return AutoHealLocator.builder()
+            .withWebAdapter(new SeleniumWebAutomationAdapter(driver))
+            .withConfiguration(configBuilder.build())
+            .build();
+    }
+}
+```
+
+### Environment-Specific Configuration
+
+```java
+package com.example.config;
+
+import java.time.Duration;
+import java.util.Properties;
+
+public class EnvironmentConfig {
+    private final Properties properties;
+    private final String environment;
+    
+    public EnvironmentConfig() {
+        this.environment = System.getProperty("test.env", "development");
+        this.properties = loadProperties();
+    }
+    
+    private Properties loadProperties() {
+        Properties props = new Properties();
+        try {
+            props.load(getClass().getResourceAsStream("/autoheal-" + environment + ".properties"));
+        } catch (Exception e) {
+            // Load defaults
+            setDefaults(props);
+        }
+        return props;
+    }
+    
+    private void setDefaults(Properties props) {
+        props.setProperty("autoheal.cache.size", "5000");
+        props.setProperty("autoheal.cache.ttl.hours", "12");
+        props.setProperty("autoheal.element.timeout.seconds", "10");
+        props.setProperty("autoheal.thread.pool.size", "8");
+        props.setProperty("autoheal.ai.enabled", "false");
+        props.setProperty("autoheal.metrics.enabled", "true");
+    }
+    
+    public AutoHealLocator createAutoHeal(WebDriver driver) {
+        return AutoHealConfigurationFactory.createCustomAutoHeal(
+            driver,
+            Duration.ofSeconds(getLong("autoheal.element.timeout.seconds")),
+            getInt("autoheal.cache.size"),
+            getBoolean("autoheal.ai.enabled")
+        );
+    }
+    
+    private int getInt(String key) {
+        return Integer.parseInt(properties.getProperty(key));
+    }
+    
+    private long getLong(String key) {
+        return Long.parseLong(properties.getProperty(key));
+    }
+    
+    private boolean getBoolean(String key) {
+        return Boolean.parseBoolean(properties.getProperty(key));
+    }
+}
+```
+
+## AI Service Configuration
+
+AutoHeal Locator's core healing capabilities depend on AI services for analyzing DOM structure and visual elements. This section covers comprehensive AI configuration for production and development environments.
+
+### Overview of AI Integration
+
+AutoHeal uses AI for two primary strategies:
+- **DOM Analysis**: AI analyzes HTML structure to suggest alternative selectors
+- **Visual Analysis**: AI analyzes screenshots to locate elements visually
+
+### Basic AI Configuration
+
+#### 1. OpenAI Configuration (Production)
+
+```java
+import com.autoheal.config.AIConfig;
+import com.autoheal.model.AIProvider;
+import java.time.Duration;
+
+// Basic OpenAI setup
+AIConfig aiConfig = AIConfig.builder()
+    .provider(AIProvider.OPENAI)
+    .apiKey(System.getenv("OPENAI_API_KEY"))
+    .timeout(Duration.ofSeconds(30))
+    .maxRetries(3)
+    .visualAnalysisEnabled(true)
+    .build();
+
+AutoHealConfiguration config = AutoHealConfiguration.builder()
+    .ai(aiConfig)
+    .build();
+```
+
+#### 2. API Key Setup
+
+**Option A: Environment Variables (Recommended)**
+```bash
+# Set environment variable
+export OPENAI_API_KEY="your-openai-api-key-here"
+
+# Or for Windows
+set OPENAI_API_KEY=your-openai-api-key-here
+```
+
+**Option B: Properties Files**
+
+Create properties files for different environments in your project's `src/main/resources/` directory:
+
+**📁 File Path: `src/main/resources/autoheal-production.properties`**
+```properties
+# AutoHeal Production Configuration
+# =================================
+
+# AI Service Configuration
+autoheal.ai.provider=openai
+autoheal.ai.api-key=${OPENAI_API_KEY}
+autoheal.ai.model=gpt-4
+autoheal.ai.timeout=45s
+autoheal.ai.max-retries=5
+autoheal.ai.visual-analysis-enabled=true
+autoheal.ai.max-tokens=2000
+autoheal.ai.temperature=0.1
+autoheal.ai.rate-limit-per-minute=60
+
+# Cache Configuration
+autoheal.cache.maximum-size=10000
+autoheal.cache.expire-after-write=24h
+autoheal.cache.expire-after-access=2h
+autoheal.cache.record-stats=true
+
+# Performance Configuration
+autoheal.performance.thread-pool-size=16
+autoheal.performance.element-timeout=15s
+autoheal.performance.enable-metrics=true
+autoheal.performance.max-concurrent-requests=50
+autoheal.performance.execution-strategy=SMART_SEQUENTIAL
+
+# Resilience Configuration
+autoheal.resilience.circuit-breaker-failure-threshold=3
+autoheal.resilience.circuit-breaker-timeout=5m
+autoheal.resilience.retry-max-attempts=5
+autoheal.resilience.retry-delay=2s
+
+# Logging Configuration
+logging.level.com.autoheal=INFO
+logging.level.com.autoheal.impl.ai=DEBUG
+```
+
+**📁 File Path: `src/main/resources/autoheal-development.properties`**
+```properties
+# AutoHeal Development Configuration
+# =================================
+
+# AI Service Configuration (Mock for fast development)
+autoheal.ai.provider=mock
+autoheal.ai.timeout=5s
+autoheal.ai.max-retries=1
+autoheal.ai.visual-analysis-enabled=false
+
+# Cache Configuration (Smaller cache for development)
+autoheal.cache.maximum-size=1000
+autoheal.cache.expire-after-write=1h
+autoheal.cache.expire-after-access=30m
+autoheal.cache.record-stats=true
+
+# Performance Configuration (Lower resources for development)
+autoheal.performance.thread-pool-size=4
+autoheal.performance.element-timeout=5s
+autoheal.performance.enable-metrics=true
+autoheal.performance.max-concurrent-requests=10
+autoheal.performance.execution-strategy=DOM_ONLY
+
+# Resilience Configuration (More forgiving for development)
+autoheal.resilience.circuit-breaker-failure-threshold=10
+autoheal.resilience.circuit-breaker-timeout=2m
+autoheal.resilience.retry-max-attempts=2
+autoheal.resilience.retry-delay=500ms
+
+# Logging Configuration (More verbose for development)
+logging.level.com.autoheal=DEBUG
+logging.level.com.autoheal.impl.ai=TRACE
+logging.level.com.autoheal.impl.locator=DEBUG
+```
+
+**📁 File Path: `src/main/resources/autoheal-staging.properties`**
+```properties
+# AutoHeal Staging Configuration
+# ==============================
+
+# AI Service Configuration
+autoheal.ai.provider=openai
+autoheal.ai.api-key=${OPENAI_STAGING_API_KEY}
+autoheal.ai.model=gpt-3.5-turbo
+autoheal.ai.timeout=30s
+autoheal.ai.max-retries=3
+autoheal.ai.visual-analysis-enabled=true
+autoheal.ai.max-tokens=1500
+autoheal.ai.rate-limit-per-minute=30
+
+# Cache Configuration
+autoheal.cache.maximum-size=5000
+autoheal.cache.expire-after-write=12h
+autoheal.cache.expire-after-access=1h
+autoheal.cache.record-stats=true
+
+# Performance Configuration
+autoheal.performance.thread-pool-size=8
+autoheal.performance.element-timeout=10s
+autoheal.performance.enable-metrics=true
+autoheal.performance.max-concurrent-requests=25
+autoheal.performance.execution-strategy=SMART_SEQUENTIAL
+
+# Resilience Configuration
+autoheal.resilience.circuit-breaker-failure-threshold=5
+autoheal.resilience.circuit-breaker-timeout=3m
+autoheal.resilience.retry-max-attempts=3
+autoheal.resilience.retry-delay=1s
+
+# Logging Configuration
+logging.level.com.autoheal=INFO
+logging.level.com.autoheal.impl.ai=DEBUG
+```
+
+**📁 File Path: `src/main/resources/autoheal-ci.properties`**
+```properties
+# AutoHeal CI/CD Configuration
+# ============================
+
+# AI Service Configuration (Conditional based on environment variable)
+autoheal.ai.provider=${AUTOHEAL_AI_PROVIDER:mock}
+autoheal.ai.api-key=${OPENAI_API_KEY:}
+autoheal.ai.timeout=20s
+autoheal.ai.max-retries=2
+autoheal.ai.visual-analysis-enabled=false
+autoheal.ai.max-tokens=1000
+
+# Cache Configuration
+autoheal.cache.maximum-size=3000
+autoheal.cache.expire-after-write=6h
+autoheal.cache.expire-after-access=1h
+autoheal.cache.record-stats=true
+
+# Performance Configuration (Optimized for CI speed)
+autoheal.performance.thread-pool-size=8
+autoheal.performance.element-timeout=10s
+autoheal.performance.enable-metrics=true
+autoheal.performance.max-concurrent-requests=20
+autoheal.performance.execution-strategy=DOM_ONLY
+
+# Resilience Configuration (Fail fast in CI)
+autoheal.resilience.circuit-breaker-failure-threshold=3
+autoheal.resilience.circuit-breaker-timeout=2m
+autoheal.resilience.retry-max-attempts=2
+autoheal.resilience.retry-delay=1s
+
+# Logging Configuration (Less verbose for CI)
+logging.level.com.autoheal=WARN
+logging.level.com.autoheal.impl.ai=ERROR
+```
+
+**📁 File Path: `src/test/resources/autoheal-test.properties`**
+```properties
+# AutoHeal Test Configuration
+# ===========================
+
+# AI Service Configuration (Mock for reliable testing)
+autoheal.ai.provider=mock
+autoheal.ai.timeout=2s
+autoheal.ai.max-retries=1
+autoheal.ai.visual-analysis-enabled=false
+
+# Cache Configuration (Minimal cache for tests)
+autoheal.cache.maximum-size=100
+autoheal.cache.expire-after-write=10m
+autoheal.cache.expire-after-access=5m
+autoheal.cache.record-stats=false
+
+# Performance Configuration (Fast for unit tests)
+autoheal.performance.thread-pool-size=2
+autoheal.performance.element-timeout=3s
+autoheal.performance.enable-metrics=false
+autoheal.performance.max-concurrent-requests=5
+autoheal.performance.execution-strategy=DOM_ONLY
+
+# Resilience Configuration (Minimal resilience for tests)
+autoheal.resilience.circuit-breaker-failure-threshold=1
+autoheal.resilience.circuit-breaker-timeout=30s
+autoheal.resilience.retry-max-attempts=1
+autoheal.resilience.retry-delay=100ms
+
+# Logging Configuration (Quiet for tests)
+logging.level.com.autoheal=ERROR
+```
+
+#### Loading Properties Files
+
+**Java Code to Load Properties Files:**
+
+```java
+package com.example.config;
+
+import com.autoheal.config.AutoHealConfiguration;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+public class PropertiesConfigLoader {
+    
+    /**
+     * Load AutoHeal configuration from properties file based on environment
+     */
+    public static AutoHealConfiguration loadFromEnvironment() {
+        String environment = System.getProperty("autoheal.environment", "development");
+        return loadFromPropertiesFile("autoheal-" + environment + ".properties");
+    }
+    
+    /**
+     * Load configuration from specific properties file
+     */
+    public static AutoHealConfiguration loadFromPropertiesFile(String filename) {
+        Properties properties = new Properties();
+        
+        try (InputStream input = PropertiesConfigLoader.class
+                .getClassLoader()
+                .getResourceAsStream(filename)) {
+            
+            if (input == null) {
+                throw new IllegalArgumentException("Properties file not found: " + filename);
+            }
+            
+            properties.load(input);
+            return buildConfigurationFromProperties(properties);
+            
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load properties file: " + filename, e);
+        }
+    }
+    
+    /**
+     * Build AutoHeal configuration from Properties object
+     */
+    private static AutoHealConfiguration buildConfigurationFromProperties(Properties props) {
+        return AutoHealConfiguration.builder()
+            .ai(AIConfig.builder()
+                .provider(parseAIProvider(props.getProperty("autoheal.ai.provider", "mock")))
+                .apiKey(resolveProperty(props.getProperty("autoheal.ai.api-key")))
+                .model(props.getProperty("autoheal.ai.model", "gpt-3.5-turbo"))
+                .timeout(Duration.parse("PT" + props.getProperty("autoheal.ai.timeout", "30s")))
+                .maxRetries(Integer.parseInt(props.getProperty("autoheal.ai.max-retries", "3")))
+                .visualAnalysisEnabled(Boolean.parseBoolean(
+                    props.getProperty("autoheal.ai.visual-analysis-enabled", "false")))
+                .maxTokens(Integer.parseInt(props.getProperty("autoheal.ai.max-tokens", "1500")))
+                .temperature(Double.parseDouble(props.getProperty("autoheal.ai.temperature", "0.1")))
+                .rateLimitPerMinute(Integer.parseInt(
+                    props.getProperty("autoheal.ai.rate-limit-per-minute", "30")))
+                .build())
+            .cache(CacheConfig.builder()
+                .maximumSize(Integer.parseInt(props.getProperty("autoheal.cache.maximum-size", "5000")))
+                .expireAfterWrite(Duration.parse("PT" + props.getProperty("autoheal.cache.expire-after-write", "12h")))
+                .expireAfterAccess(Duration.parse("PT" + props.getProperty("autoheal.cache.expire-after-access", "1h")))
+                .recordStats(Boolean.parseBoolean(props.getProperty("autoheal.cache.record-stats", "true")))
+                .build())
+            .performance(PerformanceConfig.builder()
+                .threadPoolSize(Integer.parseInt(props.getProperty("autoheal.performance.thread-pool-size", "8")))
+                .elementTimeout(Duration.parse("PT" + props.getProperty("autoheal.performance.element-timeout", "10s")))
+                .enableMetrics(Boolean.parseBoolean(props.getProperty("autoheal.performance.enable-metrics", "true")))
+                .maxConcurrentRequests(Integer.parseInt(
+                    props.getProperty("autoheal.performance.max-concurrent-requests", "25")))
+                .executionStrategy(parseExecutionStrategy(
+                    props.getProperty("autoheal.performance.execution-strategy", "SMART_SEQUENTIAL")))
+                .build())
+            .resilience(ResilienceConfig.builder()
+                .circuitBreakerFailureThreshold(Integer.parseInt(
+                    props.getProperty("autoheal.resilience.circuit-breaker-failure-threshold", "5")))
+                .circuitBreakerTimeout(Duration.parse("PT" + 
+                    props.getProperty("autoheal.resilience.circuit-breaker-timeout", "3m")))
+                .retryMaxAttempts(Integer.parseInt(
+                    props.getProperty("autoheal.resilience.retry-max-attempts", "3")))
+                .retryDelay(Duration.parse("PT" + props.getProperty("autoheal.resilience.retry-delay", "1s")))
+                .build())
+            .build();
+    }
+    
+    // Helper methods for parsing
+    private static AIProvider parseAIProvider(String provider) {
+        return switch (provider.toLowerCase()) {
+            case "openai" -> AIProvider.OPENAI;
+            case "mock" -> AIProvider.MOCK;
+            default -> throw new IllegalArgumentException("Unknown AI provider: " + provider);
+        };
+    }
+    
+    private static ExecutionStrategy parseExecutionStrategy(String strategy) {
+        return switch (strategy.toUpperCase()) {
+            case "SEQUENTIAL" -> ExecutionStrategy.SEQUENTIAL;
+            case "PARALLEL" -> ExecutionStrategy.PARALLEL;
+            case "SMART_SEQUENTIAL" -> ExecutionStrategy.SMART_SEQUENTIAL;
+            case "DOM_ONLY" -> ExecutionStrategy.DOM_ONLY;
+            case "VISUAL_FIRST" -> ExecutionStrategy.VISUAL_FIRST;
+            default -> throw new IllegalArgumentException("Unknown execution strategy: " + strategy);
+        };
+    }
+    
+    /**
+     * Resolve property values with environment variable substitution
+     */
+    private static String resolveProperty(String value) {
+        if (value == null) return null;
+        
+        // Handle ${ENV_VAR} or ${ENV_VAR:default_value} patterns
+        if (value.startsWith("${") && value.endsWith("}")) {
+            String envPattern = value.substring(2, value.length() - 1);
+            String[] parts = envPattern.split(":", 2);
+            String envVar = parts[0];
+            String defaultValue = parts.length > 1 ? parts[1] : null;
+            
+            String envValue = System.getenv(envVar);
+            if (envValue != null && !envValue.trim().isEmpty()) {
+                return envValue;
+            } else if (defaultValue != null) {
+                return defaultValue;
+            } else {
+                return null;
+            }
+        }
+        
+        return value;
+    }
+}
+```
+
+**Usage Examples:**
+
+```java
+// Load configuration based on environment system property
+// Set with: -Dautoheal.environment=production
+AutoHealConfiguration config = PropertiesConfigLoader.loadFromEnvironment();
+
+// Or load specific configuration file
+AutoHealConfiguration config = PropertiesConfigLoader.loadFromPropertiesFile("autoheal-production.properties");
+
+// Create AutoHeal instance with loaded configuration
+AutoHealLocator autoHeal = AutoHealLocator.builder()
+    .withWebAdapter(new SeleniumWebAutomationAdapter(driver))
+    .withConfiguration(config)
+    .build();
+```
+
+#### Setting Environment for Properties Loading
+
+**Maven/Gradle Command Line:**
+```bash
+# Run with production configuration
+mvn test -Dautoheal.environment=production -DOPENAI_API_KEY=your-key
+
+# Run with CI configuration  
+mvn test -Dautoheal.environment=ci -DAUTOHEAL_AI_PROVIDER=openai -DOPENAI_API_KEY=your-key
+
+# Run with development configuration (default)
+mvn test
+```
+
+**IDE Configuration (IntelliJ IDEA / Eclipse):**
+```
+VM Options: -Dautoheal.environment=development
+Environment Variables: OPENAI_API_KEY=your-key-here
+```
+
+**Docker/Container Environment:**
+```dockerfile
+# Dockerfile
+ENV AUTOHEAL_ENVIRONMENT=production
+ENV OPENAI_API_KEY=your-key-here
+
+# Or set at runtime
+docker run -e AUTOHEAL_ENVIRONMENT=production -e OPENAI_API_KEY=your-key your-app
+```
+
+**Option C: Programmatic Configuration**
+```java
+AIConfig aiConfig = AIConfig.builder()
+    .provider(AIProvider.OPENAI)
+    .apiKey("your-api-key-here") // Not recommended for production
+    .timeout(Duration.ofSeconds(30))
+    .build();
+```
+
+### AI Provider Options
+
+#### 1. OpenAI Provider (Production)
+
+```java
+/**
+ * Production OpenAI configuration with all options
+ */
+public static AIConfig createProductionAIConfig() {
+    String apiKey = System.getenv("OPENAI_API_KEY");
+    if (apiKey == null || apiKey.trim().isEmpty()) {
+        throw new IllegalStateException("OPENAI_API_KEY environment variable is required");
+    }
+    
+    return AIConfig.builder()
+        .provider(AIProvider.OPENAI)
+        .apiKey(apiKey)
+        .model("gpt-4") // Specify model if needed
+        .timeout(Duration.ofSeconds(45)) // Longer timeout for complex analysis
+        .maxRetries(5) // More retries for reliability
+        .visualAnalysisEnabled(true) // Enable visual analysis
+        .maxTokens(2000) // Limit token usage
+        .temperature(0.1) // Low temperature for consistent results
+        .build();
+}
+```
+
+**OpenAI Features:**
+- Best accuracy for DOM analysis
+- Visual screenshot analysis capability
+- Support for complex element descriptions
+- Multiple model options (GPT-3.5, GPT-4)
+
+**Cost Considerations:**
+- Pay per API call
+- Visual analysis costs more than DOM analysis
+- Consider token limits for cost control
+
+#### 2. Mock Provider (Testing/Development)
+
+```java
+/**
+ * Mock AI provider for testing and development
+ */
+public static AIConfig createMockAIConfig() {
+    return AIConfig.builder()
+        .provider(AIProvider.MOCK)
+        .timeout(Duration.ofSeconds(5)) // Fast responses
+        .visualAnalysisEnabled(false) // Mock doesn't support visual
+        .build();
+}
+```
+
+**Mock Provider Features:**
+- No API key required
+- Instant responses (no network calls)
+- Deterministic behavior for testing
+- No cost implications
+- Limited to basic selector transformations
+
+#### 3. Custom Provider Implementation
+
+```java
+/**
+ * Custom AI provider for enterprise integrations
+ */
+public class CustomAIProvider implements AIProvider {
+    
+    @Override
+    public CompletableFuture<AIAnalysisResult> analyzeDOM(String html, 
+                                                          String description, 
+                                                          String originalSelector) {
+        // Your custom AI service integration
+        return CompletableFuture.supplyAsync(() -> {
+            // Implement your AI analysis logic
+            return new AIAnalysisResult(
+                suggestedSelector,
+                confidence,
+                reasoning,
+                alternatives
+            );
+        });
+    }
+    
+    @Override
+    public CompletableFuture<AIAnalysisResult> analyzeVisual(byte[] screenshot, 
+                                                             String description) {
+        // Your visual analysis implementation
+        return CompletableFuture.supplyAsync(() -> {
+            // Implement visual AI analysis
+            return new AIAnalysisResult(/* ... */);
+        });
+    }
+}
+
+// Usage
+AIConfig customConfig = AIConfig.builder()
+    .provider(new CustomAIProvider())
+    .timeout(Duration.ofSeconds(30))
+    .build();
+```
+
+### Visual Analysis Configuration
+
+Visual analysis uses AI to analyze screenshots and locate elements visually when DOM selectors fail.
+
+#### Enabling Visual Analysis
+
+```java
+public static AutoHealConfiguration createVisualEnabledConfig() {
+    return AutoHealConfiguration.builder()
+        .ai(AIConfig.builder()
+            .provider(AIProvider.OPENAI)
+            .apiKey(System.getenv("OPENAI_API_KEY"))
+            .visualAnalysisEnabled(true) // Enable visual analysis
+            .maxImageSize(1920 * 1080) // Limit screenshot size
+            .imageCompressionQuality(0.8) // Balance quality vs speed
+            .build())
+        .build();
+}
+```
+
+#### Visual Analysis Best Practices
+
+```java
+public class VisualAnalysisBestPractices {
+    
+    /**
+     * Configure visual analysis for optimal performance
+     */
+    public static LocatorOptions createVisualOptions() {
+        return LocatorOptions.builder()
+            .enableVisualAnalysis(true)
+            .visualConfidenceThreshold(0.8) // Higher confidence required
+            .maxVisualRetries(2) // Limit expensive visual retries
+            .visualTimeout(Duration.ofSeconds(60)) // Longer timeout for visual
+            .build();
+    }
+    
+    /**
+     * Use visual analysis selectively
+     */
+    public void useVisualAnalysisWisely(AutoHealSeleniumWrapper autoHeal) {
+        // Enable visual for complex UI elements
+        LocatorOptions visualOptions = LocatorOptions.builder()
+            .enableVisualAnalysis(true)
+            .build();
+            
+        autoHeal.findElementAsync("#complex-chart", 
+                                "Sales chart with dynamic data", 
+                                visualOptions);
+        
+        // Disable visual for simple text inputs (DOM analysis sufficient)
+        LocatorOptions domOnlyOptions = LocatorOptions.builder()
+            .enableVisualAnalysis(false)
+            .build();
+            
+        autoHeal.findElementAsync("#username", 
+                                "Username input field", 
+                                domOnlyOptions);
+    }
+}
+```
+
+#### When to Use Visual Analysis
+
+**✅ Good candidates for visual analysis:**
+- Dynamic charts or graphs
+- Canvas elements
+- Complex custom UI components
+- Elements with frequently changing IDs/classes
+- Visual elements with no semantic markup
+
+**❌ Avoid visual analysis for:**
+- Simple text inputs
+- Standard buttons with stable selectors
+- Elements with good data-testid attributes
+- High-frequency operations (performance impact)
+
+### Environment-Specific AI Configuration
+
+#### Development Configuration
+
+```java
+/**
+ * Development AI configuration - fast and cheap
+ */
+public static AutoHealConfiguration createDevelopmentConfig() {
+    return AutoHealConfiguration.builder()
+        .ai(AIConfig.builder()
+            .provider(AIProvider.MOCK) // No API costs
+            .timeout(Duration.ofSeconds(5)) // Fast responses
+            .visualAnalysisEnabled(false) // Skip expensive visual analysis
+            .build())
+        .performance(PerformanceConfig.builder()
+            .executionStrategy(ExecutionStrategy.DOM_ONLY) // Skip visual strategy
+            .build())
+        .build();
+}
+```
+
+#### CI/CD Configuration
+
+```java
+/**
+ * CI/CD AI configuration - reliable but cost-controlled
+ */
+public static AutoHealConfiguration createCIConfig() {
+    // Use AI selectively in CI
+    boolean enableAI = Boolean.parseBoolean(System.getenv("ENABLE_AI_IN_CI"));
+    
+    if (enableAI) {
+        return AutoHealConfiguration.builder()
+            .ai(AIConfig.builder()
+                .provider(AIProvider.OPENAI)
+                .apiKey(System.getenv("OPENAI_API_KEY"))
+                .timeout(Duration.ofSeconds(20)) // Shorter timeout for CI
+                .maxRetries(2) // Fewer retries to avoid CI delays
+                .visualAnalysisEnabled(false) // Disable expensive visual in CI
+                .build())
+            .build();
+    } else {
+        return AutoHealConfiguration.builder()
+            .ai(AIConfig.builder()
+                .provider(AIProvider.MOCK)
+                .build())
+            .build();
+    }
+}
+```
+
+#### Production Configuration
+
+```java
+/**
+ * Production AI configuration - full features with monitoring
+ */
+public static AutoHealConfiguration createProductionConfig() {
+    return AutoHealConfiguration.builder()
+        .ai(AIConfig.builder()
+            .provider(AIProvider.OPENAI)
+            .apiKey(System.getenv("OPENAI_API_KEY"))
+            .model("gpt-4") // Best model for accuracy
+            .timeout(Duration.ofSeconds(45)) // Generous timeout
+            .maxRetries(5) // High reliability
+            .visualAnalysisEnabled(true) // Full visual capabilities
+            .rateLimitPerMinute(60) // Control API usage
+            .build())
+        .resilience(ResilienceConfig.builder()
+            .circuitBreakerFailureThreshold(3) // Quick failure detection
+            .circuitBreakerTimeout(Duration.ofMinutes(5)) // Reasonable recovery time
+            .build())
+        .build();
+}
+```
+
+### AI Configuration Validation
+
+```java
+public class AIConfigurationValidator {
+    
+    /**
+     * Validate AI configuration before use
+     */
+    public static void validateAIConfiguration(AIConfig aiConfig) {
+        if (aiConfig.getProvider() == AIProvider.OPENAI) {
+            validateOpenAIConfiguration(aiConfig);
+        }
+        
+        // Test AI connectivity
+        testAIConnectivity(aiConfig);
+    }
+    
+    private static void validateOpenAIConfiguration(AIConfig aiConfig) {
+        String apiKey = aiConfig.getApiKey();
+        
+        if (apiKey == null || apiKey.trim().isEmpty()) {
+            throw new IllegalStateException(
+                "OpenAI API key is required. Set OPENAI_API_KEY environment variable."
+            );
+        }
+        
+        if (apiKey.length() < 40) {
+            throw new IllegalStateException(
+                "OpenAI API key appears invalid (too short). Check OPENAI_API_KEY."
+            );
+        }
+        
+        if (!apiKey.startsWith("sk-")) {
+            logger.warn("OpenAI API key doesn't start with 'sk-' - this may be incorrect");
+        }
+    }
+    
+    private static void testAIConnectivity(AIConfig aiConfig) {
+        try {
+            // Test with simple DOM analysis
+            String testHtml = "<button id='test'>Test</button>";
+            AIService aiService = new ResilientAIService(aiConfig, ResilienceConfig.defaultConfig());
+            
+            CompletableFuture<AIAnalysisResult> result = aiService.analyzeDOM(
+                testHtml, 
+                "test button", 
+                "#nonexistent"
+            );
+            
+            // Wait briefly for connection test
+            AIAnalysisResult analysis = result.get(10, TimeUnit.SECONDS);
+            
+            if (analysis != null) {
+                logger.info("AI configuration validation successful");
+            } else {
+                throw new RuntimeException("AI service returned null result");
+            }
+            
+        } catch (Exception e) {
+            throw new RuntimeException("AI configuration validation failed: " + e.getMessage(), e);
+        }
+    }
+}
+```
+
+### AI Configuration Examples
+
+#### Complete Configuration Factory
+
+```java
+public class AIConfigurationFactory {
+    
+    public static AutoHealConfiguration createConfigForEnvironment(String environment) {
+        return switch (environment.toLowerCase()) {
+            case "production" -> createProductionConfig();
+            case "staging" -> createStagingConfig();
+            case "ci", "continuous-integration" -> createCIConfig();
+            case "development", "dev" -> createDevelopmentConfig();
+            default -> throw new IllegalArgumentException("Unknown environment: " + environment);
+        };
+    }
+    
+    private static AutoHealConfiguration createStagingConfig() {
+        return AutoHealConfiguration.builder()
+            .ai(AIConfig.builder()
+                .provider(AIProvider.OPENAI)
+                .apiKey(System.getenv("OPENAI_STAGING_API_KEY"))
+                .timeout(Duration.ofSeconds(30))
+                .maxRetries(3)
+                .visualAnalysisEnabled(true)
+                .rateLimitPerMinute(30) // Lower rate limit for staging
+                .build())
+            .build();
+    }
+    
+    /**
+     * Create configuration with cost optimization
+     */
+    public static AutoHealConfiguration createCostOptimizedConfig() {
+        return AutoHealConfiguration.builder()
+            .ai(AIConfig.builder()
+                .provider(AIProvider.OPENAI)
+                .apiKey(System.getenv("OPENAI_API_KEY"))
+                .model("gpt-3.5-turbo") // Cheaper model
+                .timeout(Duration.ofSeconds(20)) // Shorter timeout
+                .maxRetries(2) // Fewer retries
+                .visualAnalysisEnabled(false) // Disable expensive visual analysis
+                .maxTokens(1000) // Lower token limit
+                .build())
+            .performance(PerformanceConfig.builder()
+                .executionStrategy(ExecutionStrategy.DOM_ONLY) // Skip visual strategy
+                .build())
+            .build();
+    }
+    
+    /**
+     * Create configuration with maximum accuracy
+     */
+    public static AutoHealConfiguration createHighAccuracyConfig() {
+        return AutoHealConfiguration.builder()
+            .ai(AIConfig.builder()
+                .provider(AIProvider.OPENAI)
+                .apiKey(System.getenv("OPENAI_API_KEY"))
+                .model("gpt-4") // Best model
+                .timeout(Duration.ofSeconds(60)) // Generous timeout
+                .maxRetries(5) // More retries
+                .visualAnalysisEnabled(true) // Full visual analysis
+                .temperature(0.0) // Deterministic results
+                .maxTokens(4000) // Higher token limit
+                .build())
+            .performance(PerformanceConfig.builder()
+                .executionStrategy(ExecutionStrategy.PARALLEL) // Try all strategies
+                .build())
+            .build();
+    }
+}
+```
+
+#### Configuration Testing
+
+```java
+@Test
+public void testAIConfiguration() {
+    // Test development configuration
+    AutoHealConfiguration devConfig = AIConfigurationFactory.createConfigForEnvironment("development");
+    assertNotNull(devConfig);
+    assertEquals(AIProvider.MOCK, devConfig.getAiConfig().getProvider());
+    
+    // Test production configuration (requires API key)
+    if (System.getenv("OPENAI_API_KEY") != null) {
+        AutoHealConfiguration prodConfig = AIConfigurationFactory.createConfigForEnvironment("production");
+        assertNotNull(prodConfig);
+        assertEquals(AIProvider.OPENAI, prodConfig.getAiConfig().getProvider());
+        
+        // Validate configuration
+        AIConfigurationValidator.validateAIConfiguration(prodConfig.getAiConfig());
+    } else {
+        logger.warn("Skipping production AI config test - OPENAI_API_KEY not set");
+    }
+}
+```
+
+### Security Best Practices for AI Configuration
+
+#### 1. API Key Management
+
+```java
+public class SecureAIConfiguration {
+    
+    /**
+     * Secure API key retrieval with validation
+     */
+    private static String getSecureAPIKey() {
+        String apiKey = System.getenv("OPENAI_API_KEY");
+        
+        if (apiKey == null) {
+            // Try alternative sources
+            apiKey = System.getProperty("openai.api.key");
+        }
+        
+        if (apiKey == null) {
+            throw new IllegalStateException(
+                "OpenAI API key not found. Set OPENAI_API_KEY environment variable."
+            );
+        }
+        
+        // Basic validation
+        if (apiKey.length() < 40 || !apiKey.startsWith("sk-")) {
+            throw new IllegalStateException("Invalid OpenAI API key format");
+        }
+        
+        return apiKey;
+    }
+    
+    /**
+     * Create secure AI configuration
+     */
+    public static AIConfig createSecureConfig() {
+        return AIConfig.builder()
+            .provider(AIProvider.OPENAI)
+            .apiKey(getSecureAPIKey())
+            .timeout(Duration.ofSeconds(30))
+            .maxRetries(3)
+            .rateLimitPerMinute(60) // Prevent excessive usage
+            .build();
+    }
+}
+```
+
+#### 2. Rate Limiting and Cost Control
+
+```java
+public class CostControlConfiguration {
+    
+    /**
+     * Create cost-controlled AI configuration
+     */
+    public static AIConfig createCostControlledConfig() {
+        return AIConfig.builder()
+            .provider(AIProvider.OPENAI)
+            .apiKey(System.getenv("OPENAI_API_KEY"))
+            .rateLimitPerMinute(30) // Limit API calls
+            .maxTokens(1500) // Limit token usage
+            .timeout(Duration.ofSeconds(25)) // Reasonable timeout
+            .maxRetries(2) // Limit retries
+            .build();
+    }
+    
+    /**
+     * Monitor API usage
+     */
+    public static void monitorAPIUsage(AutoHealSeleniumWrapper autoHeal) {
+        String metrics = autoHeal.getMetrics();
+        
+        // Log metrics for cost tracking
+        logger.info("AI API Usage Metrics: {}", metrics);
+        
+        // Could integrate with billing systems here
+        // sendToBillingSystem(metrics);
+    }
+}
+```
+
+### Troubleshooting AI Configuration
+
+#### Common Issues and Solutions
+
+**1. API Key Issues**
+```java
+// Check if API key is properly set
+if (System.getenv("OPENAI_API_KEY") == null) {
+    logger.error("OPENAI_API_KEY environment variable not set");
+    // Use mock provider as fallback
+    return AIConfig.builder().provider(AIProvider.MOCK).build();
+}
+```
+
+**2. Timeout Issues**
+```java
+// Increase timeout for complex pages
+AIConfig aiConfig = AIConfig.builder()
+    .timeout(Duration.ofSeconds(60)) // Longer timeout
+    .maxRetries(3)
+    .build();
+```
+
+**3. Rate Limiting**
+```java
+// Configure rate limiting to avoid API limits
+AIConfig aiConfig = AIConfig.builder()
+    .rateLimitPerMinute(30) // Stay under API limits
+    .retryDelay(Duration.ofSeconds(2)) // Add delay between retries
+    .build();
+```
+
+This comprehensive AI configuration setup ensures AutoHeal Locator can leverage AI services effectively while maintaining security, cost control, and reliability across different environments.
+
+## Page Object Model Integration
+
+### Enhanced Base Page with AutoHeal
+
+```java
+package com.example.pages;
+
+import com.example.wrapper.AutoHealSeleniumWrapper;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Base page class with AutoHeal integration
+ */
+public abstract class BasePage {
+    protected static final Logger logger = LoggerFactory.getLogger(BasePage.class);
+    
+    protected final WebDriver driver;
+    protected final AutoHealSeleniumWrapper autoHeal;
+    
+    protected BasePage(WebDriver driver) {
+        this.driver = driver;
+        this.autoHeal = new AutoHealSeleniumWrapper(driver);
+        logger.info("Initialized {} page", this.getClass().getSimpleName());
+    }
+    
+    // ==================== COMMON PAGE METHODS ====================
+    
+    protected void navigateTo(String url) {
+        autoHeal.navigateTo(url);
+        waitForPageLoad();
+    }
+    
+    protected String getCurrentUrl() {
+        return autoHeal.getCurrentUrl();
+    }
+    
+    protected String getTitle() {
+        return autoHeal.getTitle();
+    }
+    
+    protected void waitForPageLoad() {
+        autoHeal.executeScript("return document.readyState").equals("complete");
+    }
+    
+    // ==================== ENHANCED ELEMENT INTERACTIONS ====================
+    
+    protected WebElement findElement(String selector, String description) {
+        return autoHeal.findElement(selector, description);
+    }
+    
+    protected void click(String selector, String description) {
+        autoHeal.click(selector, description);
+    }
+    
+    protected void type(String selector, String text, String description) {
+        autoHeal.sendKeys(selector, text, description);
+    }
+    
+    protected String getText(String selector, String description) {
+        return autoHeal.getText(selector, description);
+    }
+    
+    protected String getAttribute(String selector, String attributeName, String description) {
+        return autoHeal.getAttribute(selector, attributeName, description);
+    }
+    
+    protected boolean isDisplayed(String selector, String description) {
+        return autoHeal.isDisplayed(selector, description);
+    }
+    
+    protected boolean isEnabled(String selector, String description) {
+        return autoHeal.isEnabled(selector, description);
+    }
+    
+    protected boolean isElementPresent(String selector, String description) {
+        return autoHeal.isElementPresent(selector, description);
+    }
+    
+    // ==================== PAGE VALIDATION METHODS ====================
+    
+    /**
+     * Validate that the page is loaded correctly
+     */
+    public abstract boolean isPageLoaded();
+    
+    /**
+     * Wait for page to be loaded
+     */
+    public void waitForPageToLoad() {
+        waitForPageLoad();
+        if (!isPageLoaded()) {
+            throw new RuntimeException("Page failed to load properly: " + this.getClass().getSimpleName());
+        }
+    }
+    
+    // ==================== UTILITY METHODS ====================
+    
+    /**
+     * Get AutoHeal metrics for this page
+     */
+    public String getPageMetrics() {
+        return autoHeal.getMetrics();
+    }
+    
+    /**
+     * Check if AutoHeal is healthy
+     */
+    public boolean isAutoHealHealthy() {
+        return autoHeal.isAutoHealHealthy();
+    }
+    
+    /**
+     * Take screenshot for debugging
+     */
+    public byte[] takeScreenshot() {
+        return ((org.openqa.selenium.TakesScreenshot) driver)
+                .getScreenshotAs(org.openqa.selenium.OutputType.BYTES);
+    }
+    
+    /**
+     * Cleanup resources when done with page
+     */
+    public void cleanup() {
+        // Override in subclasses if needed
+    }
+}
+```
+
+### Example Login Page Implementation
+
+```java
+package com.example.pages;
+
+import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Login page with AutoHeal capabilities
+ */
+public class LoginPage extends BasePage {
+    private static final Logger logger = LoggerFactory.getLogger(LoginPage.class);
+    
+    // Selectors
+    private static final String USERNAME_FIELD = "#user-name";
+    private static final String PASSWORD_FIELD = "#password";
+    private static final String LOGIN_BUTTON = "#login-button";
+    private static final String ERROR_MESSAGE = "[data-test='error']";
+    private static final String LOGO = ".login_logo";
+    
+    public LoginPage(WebDriver driver) {
+        super(driver);
+    }
+    
+    // ==================== PAGE SPECIFIC METHODS ====================
+    
+    /**
+     * Navigate to login page
+     */
+    public void goToLoginPage(String baseUrl) {
+        navigateTo(baseUrl);
+        waitForPageToLoad();
+    }
+    
+    /**
+     * Enter username
+     */
+    public void enterUsername(String username) {
+        type(USERNAME_FIELD, username, "Username input field");
+    }
+    
+    /**
+     * Enter password
+     */
+    public void enterPassword(String password) {
+        type(PASSWORD_FIELD, password, "Password input field");
+    }
+    
+    /**
+     * Click login button
+     */
+    public void clickLoginButton() {
+        click(LOGIN_BUTTON, "Login submit button");
+    }
+    
+    /**
+     * Perform complete login
+     */
+    public void login(String username, String password) {
+        logger.info("Performing login with username: {}", username);
+        enterUsername(username);
+        enterPassword(password);
+        clickLoginButton();
+    }
+    
+    /**
+     * Get error message text
+     */
+    public String getErrorMessage() {
+        if (isErrorMessageDisplayed()) {
+            return getText(ERROR_MESSAGE, "Error message");
+        }
+        return null;
+    }
+    
+    /**
+     * Check if error message is displayed
+     */
+    public boolean isErrorMessageDisplayed() {
+        return isElementPresent(ERROR_MESSAGE, "Error message");
+    }
+    
+    /**
+     * Get logo text
+     */
+    public String getLogoText() {
+        return getText(LOGO, "Login page logo");
+    }
+    
+    /**
+     * Clear input fields
+     */
+    public void clearFields() {
+        if (isElementPresent(USERNAME_FIELD, "Username field")) {
+            findElement(USERNAME_FIELD, "Username field").clear();
+        }
+        if (isElementPresent(PASSWORD_FIELD, "Password field")) {
+            findElement(PASSWORD_FIELD, "Password field").clear();
+        }
+    }
+    
+    /**
+     * Check if on login page
+     */
+    public boolean isOnLoginPage() {
+        return isElementPresent(LOGIN_BUTTON, "Login button") && 
+               isElementPresent(USERNAME_FIELD, "Username field");
+    }
+    
+    /**
+     * Validate login form is functional
+     */
+    public boolean validateLoginFormInteractivity() {
+        return isEnabled(USERNAME_FIELD, "Username field") &&
+               isEnabled(PASSWORD_FIELD, "Password field") &&
+               isEnabled(LOGIN_BUTTON, "Login button");
+    }
+    
+    // ==================== PAGE VALIDATION ====================
+    
+    @Override
+    public boolean isPageLoaded() {
+        return isDisplayed(USERNAME_FIELD, "Username field") &&
+               isDisplayed(PASSWORD_FIELD, "Password field") &&
+               isDisplayed(LOGIN_BUTTON, "Login button") &&
+               isDisplayed(LOGO, "Logo");
+    }
+    
+    /**
+     * Enhanced login with validation and result
+     */
+    public static class LoginResult {
+        private final boolean successful;
+        private final String message;
+        private final long executionTime;
+        
+        public LoginResult(boolean successful, String message, long executionTime) {
+            this.successful = successful;
+            this.message = message;
+            this.executionTime = executionTime;
+        }
+        
+        public boolean isSuccessful() { return successful; }
+        public String getMessage() { return message; }
+        public long getExecutionTime() { return executionTime; }
+        
+        @Override
+        public String toString() {
+            return String.format("LoginResult{successful=%s, message='%s', executionTime=%dms}", 
+                               successful, message, executionTime);
+        }
+    }
+    
+    public LoginResult performValidatedLogin(String username, String password) {
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            // Pre-login validation
+            if (!isPageLoaded()) {
+                return new LoginResult(false, "Login page not properly loaded", 
+                                     System.currentTimeMillis() - startTime);
+            }
+            
+            // Perform login
+            login(username, password);
+            
+            // Wait a moment for response
+            Thread.sleep(2000);
+            
+            // Check for errors
+            if (isErrorMessageDisplayed()) {
+                String errorMsg = getErrorMessage();
+                return new LoginResult(false, "Login failed: " + errorMsg, 
+                                     System.currentTimeMillis() - startTime);
+            }
+            
+            // Check if still on login page (indicates failure)
+            if (isOnLoginPage()) {
+                return new LoginResult(false, "Login failed: Still on login page", 
+                                     System.currentTimeMillis() - startTime);
+            }
+            
+            // Success - no longer on login page and no error message
+            return new LoginResult(true, "Login successful", 
+                                 System.currentTimeMillis() - startTime);
+            
+        } catch (Exception e) {
+            logger.error("Exception during login validation: {}", e.getMessage());
+            return new LoginResult(false, "Login failed with exception: " + e.getMessage(), 
+                                 System.currentTimeMillis() - startTime);
+        }
+    }
+}
+```
+
+## Test Framework Integration
+
+### JUnit 5 Integration with Test Extension
+
+```java
+package com.example.junit;
+
+import com.example.config.EnvironmentConfig;
+import com.example.wrapper.AutoHealSeleniumWrapper;
+import org.junit.jupiter.api.extension.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * JUnit 5 extension for AutoHeal test setup
+ */
+public class AutoHealTestExtension implements BeforeEachCallback, AfterEachCallback, 
+                                            BeforeAllCallback, AfterAllCallback {
+    
+    private static final Logger logger = LoggerFactory.getLogger(AutoHealTestExtension.class);
+    
+    @Override
+    public void beforeAll(ExtensionContext context) throws Exception {
+        logger.info("=== AutoHeal Test Suite Starting ===");
+    }
+    
+    @Override
+    public void beforeEach(ExtensionContext context) throws Exception {
+        logger.info("Setting up test: {}", context.getDisplayName());
+        
+        // Create WebDriver
+        WebDriver driver = createWebDriver();
+        
+        // Create AutoHeal wrapper
+        EnvironmentConfig config = new EnvironmentConfig();
+        AutoHealSeleniumWrapper autoHeal = new AutoHealSeleniumWrapper(driver);
+        
+        // Store in context for test method access
+        getStore(context).put("driver", driver);
+        getStore(context).put("autoHeal", autoHeal);
+        getStore(context).put("config", config);
+        
+        logger.info("Test setup completed for: {}", context.getDisplayName());
+    }
+    
+    @Override
+    public void afterEach(ExtensionContext context) throws Exception {
+        logger.info("Cleaning up test: {}", context.getDisplayName());
+        
+        AutoHealSeleniumWrapper autoHeal = getStore(context).get("autoHeal", AutoHealSeleniumWrapper.class);
+        WebDriver driver = getStore(context).get("driver", WebDriver.class);
+        
+        try {
+            // Log AutoHeal metrics
+            if (autoHeal != null) {
+                logger.info("Test metrics: {}", autoHeal.getMetrics());
+                autoHeal.shutdown();
+            }
+            
+            // Quit driver
+            if (driver != null) {
+                driver.quit();
+            }
+            
+        } catch (Exception e) {
+            logger.error("Error during test cleanup: {}", e.getMessage());
+        }
+        
+        logger.info("Test cleanup completed for: {}", context.getDisplayName());
+    }
+    
+    @Override
+    public void afterAll(ExtensionContext context) throws Exception {
+        logger.info("=== AutoHeal Test Suite Completed ===");
+    }
+    
+    private WebDriver createWebDriver() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--window-size=1920,1080");
+        
+        return new ChromeDriver(options);
+    }
+    
+    private ExtensionContext.Store getStore(ExtensionContext context) {
+        return context.getStore(ExtensionContext.Namespace.create(getClass(), context.getRequiredTestMethod()));
+    }
+}
+
+// Base test class using the extension
+package com.example.base;
+
+import com.example.junit.AutoHealTestExtension;
+import com.example.wrapper.AutoHealSeleniumWrapper;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.openqa.selenium.WebDriver;
+import org.junit.jupiter.api.TestInfo;
+
+@ExtendWith(AutoHealTestExtension.class)
+public abstract class BaseAutoHealTest {
+    
+    protected WebDriver getDriver(TestInfo testInfo) {
+        return getStore(testInfo).get("driver", WebDriver.class);
+    }
+    
+    protected AutoHealSeleniumWrapper getAutoHeal(TestInfo testInfo) {
+        return getStore(testInfo).get("autoHeal", AutoHealSeleniumWrapper.class);
+    }
+    
+    private org.junit.jupiter.api.extension.ExtensionContext.Store getStore(TestInfo testInfo) {
+        // This is a simplified version - actual implementation would need proper context access
+        return null; // Implementation depends on how you structure your test framework
+    }
+}
+```
+
+### Complete Test Example
+
+```java
+package com.example.tests;
+
+import com.example.base.BaseAutoHealTest;
+import com.example.pages.LoginPage;
+import com.example.pages.InventoryPage;
+import org.junit.jupiter.api.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DisplayName("Complete AutoHeal Login Test Suite")
+public class CompleteLoginTest extends BaseAutoHealTest {
+    private static final Logger logger = LoggerFactory.getLogger(CompleteLoginTest.class);
+    
+    private static final String BASE_URL = "https://www.saucedemo.com";
+    private static final String VALID_USERNAME = "standard_user";
+    private static final String VALID_PASSWORD = "secret_sauce";
+    
+    private LoginPage loginPage;
+    private InventoryPage inventoryPage;
+    
+    @BeforeEach
+    void setupPages(TestInfo testInfo) {
+        loginPage = new LoginPage(getDriver(testInfo));
+        inventoryPage = new InventoryPage(getDriver(testInfo));
+        
+        logger.info("Test setup completed for: {}", testInfo.getDisplayName());
+    }
+    
+    @Test
+    @Order(1)
+    @DisplayName("Verify Login Page Elements are Present")
+    void testLoginPageElementsPresent() {
+        logger.info("=== Testing Login Page Elements ===");
+        
+        loginPage.goToLoginPage(BASE_URL);
+        
+        // Validate all elements are present
+        assertTrue(loginPage.isPageLoaded(), "Login page should be fully loaded");
+        assertTrue(loginPage.validateLoginFormInteractivity(), "Login form should be interactive");
+        
+        // Check specific elements
+        assertEquals("Swag Labs", loginPage.getLogoText(), "Logo should display correct text");
+        
+        logger.info("All login page elements are present and functional");
+    }
+    
+    @Test
+    @Order(2) 
+    @DisplayName("Successful Login Flow")
+    void testSuccessfulLogin() {
+        logger.info("=== Testing Successful Login ===");
+        
+        loginPage.goToLoginPage(BASE_URL);
+        
+        // Perform login with validation
+        LoginPage.LoginResult result = loginPage.performValidatedLogin(VALID_USERNAME, VALID_PASSWORD);
+        
+        // Verify login success
+        assertTrue(result.isSuccessful(), "Login should succeed: " + result.getMessage());
+        logger.info("Login completed in {}ms", result.getExecutionTime());
+        
+        // Verify navigation to inventory page
+        assertTrue(inventoryPage.isPageLoaded(), "Should be redirected to inventory page");
+        assertEquals("Products", inventoryPage.getPageTitle(), "Page title should be 'Products'");
+        
+        // Verify inventory functionality
+        int itemCount = inventoryPage.getInventoryItemCount();
+        assertTrue(itemCount > 0, "Should have inventory items: " + itemCount);
+        
+        logger.info("Successful login test completed with {} items found", itemCount);
+    }
+    
+    @Test
+    @Order(3)
+    @DisplayName("Login with Invalid Credentials")
+    void testInvalidLogin() {
+        logger.info("=== Testing Invalid Login ===");
+        
+        loginPage.goToLoginPage(BASE_URL);
+        
+        // Attempt login with invalid credentials
+        LoginPage.LoginResult result = loginPage.performValidatedLogin("invalid_user", "invalid_pass");
+        
+        // Verify login failure
+        assertFalse(result.isSuccessful(), "Login should fail with invalid credentials");
+        assertTrue(result.getMessage().contains("failed"), "Should contain failure message");
+        
+        // Verify error message display
+        assertTrue(loginPage.isErrorMessageDisplayed(), "Error message should be displayed");
+        String errorMsg = loginPage.getErrorMessage();
+        assertNotNull(errorMsg, "Error message should not be null");
+        assertTrue(errorMsg.contains("do not match"), "Should show credentials mismatch error");
+        
+        // Verify still on login page
+        assertTrue(loginPage.isOnLoginPage(), "Should remain on login page");
+        
+        logger.info("Invalid login test completed - error properly displayed");
+    }
+    
+    @Test
+    @Order(4)
+    @DisplayName("AutoHeal Health and Performance Monitoring")
+    void testAutoHealMonitoring() {
+        logger.info("=== Testing AutoHeal Health Monitoring ===");
+        
+        loginPage.goToLoginPage(BASE_URL);
+        
+        // Check initial health
+        boolean initialHealth = loginPage.isAutoHealHealthy();
+        logger.info("Initial AutoHeal health: {}", initialHealth);
+        
+        // Perform operations to generate metrics
+        loginPage.performValidatedLogin(VALID_USERNAME, VALID_PASSWORD);
+        
+        // Check metrics
+        String metrics = loginPage.getPageMetrics();
+        assertNotNull(metrics, "Metrics should be available");
+        assertTrue(metrics.contains("Success Rate"), "Metrics should contain success rate");
+        
+        logger.info("AutoHeal metrics: {}", metrics);
+        
+        // Check final health
+        boolean finalHealth = loginPage.isAutoHealHealthy();
+        logger.info("Final AutoHeal health: {}", finalHealth);
+        
+        logger.info("AutoHeal monitoring test completed successfully");
+    }
+}
+```
+
+## Monitoring & Metrics
+
+### Metrics Collection Example
+
+```java
+package com.example.monitoring;
+
+import com.autoheal.monitoring.AutoHealMetrics;
+import com.example.wrapper.AutoHealSeleniumWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * AutoHeal metrics collector and reporter
+ */
+public class AutoHealMetricsCollector {
+    private static final Logger logger = LoggerFactory.getLogger(AutoHealMetricsCollector.class);
+    
+    private final AutoHealSeleniumWrapper autoHeal;
+    private final ScheduledExecutorService scheduler;
+    private boolean isCollecting = false;
+    
+    public AutoHealMetricsCollector(AutoHealSeleniumWrapper autoHeal) {
+        this.autoHeal = autoHeal;
+        this.scheduler = Executors.newScheduledThreadPool(1);
+    }
+    
+    /**
+     * Start collecting metrics at regular intervals
+     */
+    public void startMetricsCollection(Duration interval) {
+        if (isCollecting) {
+            logger.warn("Metrics collection already started");
+            return;
+        }
+        
+        isCollecting = true;
+        logger.info("Starting metrics collection every {} seconds", interval.getSeconds());
+        
+        scheduler.scheduleAtFixedRate(this::collectAndLogMetrics, 
+                                    0, interval.getSeconds(), TimeUnit.SECONDS);
+    }
+    
+    /**
+     * Collect and log current metrics
+     */
+    public void collectAndLogMetrics() {
+        try {
+            String metrics = autoHeal.getMetrics();
+            boolean healthy = autoHeal.isAutoHealHealthy();
+            
+            logger.info("=== AutoHeal Metrics at {} ===", LocalDateTime.now());
+            logger.info("Health Status: {}", healthy ? "HEALTHY" : "DEGRADED");
+            logger.info("Metrics: {}", metrics);
+            
+            // You could send metrics to monitoring systems here
+            // sendToPrometheus(metrics);
+            // sendToCloudWatch(metrics);
+            
+        } catch (Exception e) {
+            logger.error("Failed to collect metrics: {}", e.getMessage());
+        }
+    }
+    
+    /**
+     * Get current metrics as structured data
+     */
+    public MetricsSnapshot getCurrentMetrics() {
+        try {
+            String metricsText = autoHeal.getMetrics();
+            boolean healthy = autoHeal.isAutoHealHealthy();
+            
+            return new MetricsSnapshot(
+                LocalDateTime.now(),
+                healthy,
+                metricsText,
+                parseSuccessRate(metricsText),
+                parseCacheHitRate(metricsText)
+            );
+            
+        } catch (Exception e) {
+            logger.error("Failed to get current metrics: {}", e.getMessage());
+            return null;
+        }
+    }
+    
+    /**
+     * Stop metrics collection
+     */
+    public void stopMetricsCollection() {
+        if (!isCollecting) {
+            return;
+        }
+        
+        isCollecting = false;
+        scheduler.shutdown();
+        logger.info("Metrics collection stopped");
+    }
+    
+    // Helper methods to parse metrics
+    private double parseSuccessRate(String metrics) {
+        try {
+            if (metrics.contains("Success Rate: ")) {
+                String[] parts = metrics.split("Success Rate: ")[1].split("%")[0].split(" ");
+                return Double.parseDouble(parts[0]);
+            }
+        } catch (Exception e) {
+            logger.warn("Failed to parse success rate from metrics: {}", e.getMessage());
+        }
+        return 0.0;
+    }
+    
+    private double parseCacheHitRate(String metrics) {
+        try {
+            if (metrics.contains("Cache Hit Rate: ")) {
+                String[] parts = metrics.split("Cache Hit Rate: ")[1].split("%")[0].split(" ");
+                return Double.parseDouble(parts[0]);
+            }
+        } catch (Exception e) {
+            logger.warn("Failed to parse cache hit rate from metrics: {}", e.getMessage());
+        }
+        return 0.0;
+    }
+    
+    /**
+     * Metrics snapshot data class
+     */
+    public static class MetricsSnapshot {
+        private final LocalDateTime timestamp;
+        private final boolean healthy;
+        private final String rawMetrics;
+        private final double successRate;
+        private final double cacheHitRate;
+        
+        public MetricsSnapshot(LocalDateTime timestamp, boolean healthy, String rawMetrics, 
+                             double successRate, double cacheHitRate) {
+            this.timestamp = timestamp;
+            this.healthy = healthy;
+            this.rawMetrics = rawMetrics;
+            this.successRate = successRate;
+            this.cacheHitRate = cacheHitRate;
+        }
+        
+        // Getters
+        public LocalDateTime getTimestamp() { return timestamp; }
+        public boolean isHealthy() { return healthy; }
+        public String getRawMetrics() { return rawMetrics; }
+        public double getSuccessRate() { return successRate; }
+        public double getCacheHitRate() { return cacheHitRate; }
+        
+        @Override
+        public String toString() {
+            return String.format("MetricsSnapshot{timestamp=%s, healthy=%s, successRate=%.2f%%, cacheHitRate=%.2f%%}", 
+                               timestamp, healthy, successRate, cacheHitRate);
+        }
+    }
+}
+
+// Usage example in tests
+public class MetricsExample {
+    public void demonstrateMetricsCollection() {
+        WebDriver driver = new ChromeDriver();
+        AutoHealSeleniumWrapper autoHeal = new AutoHealSeleniumWrapper(driver);
+        AutoHealMetricsCollector collector = new AutoHealMetricsCollector(autoHeal);
+        
+        try {
+            // Start collecting metrics every 30 seconds
+            collector.startMetricsCollection(Duration.ofSeconds(30));
+            
+            // Run your tests here...
+            autoHeal.navigateTo("https://example.com");
+            autoHeal.click("#button", "Test button");
+            
+            // Get current metrics snapshot
+            AutoHealMetricsCollector.MetricsSnapshot snapshot = collector.getCurrentMetrics();
+            System.out.println("Current metrics: " + snapshot);
+            
+            // Stop collection when done
+            collector.stopMetricsCollection();
+            
+        } finally {
+            autoHeal.shutdown();
+            driver.quit();
+        }
+    }
+}
+```
+
+## Best Practices
+
+### 1. Element Description Guidelines
+
+```java
+// ❌ Poor descriptions
+autoHeal.findElement("#btn", "button");
+autoHeal.findElement(".field", "input");
+
+// ✅ Good descriptions
+autoHeal.findElement("#submit-btn", "Submit payment button");
+autoHeal.findElement("#email-field", "User email input field");
+autoHeal.findElement("[data-test='confirm-dialog']", "Order confirmation dialog");
+```
+
+### 2. Selector Strategy Best Practices
+
+```java
+public class SelectorBestPractices {
+    
+    // ✅ Prefer stable attributes
+    private static final String LOGIN_BUTTON = "[data-testid='login-button']";
+    private static final String USERNAME_FIELD = "[data-cy='username']";
+    
+    // ✅ Use semantic selectors when possible
+    private static final String MAIN_NAVIGATION = "nav[role='navigation']";
+    private static final String ERROR_ALERT = "[role='alert']";
+    
+    // ✅ Combine selectors for specificity
+    private static final String PRICE_CELL = "tr[data-product='laptop'] td.price";
+    
+    // ❌ Avoid fragile selectors
+    // private static final String BAD_SELECTOR = "body > div:nth-child(3) > form > button";
+    // private static final String CLASS_ONLY = ".btn";
+    
+    public void demonstrateBestPractices(AutoHealSeleniumWrapper autoHeal) {
+        // Use meaningful descriptions that help AI understand context
+        autoHeal.click(LOGIN_BUTTON, "Main login button on authentication form");
+        
+        // Provide context when elements might be ambiguous
+        autoHeal.type(USERNAME_FIELD, "testuser", "Username field in login form (not search box)");
+        
+        // Use consistent naming patterns
+        autoHeal.click("[data-test='submit-order']", "Submit order button in checkout process");
+    }
+}
+```
+
+### 3. Error Handling and Fallbacks
+
+```java
+public class ErrorHandlingBestPractices {
+    
+    public void robustElementInteraction(AutoHealSeleniumWrapper autoHeal, 
+                                       String selector, String description) {
+        try {
+            // Primary approach with AutoHeal
+            autoHeal.click(selector, description);
+            
+        } catch (Exception e) {
+            logger.warn("AutoHeal failed for '{}', attempting fallback: {}", description, e.getMessage());
+            
+            try {
+                // Fallback approach
+                WebElement element = autoHeal.getDriver().findElement(By.cssSelector(selector));
+                element.click();
+                
+            } catch (Exception fallbackError) {
+                logger.error("Both AutoHeal and fallback failed for '{}': {}", description, fallbackError.getMessage());
+                
+                // Take screenshot for debugging
+                byte[] screenshot = ((TakesScreenshot) autoHeal.getDriver())
+                        .getScreenshotAs(OutputType.BYTES);
+                
+                // Save or log screenshot
+                saveScreenshotForDebugging(screenshot, description);
+                
+                throw new RuntimeException("Element interaction failed completely: " + description, fallbackError);
+            }
+        }
+    }
+    
+    private void saveScreenshotForDebugging(byte[] screenshot, String description) {
+        // Implementation to save screenshot with meaningful name
+        String filename = "failure_" + description.replaceAll("[^a-zA-Z0-9]", "_") + 
+                         "_" + System.currentTimeMillis() + ".png";
+        // Save screenshot logic here
+    }
+}
+```
+
+### 4. Configuration Management
+
+```java
+public class ConfigurationBestPractices {
+    
+    /**
+     * Environment-aware configuration
+     */
+    public static AutoHealConfiguration createEnvironmentConfig() {
+        String environment = System.getProperty("test.environment", "development");
+        
+        return switch (environment.toLowerCase()) {
+            case "production" -> createProductionConfig();
+            case "staging" -> createStagingConfig();
+            case "ci" -> createCIConfig();
+            default -> createDevelopmentConfig();
+        };
+    }
+    
+    private static AutoHealConfiguration createProductionConfig() {
+        return AutoHealConfiguration.builder()
+            .cache(CacheConfig.builder()
+                .maximumSize(10000)
+                .expireAfterWrite(Duration.ofHours(24))
+                .build())
+            .ai(AIConfig.builder()
+                .provider(AIProvider.OPENAI)
+                .apiKey(System.getenv("OPENAI_API_KEY"))
+                .timeout(Duration.ofSeconds(30))
+                .build())
+            .performance(PerformanceConfig.builder()
+                .threadPoolSize(16)
+                .elementTimeout(Duration.ofSeconds(15))
+                .build())
+            .build();
+    }
+    
+    private static AutoHealConfiguration createDevelopmentConfig() {
+        return AutoHealConfiguration.builder()
+            .cache(CacheConfig.builder()
+                .maximumSize(1000)
+                .expireAfterWrite(Duration.ofHours(1))
+                .build())
+            .ai(AIConfig.builder()
+                .provider(AIProvider.MOCK) // Fast for development
+                .build())
+            .performance(PerformanceConfig.builder()
+                .threadPoolSize(4)
+                .elementTimeout(Duration.ofSeconds(5))
+                .build())
+            .build();
+    }
+    
+    private static AutoHealConfiguration createCIConfig() {
+        return AutoHealConfiguration.builder()
+            .cache(CacheConfig.builder()
+                .maximumSize(5000)
+                .expireAfterWrite(Duration.ofHours(6))
+                .build())
+            .ai(AIConfig.builder()
+                .provider(AIProvider.MOCK) // Reliable for CI
+                .build())
+            .performance(PerformanceConfig.builder()
+                .threadPoolSize(8)
+                .elementTimeout(Duration.ofSeconds(10))
+                .build())
+            .build();
+    }
+}
+```
+
+## Troubleshooting
+
+### Common Issues and Solutions
+
+#### 1. AutoHeal Not Finding Elements
+
+**Problem:** AutoHeal fails to locate elements even with healing enabled.
+
+**Solutions:**
+```java
+// ✅ Solution 1: Improve element descriptions
+// Instead of:
+autoHeal.findElement("#btn", "button");
+
+// Use:
+autoHeal.findElement("#btn", "Submit order button in checkout form");
+
+// ✅ Solution 2: Check element timing
+// Add explicit waits before AutoHeal operations
+WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+wait.until(ExpectedConditions.presenceOfElementLocated(By.id("dynamic-content")));
+autoHeal.findElement("#dynamic-element", "Dynamically loaded content element");
+
+// ✅ Solution 3: Verify configuration
+AutoHealConfiguration config = AutoHealConfiguration.builder()
+    .ai(AIConfig.builder()
+        .provider(AIProvider.OPENAI)
+        .apiKey("your-valid-api-key") // Ensure API key is valid
+        .timeout(Duration.ofSeconds(30)) // Increase timeout if needed
+        .build())
+    .build();
+```
+
+#### 2. Performance Issues
+
+**Problem:** AutoHeal operations are slow.
+
+**Solutions:**
+```java
+// ✅ Solution 1: Optimize thread pool size
+AutoHealConfiguration config = AutoHealConfiguration.builder()
+    .performance(PerformanceConfig.builder()
+        .threadPoolSize(16) // Increase for parallel operations
+        .elementTimeout(Duration.ofSeconds(5)) // Reduce if elements load quickly
+        .build())
+    .build();
+
+// ✅ Solution 2: Use async operations
+CompletableFuture<WebElement> element1 = autoHeal.findElementAsync("#el1", "First element");
+CompletableFuture<WebElement> element2 = autoHeal.findElementAsync("#el2", "Second element");
+
+CompletableFuture.allOf(element1, element2).thenRun(() -> {
+    // Both elements found in parallel
+});
+
+// ✅ Solution 3: Optimize cache settings
+CacheConfig cacheConfig = CacheConfig.builder()
+    .maximumSize(10000) // Increase cache size
+    .expireAfterWrite(Duration.ofHours(24)) // Increase cache TTL
+    .build();
+```
+
+#### 3. AI Service Connection Issues
+
+**Problem:** AI service timeouts or connection failures.
+
+**Solutions:**
+```java
+// ✅ Solution 1: Configure resilience
+ResilienceConfig resilienceConfig = ResilienceConfig.builder()
+    .circuitBreakerFailureThreshold(3) // Allow some failures
+    .circuitBreakerTimeout(Duration.ofMinutes(2)) // Shorter circuit breaker timeout
+    .retryMaxAttempts(5) // Increase retry attempts
+    .retryDelay(Duration.ofSeconds(2)) // Add delay between retries
+    .build();
+
+// ✅ Solution 2: Use fallback AI provider
+AIConfig aiConfig = AIConfig.builder()
+    .provider(AIProvider.OPENAI)
+    .apiKey(System.getenv("OPENAI_API_KEY"))
+    .timeout(Duration.ofSeconds(45)) // Increase timeout
+    .maxRetries(5)
+    .build();
+
+// ✅ Solution 3: Add health checks
+public void monitorAIHealth(AutoHealSeleniumWrapper autoHeal) {
+    if (!autoHeal.isAutoHealHealthy()) {
+        logger.warn("AutoHeal health degraded - consider using fallback strategies");
+        // Implement fallback logic
+    }
+}
+```
+
+#### 4. Memory Issues
+
+**Problem:** Memory usage grows over time with AutoHeal.
+
+**Solutions:**
+```java
+// ✅ Solution 1: Configure cache eviction
+CacheConfig cacheConfig = CacheConfig.builder()
+    .maximumSize(5000) // Limit cache size
+    .expireAfterAccess(Duration.ofHours(1)) // Evict unused entries
+    .expireAfterWrite(Duration.ofHours(6)) // Evict old entries
+    .build();
+
+// ✅ Solution 2: Regular cleanup
+public void performRegularCleanup(AutoHealSeleniumWrapper autoHeal) {
+    // Clear cache periodically
+    autoHeal.clearCache();
+    
+    // Monitor metrics
+    String metrics = autoHeal.getMetrics();
+    logger.info("Memory cleanup performed. Current metrics: {}", metrics);
+}
+
+// ✅ Solution 3: Proper shutdown
+public void cleanupResources(AutoHealSeleniumWrapper autoHeal, WebDriver driver) {
+    try {
+        autoHeal.shutdown(); // Shutdown AutoHeal first
+    } finally {
+        driver.quit(); // Then quit driver
+    }
+}
+```
+
+### Debug Mode Configuration
+
+```java
+public class DebugConfiguration {
+    
+    public static AutoHealSeleniumWrapper createDebugWrapper(WebDriver driver) {
+        // Enable debug logging
+        System.setProperty("org.slf4j.simpleLogger.log.com.autoheal", "DEBUG");
+        
+        AutoHealConfiguration config = AutoHealConfiguration.builder()
+            .performance(PerformanceConfig.builder()
+                .enableMetrics(true) // Enable detailed metrics
+                .elementTimeout(Duration.ofSeconds(30)) // Longer timeouts for debugging
+                .build())
+            .cache(CacheConfig.builder()
+                .recordStats(true) // Enable cache statistics
+                .build())
+            .build();
+        
+        return new AutoHealSeleniumWrapper(driver);
+    }
+    
+    public static void enableVerboseLogging() {
+        System.setProperty("org.slf4j.simpleLogger.log.com.autoheal", "TRACE");
+        System.setProperty("org.slf4j.simpleLogger.showDateTime", "true");
+        System.setProperty("org.slf4j.simpleLogger.dateTimeFormat", "yyyy-MM-dd HH:mm:ss");
+    }
+}
+```
+
+### Testing AutoHeal Configuration
+
+```java
+@Test
+public void validateAutoHealConfiguration() {
+    WebDriver driver = new ChromeDriver();
+    AutoHealSeleniumWrapper autoHeal = new AutoHealSeleniumWrapper(driver);
+    
+    try {
+        // Test basic functionality
+        autoHeal.navigateTo("https://example.com");
+        assertTrue(autoHeal.isElementPresent("body", "Page body"), 
+                  "Basic element finding should work");
+        
+        // Test health status
+        assertTrue(autoHeal.isAutoHealHealthy(), "AutoHeal should be healthy");
+        
+        // Test metrics collection
+        String metrics = autoHeal.getMetrics();
+        assertNotNull(metrics, "Metrics should be available");
+        assertTrue(metrics.contains("Success Rate"), "Metrics should contain success rate");
+        
+        // Test cache functionality
+        autoHeal.clearCache(); // Should not throw exception
+        
+        logger.info("AutoHeal configuration validation successful");
+        
+    } finally {
+        autoHeal.shutdown();
+        driver.quit();
+    }
+}
+```
+
+---
+
+## Summary
+
+This guide provides comprehensive coverage of using AutoHeal Locator with Selenium WebDriver, including:
+
+- ✅ **Quick Setup**: Simple installation and basic usage
+- ✅ **Wrapper Creation**: Custom Selenium wrappers with AutoHeal
+- ✅ **Advanced Configuration**: Production-ready configurations
+- ✅ **Page Object Integration**: Enhanced page object models
+- ✅ **Test Framework Integration**: JUnit 5 extensions and base classes
+- ✅ **Monitoring**: Metrics collection and health monitoring
+- ✅ **Best Practices**: Proven patterns for reliable automation
+- ✅ **Troubleshooting**: Common issues and solutions
+
+The AutoHeal Locator provides enterprise-grade reliability for Selenium test automation by adding AI-powered self-healing capabilities that automatically adapt to UI changes, reducing test maintenance overhead and improving overall test stability.
+
+For additional support and examples, refer to the main project documentation and example test suites included in the repository.

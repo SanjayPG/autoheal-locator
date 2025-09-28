@@ -1,0 +1,86 @@
+site_name: AutoHeal Locator Documentation
+site_description: Enterprise-grade AI-powered element locator with auto-healing capabilities
+site_author: AutoHeal Team
+site_url: https://yourusername.github.io/autoheal-locator
+
+repo_name: yourusername/autoheal-locator
+repo_url: https://github.com/yourusername/autoheal-locator
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.tabs.link
+
+plugins:
+  - search
+  - autorefs
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: user-guide/installation.md
+    - Quick Start: user-guide/quick-start.md
+  - User Guide:
+    - Overview: user-guide/index.md
+    - AI Configuration: user-guide/ai-configuration.md
+    - Performance Tuning: user-guide/performance.md
+    - Spring Boot Integration: user-guide/spring-boot-integration.md
+    - Selenium Integration: user-guide/selenium-integration.md
+    - Playwright Integration: user-guide/playwright-integration.md
+    - Reporting: user-guide/reporting.md
+    - Multiple Elements: user-guide/multiple-elements.md
+  - Examples:
+    - Selenium Examples: user-guide/examples/selenium-examples.md
+    - Page Object Examples: user-guide/examples/page-object-examples.md
+    - Cucumber Examples: user-guide/examples/cucumber-examples.md
+  - Advanced:
+    - Cost Optimization: advanced/cost-optimization.md
+    - Configuration Reference: advanced/configuration-reference.md
+    - Architecture: advanced/architecture.md
+    - Troubleshooting: advanced/troubleshooting.md
+  - API Reference:
+    - Core Classes: api/core-classes.md
+    - Configuration: api/configuration.md
+    - Exceptions: api/exceptions.md
+  - Contributing:
+    - Development Guide: contributing/development.md
+    - Release Process: contributing/releases.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yourusername/autoheal-locator

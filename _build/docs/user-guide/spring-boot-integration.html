@@ -1,0 +1,1452 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Spring Boot Integration &#8212; AutoHeal Locator</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=9e0c438f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=51b770b3"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=d1c4098b"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/user-guide/spring-boot-integration';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Performance Optimization Guide" href="performance.html" />
+    <link rel="prev" title="Playwright AutoHeal Integration Guide" href="playwright-integration.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="AutoHeal Locator - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="AutoHeal Locator - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation.html">
+    Installation Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="quick-start.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="ai-configuration.html">
+    AI Configuration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="selenium-integration.html">
+    AutoHeal Locator - Complete Selenium Usage Guide
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="playwright-integration.html">
+    Playwright AutoHeal Integration Guide
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="#">
+    Spring Boot Integration
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="performance.html">
+    Performance Optimization Guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="reporting.html">
+    AutoHeal Reporting System
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="multiple-elements.html">
+    Handling Multiple Elements - Smart Disambiguation
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="examples/selenium-examples.html">
+    Selenium Integration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="examples/page-object-examples.html">
+    Page Object Model Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="examples/cucumber-examples.html">
+    Cucumber Integration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../advanced/cost-optimization.html">
+    AutoHeal Cost Optimization Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../advanced/architecture.html">
+    Architecture Overview
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../advanced/configuration-reference.html">
+    AutoHeal AI Configuration Examples
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../advanced/troubleshooting.html">
+    Troubleshooting Guide
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contributing/development.html">
+    Development Guide
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator" title="Maven Central" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Maven Central</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://javadoc.io/doc/com.autoheal/autoheal-locator" title="JavaDoc" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-book fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">JavaDoc</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation.html">
+    Installation Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="quick-start.html">
+    Quick Start Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="ai-configuration.html">
+    AI Configuration Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="selenium-integration.html">
+    AutoHeal Locator - Complete Selenium Usage Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="playwright-integration.html">
+    Playwright AutoHeal Integration Guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    Spring Boot Integration
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="performance.html">
+    Performance Optimization Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="reporting.html">
+    AutoHeal Reporting System
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="multiple-elements.html">
+    Handling Multiple Elements - Smart Disambiguation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples/selenium-examples.html">
+    Selenium Integration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples/page-object-examples.html">
+    Page Object Model Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="examples/cucumber-examples.html">
+    Cucumber Integration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../advanced/cost-optimization.html">
+    AutoHeal Cost Optimization Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../advanced/architecture.html">
+    Architecture Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../advanced/configuration-reference.html">
+    AutoHeal AI Configuration Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../advanced/troubleshooting.html">
+    Troubleshooting Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributing/development.html">
+    Development Guide
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/yourusername/autoheal-locator" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator" title="Maven Central" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">Maven Central</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://javadoc.io/doc/com.autoheal/autoheal-locator" title="JavaDoc" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-book fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">JavaDoc</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="AutoHeal Locator - Home"/>
+    <img src="../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="AutoHeal Locator - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+        <div class="sidebar-primary-item">
+<h3><a href="../../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">User Guide</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ai-configuration.html">AI Configuration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selenium-integration.html">AutoHeal Locator - Complete Selenium Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="playwright-integration.html">Playwright AutoHeal Integration Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spring Boot Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Optimization Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reporting.html">AutoHeal Reporting System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multiple-elements.html">Handling Multiple Elements - Smart Disambiguation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/selenium-examples.html">Selenium Integration Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/page-object-examples.html">Page Object Model Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/cucumber-examples.html">Cucumber Integration Examples</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cost-optimization.html">AutoHeal Cost Optimization Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/architecture.html">Architecture Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/configuration-reference.html">AutoHeal AI Configuration Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/troubleshooting.html">Troubleshooting Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/development.html">Development Guide</a></li>
+</ul>
+</div>
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item"><nav class="sidebar-indices-items" aria-labelledby="pst-indices-navigation-heading-2">
+  <p id="pst-indices-navigation-heading-2" class="sidebar-indices-items__title" role="heading" aria-level="1">Indices</p>
+  <ul class="indices-link">
+        <li class="toctree-l1">
+          <a class="reference internal"
+             href="../../genindex.html"
+             accesskey="I">General Index</a>
+        </li>
+  </ul>
+</nav></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Spring Boot Integration</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="spring-boot-integration">
+<h1>Spring Boot Integration<a class="headerlink" href="#spring-boot-integration" title="Link to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>AutoHeal provides seamless integration with Spring Boot applications, offering auto-configuration, dependency injection, and Spring Test support for easy setup and management.</p>
+</section>
+<hr class="docutils" />
+<section id="quick-setup">
+<h2>Quick Setup<a class="headerlink" href="#quick-setup" title="Link to this heading">#</a></h2>
+<section id="dependencies">
+<h3>1. Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">#</a></h3>
+<p>AutoHeal includes optional Spring Boot support. Add to your <code class="docutils literal notranslate"><span class="pre">pom.xml</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;dependencies&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- AutoHeal with Spring Boot support --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.example<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>autoheal-locator<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;version&gt;</span>1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Spring Boot Test --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-test<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Selenium --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.seleniumhq.selenium<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>selenium-java<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;version&gt;</span>4.15.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;/dependencies&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="auto-configuration">
+<h3>2. Auto-Configuration<a class="headerlink" href="#auto-configuration" title="Link to this heading">#</a></h3>
+<p>AutoHeal automatically configures itself in Spring Boot applications:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@SpringBootTest</span>
+<span class="nd">@TestMethodOrder</span><span class="p">(</span><span class="n">OrderAnnotation</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AutoHealSpringBootTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">;</span><span class="w">  </span><span class="c1">// Automatically injected!</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">WebDriver</span><span class="w"> </span><span class="n">webDriver</span><span class="p">;</span><span class="w">       </span><span class="c1">// Auto-configured WebDriver</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="nd">@Order</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">testLoginWithAutoHeal</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">webDriver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;https://example.com/login&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Use AutoHeal directly - fully configured via Spring</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">usernameField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#username&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;username input field&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">usernameField</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;testuser&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">loginButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Sign In&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;login submit button&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">loginButton</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">dashboard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.dashboard&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;user dashboard&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">dashboard</span><span class="p">.</span><span class="na">isDisplayed</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="configuration-properties">
+<h2>Configuration Properties<a class="headerlink" href="#configuration-properties" title="Link to this heading">#</a></h2>
+<p>Configure AutoHeal through Spring Boot <code class="docutils literal notranslate"><span class="pre">application.properties</span></code>:</p>
+<section id="application-properties">
+<h3>application.properties<a class="headerlink" href="#application-properties" title="Link to this heading">#</a></h3>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="c1"># AutoHeal AI Configuration</span>
+<span class="na">autoheal.ai.provider</span><span class="o">=</span><span class="s">OPENAI</span>
+<span class="na">autoheal.ai.api-key</span><span class="o">=</span><span class="s">${OPENAI_API_KEY}</span>
+<span class="na">autoheal.ai.model</span><span class="o">=</span><span class="s">gpt-4o-mini</span>
+<span class="na">autoheal.ai.timeout</span><span class="o">=</span><span class="s">30s</span>
+<span class="na">autoheal.ai.max-retries</span><span class="o">=</span><span class="s">3</span>
+<span class="na">autoheal.ai.visual-analysis-enabled</span><span class="o">=</span><span class="s">true</span>
+
+<span class="c1"># AutoHeal Cache Configuration</span>
+<span class="na">autoheal.cache.enabled</span><span class="o">=</span><span class="s">true</span>
+<span class="na">autoheal.cache.max-size</span><span class="o">=</span><span class="s">5000</span>
+<span class="na">autoheal.cache.expire-after-write</span><span class="o">=</span><span class="s">1h</span>
+<span class="na">autoheal.cache.expire-after-access</span><span class="o">=</span><span class="s">30m</span>
+
+<span class="c1"># AutoHeal Performance Configuration</span>
+<span class="na">autoheal.performance.thread-pool-size</span><span class="o">=</span><span class="s">4</span>
+<span class="na">autoheal.performance.element-timeout</span><span class="o">=</span><span class="s">30s</span>
+<span class="na">autoheal.performance.execution-strategy</span><span class="o">=</span><span class="s">HYBRID</span>
+
+<span class="c1"># AutoHeal Reporting Configuration</span>
+<span class="na">autoheal.reporting.enabled</span><span class="o">=</span><span class="s">true</span>
+<span class="na">autoheal.reporting.output-directory</span><span class="o">=</span><span class="s">./test-reports/autoheal</span>
+<span class="na">autoheal.reporting.generate-html</span><span class="o">=</span><span class="s">true</span>
+<span class="na">autoheal.reporting.generate-json</span><span class="o">=</span><span class="s">true</span>
+<span class="na">autoheal.reporting.report-name-prefix</span><span class="o">=</span><span class="s">${spring.application.name:MyApp}_AutoHeal</span>
+
+<span class="c1"># WebDriver Configuration</span>
+<span class="na">autoheal.webdriver.type</span><span class="o">=</span><span class="s">CHROME</span>
+<span class="na">autoheal.webdriver.headless</span><span class="o">=</span><span class="s">false</span>
+<span class="na">autoheal.webdriver.window-size</span><span class="o">=</span><span class="s">1920x1080</span>
+<span class="na">autoheal.webdriver.implicit-wait</span><span class="o">=</span><span class="s">10s</span>
+</pre></div>
+</div>
+</section>
+<section id="application-test-yml-yaml-format">
+<h3>application-test.yml (YAML format)<a class="headerlink" href="#application-test-yml-yaml-format" title="Link to this heading">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">autoheal</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ai</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OPENAI</span>
+<span class="w">    </span><span class="nt">api-key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${OPENAI_API_KEY}</span>
+<span class="w">    </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gpt-4o-mini</span>
+<span class="w">    </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30s</span>
+<span class="w">    </span><span class="nt">max-retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">    </span><span class="nt">visual-analysis-enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="w">  </span><span class="nt">cache</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">max-size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
+<span class="w">    </span><span class="nt">expire-after-write</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1h</span>
+
+<span class="w">  </span><span class="nt">performance</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">thread-pool-size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="w">    </span><span class="nt">execution-strategy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HYBRID</span>
+
+<span class="w">  </span><span class="nt">reporting</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">output-directory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./test-reports/autoheal</span>
+<span class="w">    </span><span class="nt">generate-html</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">report-name-prefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${spring.application.name}_AutoHeal</span>
+
+<span class="w">  </span><span class="nt">webdriver</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CHROME</span>
+<span class="w">    </span><span class="nt">headless</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Headless for CI/CD</span>
+<span class="w">    </span><span class="nt">window-size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1920x1080</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="spring-boot-test-integration">
+<h2>Spring Boot Test Integration<a class="headerlink" href="#spring-boot-test-integration" title="Link to this heading">#</a></h2>
+<section id="basic-spring-boot-test">
+<h3>1. Basic Spring Boot Test<a class="headerlink" href="#basic-spring-boot-test" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@SpringBootTest</span>
+<span class="nd">@TestInstance</span><span class="p">(</span><span class="n">TestInstance</span><span class="p">.</span><span class="na">Lifecycle</span><span class="p">.</span><span class="na">PER_CLASS</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">UserManagementTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">WebDriver</span><span class="w"> </span><span class="n">webDriver</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${app.base-url:http://localhost:8080}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">baseUrl</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">shouldCreateNewUser</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">webDriver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">baseUrl</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/admin/users&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Using AutoHeal with Spring Boot auto-configuration</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">createButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Create User&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;create new user button&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">createButton</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">nameField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#user-name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;user name input field&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">nameField</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;John Doe&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">emailField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;#user-email&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;user email input field&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">emailField</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="s">&quot;john@example.com&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">saveButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;Save User&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;save user button&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">saveButton</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Verify user creation</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">successMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;.success-alert&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;user creation success message&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertThat</span><span class="p">(</span><span class="n">successMessage</span><span class="p">.</span><span class="na">getText</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;User created successfully&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="page-object-with-spring-dependency-injection">
+<h3>2. Page Object with Spring Dependency Injection<a class="headerlink" href="#page-object-with-spring-dependency-injection" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoginPage</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">WebDriver</span><span class="w"> </span><span class="n">webDriver</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Locator constants</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">USERNAME_FIELD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#username&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">PASSWORD_FIELD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#password&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">LOGIN_BUTTON</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Sign In&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">ERROR_MESSAGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;.error-message&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Descriptions</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">USERNAME_DESC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;username input on login page&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">PASSWORD_DESC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;password input on login page&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">LOGIN_BTN_DESC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;login submit button&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">ERROR_DESC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;login error message&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">navigate</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">baseUrl</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">webDriver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">baseUrl</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/login&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">enterCredentials</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">usernameField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="n">USERNAME_FIELD</span><span class="p">,</span><span class="w"> </span><span class="n">USERNAME_DESC</span><span class="p">);</span>
+<span class="w">        </span><span class="n">usernameField</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span>
+<span class="w">        </span><span class="n">usernameField</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="n">username</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">passwordField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="n">PASSWORD_FIELD</span><span class="p">,</span><span class="w"> </span><span class="n">PASSWORD_DESC</span><span class="p">);</span>
+<span class="w">        </span><span class="n">passwordField</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span>
+<span class="w">        </span><span class="n">passwordField</span><span class="p">.</span><span class="na">sendKeys</span><span class="p">(</span><span class="n">password</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">clickLogin</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">loginButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="n">LOGIN_BUTTON</span><span class="p">,</span><span class="w"> </span><span class="n">LOGIN_BTN_DESC</span><span class="p">);</span>
+<span class="w">        </span><span class="n">loginButton</span><span class="p">.</span><span class="na">click</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getErrorMessage</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="n">ERROR_MESSAGE</span><span class="p">,</span><span class="w"> </span><span class="n">ERROR_DESC</span><span class="p">).</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Using the Page Object in tests</span>
+<span class="nd">@SpringBootTest</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoginIntegrationTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">LoginPage</span><span class="w"> </span><span class="n">loginPage</span><span class="p">;</span><span class="w">  </span><span class="c1">// Spring-managed Page Object</span>
+
+<span class="w">    </span><span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${app.base-url}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">baseUrl</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">shouldLoginSuccessfully</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">loginPage</span><span class="p">.</span><span class="na">navigate</span><span class="p">(</span><span class="n">baseUrl</span><span class="p">);</span>
+<span class="w">        </span><span class="n">loginPage</span><span class="p">.</span><span class="na">enterCredentials</span><span class="p">(</span><span class="s">&quot;validuser&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;validpass&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">loginPage</span><span class="p">.</span><span class="na">clickLogin</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Verify login success</span>
+<span class="w">        </span><span class="n">assertThat</span><span class="p">(</span><span class="n">webDriver</span><span class="p">.</span><span class="na">getCurrentUrl</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;/dashboard&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="test-configuration-class">
+<h3>3. Test Configuration Class<a class="headerlink" href="#test-configuration-class" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@TestConfiguration</span>
+<span class="nd">@EnableConfigurationProperties</span><span class="p">({</span><span class="n">AutoHealProperties</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="n">WebDriverProperties</span><span class="p">.</span><span class="na">class</span><span class="p">})</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TestConfig</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="nd">@Primary</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">WebDriver</span><span class="w"> </span><span class="nf">testWebDriver</span><span class="p">(</span><span class="n">WebDriverProperties</span><span class="w"> </span><span class="n">properties</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ChromeOptions</span><span class="w"> </span><span class="n">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromeOptions</span><span class="p">();</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">isHeadless</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">options</span><span class="p">.</span><span class="na">addArguments</span><span class="p">(</span><span class="s">&quot;--headless&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">options</span><span class="p">.</span><span class="na">addArguments</span><span class="p">(</span><span class="s">&quot;--window-size=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">properties</span><span class="p">.</span><span class="na">getWindowSize</span><span class="p">());</span>
+<span class="w">        </span><span class="n">options</span><span class="p">.</span><span class="na">addArguments</span><span class="p">(</span><span class="s">&quot;--no-sandbox&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">options</span><span class="p">.</span><span class="na">addArguments</span><span class="p">(</span><span class="s">&quot;--disable-dev-shm-usage&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">WebDriver</span><span class="w"> </span><span class="n">driver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChromeDriver</span><span class="p">(</span><span class="n">options</span><span class="p">);</span>
+<span class="w">        </span><span class="n">driver</span><span class="p">.</span><span class="na">manage</span><span class="p">().</span><span class="na">timeouts</span><span class="p">().</span><span class="na">implicitlyWait</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getImplicitWait</span><span class="p">());</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">driver</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="nf">autoHealLocator</span><span class="p">(</span><span class="n">WebDriver</span><span class="w"> </span><span class="n">webDriver</span><span class="p">,</span><span class="w"> </span><span class="n">AutoHealProperties</span><span class="w"> </span><span class="n">properties</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">AutoHealConfiguration</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AutoHealConfiguration</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">ai</span><span class="p">(</span><span class="n">AIConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">provider</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getAi</span><span class="p">().</span><span class="na">getProvider</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">apiKey</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getAi</span><span class="p">().</span><span class="na">getApiKey</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">model</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getAi</span><span class="p">().</span><span class="na">getModel</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">timeout</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getAi</span><span class="p">().</span><span class="na">getTimeout</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">maxRetries</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getAi</span><span class="p">().</span><span class="na">getMaxRetries</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">visualAnalysisEnabled</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getAi</span><span class="p">().</span><span class="na">isVisualAnalysisEnabled</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">cache</span><span class="p">(</span><span class="n">CacheConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">enabled</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getCache</span><span class="p">().</span><span class="na">isEnabled</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">maxSize</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getCache</span><span class="p">().</span><span class="na">getMaxSize</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">expireAfterWrite</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getCache</span><span class="p">().</span><span class="na">getExpireAfterWrite</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">reporting</span><span class="p">(</span><span class="n">ReportingConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">enabled</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getReporting</span><span class="p">().</span><span class="na">isEnabled</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">outputDirectory</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getReporting</span><span class="p">().</span><span class="na">getOutputDirectory</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">generateHTML</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getReporting</span><span class="p">().</span><span class="na">isGenerateHtml</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">generateJSON</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getReporting</span><span class="p">().</span><span class="na">isGenerateJson</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">reportNamePrefix</span><span class="p">(</span><span class="n">properties</span><span class="p">.</span><span class="na">getReporting</span><span class="p">().</span><span class="na">getReportNamePrefix</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">withWebAdapter</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">SeleniumWebAutomationAdapter</span><span class="p">(</span><span class="n">webDriver</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="na">withConfiguration</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@PreDestroy</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">cleanup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Spring will handle AutoHeal shutdown automatically</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="profile-based-configuration">
+<h2>Profile-Based Configuration<a class="headerlink" href="#profile-based-configuration" title="Link to this heading">#</a></h2>
+<section id="different-profiles-for-different-environments">
+<h3>Different Profiles for Different Environments<a class="headerlink" href="#different-profiles-for-different-environments" title="Link to this heading">#</a></h3>
+<section id="application-dev-properties">
+<h4>application-dev.properties<a class="headerlink" href="#application-dev-properties" title="Link to this heading">#</a></h4>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="c1"># Development - Fast feedback</span>
+<span class="na">autoheal.ai.model</span><span class="o">=</span><span class="s">gpt-4o-mini</span>
+<span class="na">autoheal.ai.visual-analysis-enabled</span><span class="o">=</span><span class="s">false</span>
+<span class="na">autoheal.webdriver.headless</span><span class="o">=</span><span class="s">false</span>
+<span class="na">autoheal.performance.execution-strategy</span><span class="o">=</span><span class="s">DOM_ONLY</span>
+</pre></div>
+</div>
+</section>
+<section id="application-ci-properties">
+<h4>application-ci.properties<a class="headerlink" href="#application-ci-properties" title="Link to this heading">#</a></h4>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="c1"># CI/CD - Reliable and fast</span>
+<span class="na">autoheal.ai.model</span><span class="o">=</span><span class="s">gpt-4o-mini</span>
+<span class="na">autoheal.ai.max-retries</span><span class="o">=</span><span class="s">2</span>
+<span class="na">autoheal.webdriver.headless</span><span class="o">=</span><span class="s">true</span>
+<span class="na">autoheal.performance.thread-pool-size</span><span class="o">=</span><span class="s">2</span>
+<span class="na">autoheal.cache.enabled</span><span class="o">=</span><span class="s">true</span>
+</pre></div>
+</div>
+</section>
+<section id="application-prod-properties">
+<h4>application-prod.properties<a class="headerlink" href="#application-prod-properties" title="Link to this heading">#</a></h4>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="c1"># Production Testing - Full accuracy</span>
+<span class="na">autoheal.ai.model</span><span class="o">=</span><span class="s">gpt-4o</span>
+<span class="na">autoheal.ai.visual-analysis-enabled</span><span class="o">=</span><span class="s">true</span>
+<span class="na">autoheal.performance.execution-strategy</span><span class="o">=</span><span class="s">HYBRID</span>
+<span class="na">autoheal.reporting.enabled</span><span class="o">=</span><span class="s">true</span>
+<span class="na">autoheal.cache.enabled</span><span class="o">=</span><span class="s">true</span>
+<span class="na">autoheal.cache.max-size</span><span class="o">=</span><span class="s">10000</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="spring-boot-actuator-integration">
+<h2>Spring Boot Actuator Integration<a class="headerlink" href="#spring-boot-actuator-integration" title="Link to this heading">#</a></h2>
+<p>Monitor AutoHeal health and metrics:</p>
+<section id="id1">
+<h3>Dependencies<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-actuator<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-health-indicator">
+<h3>Custom Health Indicator<a class="headerlink" href="#custom-health-indicator" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AutoHealHealthIndicator</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">HealthIndicator</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Health</span><span class="w"> </span><span class="nf">health</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">HealthStatus</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">getHealthStatus</span><span class="p">();</span>
+
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">Health</span><span class="p">.</span><span class="na">up</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">withDetail</span><span class="p">(</span><span class="s">&quot;cacheHitRate&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">.</span><span class="na">getCacheHitRate</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">withDetail</span><span class="p">(</span><span class="s">&quot;aiServiceStatus&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">.</span><span class="na">getAiServiceStatus</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">withDetail</span><span class="p">(</span><span class="s">&quot;averageHealingTime&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">.</span><span class="na">getAverageHealingTime</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">withDetail</span><span class="p">(</span><span class="s">&quot;totalElementsHealed&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">.</span><span class="na">getTotalElementsHealed</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">Health</span><span class="p">.</span><span class="na">down</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">withDetail</span><span class="p">(</span><span class="s">&quot;error&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="metrics-endpoint">
+<h3>Metrics Endpoint<a class="headerlink" href="#metrics-endpoint" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">&quot;/api/autoheal&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AutoHealMetricsController</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/metrics&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="nf">getMetrics</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">AutoHealMetrics</span><span class="w"> </span><span class="n">metrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">getMetrics</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<span class="w">            </span><span class="s">&quot;successRate&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="na">getSuccessRate</span><span class="p">(),</span>
+<span class="w">            </span><span class="s">&quot;cacheHitRate&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="na">getCacheHitRate</span><span class="p">(),</span>
+<span class="w">            </span><span class="s">&quot;avgHealingTime&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="na">getAverageHealingTime</span><span class="p">(),</span>
+<span class="w">            </span><span class="s">&quot;totalCost&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="na">getTotalCost</span><span class="p">(),</span>
+<span class="w">            </span><span class="s">&quot;savedCost&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">metrics</span><span class="p">.</span><span class="na">getSavedCost</span><span class="p">()</span>
+<span class="w">        </span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="p">.</span><span class="na">ok</span><span class="p">(</span><span class="n">response</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="access-metrics">
+<h3>Access Metrics<a class="headerlink" href="#access-metrics" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Health check</span>
+curl<span class="w"> </span>http://localhost:8080/actuator/health/autoHeal
+
+<span class="c1"># Custom metrics</span>
+curl<span class="w"> </span>http://localhost:8080/api/autoheal/metrics
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="integration-testing-with-testcontainers">
+<h2>Integration Testing with TestContainers<a class="headerlink" href="#integration-testing-with-testcontainers" title="Link to this heading">#</a></h2>
+<section id="full-integration-test-with-real-browser">
+<h3>Full Integration Test with Real Browser<a class="headerlink" href="#full-integration-test-with-real-browser" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@SpringBootTest</span><span class="p">(</span><span class="n">webEnvironment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SpringBootTest</span><span class="p">.</span><span class="na">WebEnvironment</span><span class="p">.</span><span class="na">RANDOM_PORT</span><span class="p">)</span>
+<span class="nd">@Testcontainers</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">FullIntegrationTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Container</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="n">BrowserWebDriverContainer</span><span class="o">&lt;?&gt;</span><span class="w"> </span><span class="n">chrome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BrowserWebDriverContainer</span><span class="o">&lt;&gt;</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">withCapabilities</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ChromeOptions</span><span class="p">());</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@LocalServerPort</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">port</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">WebDriver</span><span class="w"> </span><span class="n">driver</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@BeforeEach</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">setUp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">driver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chrome</span><span class="p">.</span><span class="na">getWebDriver</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">// Configure AutoHeal with TestContainers WebDriver</span>
+<span class="w">        </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">reconfigure</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">SeleniumWebAutomationAdapter</span><span class="p">(</span><span class="n">driver</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">shouldTestRealBrowserIntegration</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">driver</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;http://host.testcontainers.internal:&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Test with real browser in container</span>
+<span class="w">        </span><span class="n">WebElement</span><span class="w"> </span><span class="n">welcomeMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">findElement</span><span class="p">(</span><span class="s">&quot;h1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;welcome message on homepage&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertThat</span><span class="p">(</span><span class="n">welcomeMessage</span><span class="p">.</span><span class="na">getText</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;Welcome&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<section id="configuration-management">
+<h3>1. Configuration Management<a class="headerlink" href="#configuration-management" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Use Spring profiles for different environments</span>
+<span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${autoheal.ai.api-key}&quot;</span><span class="p">)</span>
+<span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">apiKey</span><span class="p">;</span>
+
+<span class="c1">// Validate configuration at startup</span>
+<span class="nd">@EventListener</span><span class="p">(</span><span class="n">ApplicationReadyEvent</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">validateConfiguration</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">StringUtils</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">(</span><span class="n">apiKey</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalStateException</span><span class="p">(</span><span class="s">&quot;AutoHeal AI API key not configured&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="bean-lifecycle-management">
+<h3>2. Bean Lifecycle Management<a class="headerlink" href="#bean-lifecycle-management" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AutoHealLifecycleManager</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">AutoHealLocator</span><span class="w"> </span><span class="n">autoHeal</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@EventListener</span><span class="p">(</span><span class="n">ContextClosedEvent</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onShutdown</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Ensure reports are generated</span>
+<span class="w">        </span><span class="n">autoHeal</span><span class="p">.</span><span class="na">shutdown</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="test-slices">
+<h3>3. Test Slices<a class="headerlink" href="#test-slices" title="Link to this heading">#</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Custom test slice for AutoHeal tests</span>
+<span class="nd">@Target</span><span class="p">(</span><span class="n">ElementType</span><span class="p">.</span><span class="na">TYPE</span><span class="p">)</span>
+<span class="nd">@Retention</span><span class="p">(</span><span class="n">RetentionPolicy</span><span class="p">.</span><span class="na">RUNTIME</span><span class="p">)</span>
+<span class="nd">@SpringBootTest</span>
+<span class="nd">@Import</span><span class="p">(</span><span class="n">AutoHealTestConfiguration</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="nd">@interface</span><span class="w"> </span><span class="n">AutoHealTest</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="nd">@AutoHealTest</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">UserFlowTest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Test implementation</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="spring-boot-devtools-integration">
+<h2>Spring Boot DevTools Integration<a class="headerlink" href="#spring-boot-devtools-integration" title="Link to this heading">#</a></h2>
+<p>Enable hot reloading during test development:</p>
+<div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="c1"># application-dev.properties</span>
+<span class="na">spring.devtools.restart.enabled</span><span class="o">=</span><span class="s">true</span>
+<span class="na">spring.devtools.restart.additional-paths</span><span class="o">=</span><span class="s">src/test/java</span>
+<span class="na">autoheal.cache.enabled</span><span class="o">=</span><span class="s">false  # Disable cache during development</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="examples/page-object-examples.html"><span class="std std-doc">Page Object Examples</span></a> - Spring-managed Page Objects</p></li>
+<li><p><a class="reference internal" href="reporting.html"><span class="std std-doc">Reporting Guide</span></a> - Spring Boot Actuator integration</p></li>
+<li><p><a class="reference internal" href="performance.html"><span class="std std-doc">Performance Optimization</span></a> - Production Spring Boot settings</p></li>
+</ol>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  <div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item">
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="playwright-integration.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Playwright AutoHeal Integration Guide</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="performance.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Performance Optimization Guide</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+                </footer>
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-setup">Quick Setup</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">1. Dependencies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-configuration">2. Auto-Configuration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-properties">Configuration Properties</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-properties">application.properties</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-test-yml-yaml-format">application-test.yml (YAML format)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spring-boot-test-integration">Spring Boot Test Integration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-spring-boot-test">1. Basic Spring Boot Test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#page-object-with-spring-dependency-injection">2. Page Object with Spring Dependency Injection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-configuration-class">3. Test Configuration Class</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profile-based-configuration">Profile-Based Configuration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#different-profiles-for-different-environments">Different Profiles for Different Environments</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#application-dev-properties">application-dev.properties</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#application-ci-properties">application-ci.properties</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#application-prod-properties">application-prod.properties</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spring-boot-actuator-integration">Spring Boot Actuator Integration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Dependencies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-health-indicator">Custom Health Indicator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics-endpoint">Metrics Endpoint</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#access-metrics">Access Metrics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-testing-with-testcontainers">Integration Testing with TestContainers</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-integration-test-with-real-browser">Full Integration Test with Real Browser</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-management">1. Configuration Management</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bean-lifecycle-management">2. Bean Lifecycle Management</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-slices">3. Test Slices</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spring-boot-devtools-integration">Spring Boot DevTools Integration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/docs/user-guide/spring-boot-integration.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, AutoHeal Team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
