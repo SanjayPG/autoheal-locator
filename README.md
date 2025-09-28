@@ -1,300 +1,600 @@
-# AutoHeal Locator
+# 🤖 AutoHeal Locator
 
-[![Build Status](https://github.com/autoheal/autoheal-locator/workflows/CI/badge.svg)](https://github.com/autoheal/autoheal-locator/actions)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.autoheal/autoheal-locator)
+[![GitHub Release](https://img.shields.io/github/v/release/SanjayPG/autoheal-locator)](https://github.com/SanjayPG/autoheal-locator/releases)
+[![GitHub Actions](https://github.com/SanjayPG/autoheal-locator/workflows/Maven%20Package%20and%20Deploy/badge.svg)](https://github.com/SanjayPG/autoheal-locator/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Coverage](https://codecov.io/gh/autoheal/autoheal-locator/branch/main/graph/badge.svg)](https://codecov.io/gh/autoheal/autoheal-locator)
+[![Java](https://img.shields.io/badge/Java-17%2B-blue.svg)](https://adoptium.net/)
 
-Enterprise-grade AI-powered element locator with auto-healing capabilities for **Java** test automation using **Selenium WebDriver** and **Playwright**.
+**AI-powered Selenium element locator that automatically heals broken locators using advanced AI models.** When your element locators break due to UI changes, AutoHeal intelligently finds the elements using DOM analysis, visual recognition, and smart fallback strategies across all Selenium locator types.
 
-## Features
+## 🚀 Why AutoHeal?
 
-- **AI-Powered Element Location**: Uses machine learning to intelligently locate elements when selectors break
-- **Multiple AI Providers**: OpenAI, Google Gemini, Anthropic Claude, DeepSeek, Grok, and more
-- **Smart Provider Adaptation**: Built-in intelligence automatically adapts features based on provider capabilities
-- **Multiple Healing Strategies**: DOM analysis, visual analysis, and hybrid approaches
-- **Intelligent Caching**: High-performance caching with contextual keys and success rate tracking
-- **Circuit Breaker Pattern**: Resilient AI service integration with fallback mechanisms
-- **Comprehensive Metrics**: Real-time monitoring and performance analytics
-- **Spring Boot Integration**: Auto-configuration and properties support
-- **Async Operations**: Non-blocking element location with CompletableFuture
-- **Enterprise Ready**: Production-grade monitoring, configuration, and error handling
-- **Zero-Config Intelligence**: Framework automatically handles provider limitations and capabilities
+Traditional test automation fails when developers change the UI. AutoHeal solves this by:
 
-## Quick Start
+- **🔍 Intelligent Element Detection**: Uses AI to find elements with DOM analysis and visual recognition
+- **🎯 Multiple Locator Types**: Supports CSS, XPath, ID, Name, Class, Tag, Link Text strategies
+- **🧠 Multiple AI Providers**: Google Gemini, OpenAI, Anthropic Claude, and more
+- **🔄 Smart Healing Strategies**: DOM analysis, visual analysis, hybrid, and cached approaches
+- **⚡ High-Performance Caching**: Remembers successful fixes to avoid repeated AI calls
+- **📊 Comprehensive Reporting**: Detailed insights into healing activities and costs
+- **🔄 Selenium Integration**: Drop-in replacement for `driver.findElement()`
 
-### Maven Dependency
+---
+
+## 📦 Quick Installation
+
+### Step 1: Add GitHub Packages Repository
+
+Add this to your `pom.xml`:
+
+```xml
+<repositories>
+  <repository>
+    <id>github</id>
+    <url>https://maven.pkg.github.com/SanjayPG/autoheal-locator</url>
+  </repository>
+</repositories>
+```
+
+### Step 2: Add Maven Dependency
 
 ```xml
 <dependency>
-    <groupId>com.autoheal</groupId>
-    <artifactId>autoheal-locator</artifactId>
-    <version>2.0.0</version>
+  <groupId>com.autoheal</groupId>
+  <artifactId>autoheal-locator</artifactId>
+  <version>1.0.0</version>
 </dependency>
 ```
 
-### Basic Usage
+### Step 3: Configure GitHub Token
 
+Create `~/.m2/settings.xml`:
+
+```xml
+<settings>
+  <servers>
+    <server>
+      <id>github</id>
+      <username>YOUR_GITHUB_USERNAME</username>
+      <password>YOUR_GITHUB_TOKEN</password>
+    </server>
+  </servers>
+</settings>
+```
+
+> **📝 Note**: Generate a GitHub token at https://github.com/settings/personal-access-tokens with `read:packages` scope.
+
+---
+
+## 🏃‍♂️ Quick Start (5 Minutes)
+
+### 1. Set Your AI API Key
+
+```bash
+# Windows
+set GOOGLE_GEMINI_API_KEY=your-api-key-here
+
+# Mac/Linux
+export GOOGLE_GEMINI_API_KEY=your-api-key-here
+```
+
+> **🔑 Get API Key**: Visit https://makersuite.google.com/app/apikey
+
+### 2. Replace Your WebDriver Code
+
+**Before AutoHeal:**
 ```java
-// Simple setup
 WebDriver driver = new ChromeDriver();
-AutoHealLocator autoHeal = new AutoHealLocator(driver);
-
-// Find element with healing
-WebElement button = autoHeal.findElement("#submit-btn", "Submit button");
+WebElement button = driver.findElement(By.id("submit-btn"));
 button.click();
-
-autoHeal.shutdown();
 ```
 
-### Advanced Configuration
-
+**After AutoHeal:**
 ```java
-AutoHealConfiguration config = AutoHealConfiguration.builder()
-    .cache(CacheConfig.builder()
-        .maximumSize(5000)
-        .expireAfterWrite(Duration.ofHours(12))
-        .build())
-    .ai(AIConfig.builder()
-        .provider(AIProvider.OPENAI)
-        .apiKey("your-api-key")
-        .timeout(Duration.ofSeconds(15))
-        .visualAnalysisEnabled(true)
-        .build())
-    .performance(PerformanceConfig.builder()
-        .threadPoolSize(8)
-        .enableMetrics(true)
-        .build())
-    .build();
-
-AutoHealLocator autoHeal = AutoHealLocator.builder()
-    .withWebAdapter(new SeleniumWebAutomationAdapter(driver))
-    .withConfiguration(config)
-    .build();
+WebDriver driver = new ChromeDriver();
+AutoHealLocator autoHeal = AutoHealManager.createMinimalAutoHeal(driver);
+// AutoHeal auto-detects locator type and heals if needed
+WebElement button = autoHeal.findElement("submit-btn", "Submit button"); // ID
+// OR WebElement button = autoHeal.findElement("#submit-btn", "Submit button"); // CSS
+// OR WebElement button = autoHeal.findElement("//button[@id='submit-btn']", "Submit button"); // XPath
+button.click();
 ```
 
-## AI Provider Support
-
-AutoHeal includes **built-in intelligence** about AI provider capabilities. Simply specify your provider and API key - the framework automatically adapts features based on what each provider supports.
-
-### Supported Providers & Capabilities
-
-| Provider | Visual Analysis | DOM Analysis | Default Model |
-|----------|----------------|--------------|---------------|
-| **OpenAI** | ✅ Full Support | ✅ | gpt-4o-mini |
-| **Google Gemini** | ✅ Full Support | ✅ | gemini-1.5-flash |
-| **Anthropic Claude** | 🔄 Coming Soon | ✅ | claude-3-5-sonnet |
-| **DeepSeek** | 🔄 Coming Soon | ✅ | deepseek-chat |
-| **Grok** | 🔄 Coming Soon | ✅ | grok-beta |
-
-### Smart Adaptation
-
-```java
-// Framework automatically adapts based on provider capabilities
-AutoHealConfiguration config = AutoHealConfiguration.builder()
-    .ai(AIConfig.builder()
-        .provider(AIProvider.ANTHROPIC_CLAUDE)  // No visual support yet
-        .apiKey("your-api-key")
-        .build())
-    .build();
-
-// AutoHeal automatically:
-// 1. Uses DOM analysis only (provider limitation)
-// 2. Logs: "Visual analysis not supported for ANTHROPIC_CLAUDE, using DOM analysis only"
-// 3. Continues working seamlessly
-```
-
-**Configuration is stored in**: `src/main/resources/ai-provider-capabilities.yml`
-**Updates delivered with**: New AutoHeal versions (users don't manage this file)
-
-### Async Operations
-
-```java
-// Non-blocking element location
-CompletableFuture<WebElement> futureElement = autoHeal
-    .findElementAsync("#login-btn", "Login button")
-    .thenApply(element -> {
-        element.click();
-        return element;
-    });
-
-// Multiple parallel operations
-CompletableFuture<WebElement> username = autoHeal.findElementAsync("#username", "Username field");
-CompletableFuture<WebElement> password = autoHeal.findElementAsync("#password", "Password field");
-CompletableFuture<WebElement> submit = autoHeal.findElementAsync("#submit", "Submit button");
-
-CompletableFuture.allOf(username, password, submit)
-    .thenRun(() -> {
-        // All elements located, proceed with test
-    });
-```
-
-## Spring Boot Integration
-
-### Auto-Configuration
-
-Add the dependency and AutoHeal will be automatically configured:
-
-```java
-@Autowired
-private AutoHealLocator autoHeal;
-
-@Test
-public void testWithAutoHeal() {
-    WebElement element = autoHeal.findElement("#test-element", "Test element");
-    assertNotNull(element);
-}
-```
-
-### Configuration Properties
-
-```yaml
-autoheal:
-  cache:
-    maximum-size: 10000
-    expire-after-write: 24h
-    expire-after-access: 2h
-  ai:
-    provider: openai
-    api-key: ${OPENAI_API_KEY}
-    timeout: 30s
-    visual-analysis-enabled: false
-  performance:
-    thread-pool-size: 16
-    element-timeout: 10s
-    enable-metrics: true
-  resilience:
-    circuit-breaker-failure-threshold: 5
-    circuit-breaker-timeout: 5m
-    retry-max-attempts: 3
-```
-
-## Monitoring and Metrics
-
-### Getting Metrics
-
-```java
-AutoHealMetrics metrics = autoHeal.getMetrics();
-System.out.println("Success rate: " + metrics.getLocatorMetrics().getSuccessRate());
-System.out.println("Cache hit rate: " + metrics.getCacheMetrics().getHitRate());
-System.out.println("AI response time: " + metrics.getAiServiceMetrics().getAverageResponseTime());
-```
-
-### Health Checks
-
-```java
-HealthStatus health = autoHeal.getHealthStatus();
-if (!health.isOverall()) {
-    System.out.println("AutoHeal system issues detected!");
-    // Handle degraded performance
-}
-```
-
-### Real-time Monitoring
-
-```java
-AutoHealMonitor monitor = new AutoHealMonitor(autoHeal);
-monitor.addListener((metrics, health) -> {
-    // Send metrics to monitoring system
-    sendToPrometheus(metrics.toMap());
-});
-monitor.startMonitoring(Duration.ofSeconds(30));
-```
-
-## Configuration Options
-
-### Cache Configuration
-
-- `maximumSize`: Maximum number of cached selectors
-- `expireAfterWrite`: Cache entry TTL from creation
-- `expireAfterAccess`: Cache entry TTL from last access
-- `recordStats`: Enable cache statistics
-
-### AI Configuration
-
-- `provider`: AI service provider (OPENAI, LOCAL_MODEL, MOCK)
-- `apiKey`: API key for external AI services
-- `timeout`: Request timeout for AI services
-- `maxRetries`: Maximum retry attempts
-- `visualAnalysisEnabled`: Enable visual element analysis
-
-### Performance Configuration
-
-- `threadPoolSize`: Size of async execution thread pool
-- `elementTimeout`: Timeout for element location operations
-- `enableMetrics`: Enable performance metrics collection
-- `maxConcurrentRequests`: Maximum concurrent AI requests
-
-### Resilience Configuration
-
-- `circuitBreakerFailureThreshold`: Failures before circuit breaker opens
-- `circuitBreakerTimeout`: Circuit breaker timeout duration
-- `retryMaxAttempts`: Maximum retry attempts for failed operations
-- `retryDelay`: Delay between retry attempts
-
-## Testing
-
-### Unit Tests
+### 3. Run Your Test
 
 ```bash
 mvn test
 ```
 
-### Integration Tests
+**Result**: When locators break, AutoHeal automatically finds the correct elements using AI DOM analysis, visual recognition, and smart healing strategies! 🎉
 
-```bash
-mvn verify
+---
+
+## 🔧 Complete Setup Guide
+
+### 1. Project Structure
+
+Create this structure in your test project:
+
+```
+src/
+├── main/java/
+│   └── com/yourcompany/utils/
+│       └── AutoHealManager.java
+├── test/java/
+│   └── com/yourcompany/tests/
+│       └── YourTest.java
+└── test/resources/
+    ├── autoheal.properties
+    └── testng.xml
 ```
 
-### Performance Tests
+### 2. Create AutoHeal Manager
 
-```bash
-mvn test -Pperformance
-```
+**src/main/java/com/yourcompany/utils/AutoHealManager.java:**
 
-### Test Utilities
+<details>
+<summary>📄 AutoHealManager.java (Click to expand)</summary>
 
 ```java
-@ExtendWith(AutoHealExtension.class)
-class MyTest {
-    
-    @Test
-    void testWithAutoHeal(ExtensionContext context) {
-        AutoHealLocator autoHeal = context.getStore(ExtensionContext.Namespace.GLOBAL)
-            .get("autoHeal", AutoHealLocator.class);
-        
-        WebElement element = autoHeal.findElement("#test", "Test element");
-        assertNotNull(element);
+package com.yourcompany.utils;
+
+import com.autoheal.AutoHealLocator;
+import com.autoheal.config.AutoHealConfiguration;
+import com.autoheal.config.AIConfig;
+import com.autoheal.config.CacheConfig;
+import com.autoheal.model.AIProvider;
+import org.openqa.selenium.WebDriver;
+import java.time.Duration;
+
+import static com.autoheal.config.ReportingConfig.enabledWithDefaults;
+
+public class AutoHealManager {
+
+    public static AutoHealLocator createMinimalAutoHeal(WebDriver driver) {
+        AutoHealConfiguration config = AutoHealConfiguration.builder()
+                .ai(AIConfig.builder()
+                        .provider(AIProvider.GOOGLE_GEMINI)
+                        .apiKey(System.getenv("GOOGLE_GEMINI_API_KEY"))
+                        .build())
+                .cache(CacheConfig.builder()
+                        .cacheType(CacheConfig.CacheType.PERSISTENT_FILE)
+                        .maximumSize(10000)
+                        .expireAfterWrite(Duration.ofHours(24))
+                        .expireAfterAccess(Duration.ofHours(2))
+                        .recordStats(true)
+                        .build())
+                .reporting(enabledWithDefaults())
+                .build();
+
+        return AutoHealLocator.builder()
+                .withWebAdapter(new com.autoheal.impl.adapter.SeleniumWebAutomationAdapter(driver))
+                .withConfiguration(config)
+                .build();
     }
 }
 ```
 
-## Best Practices
+</details>
 
-1. **Provide Descriptive Element Descriptions**: Better descriptions lead to more accurate AI suggestions
-2. **Use Contextual Information**: Provide element context when available for better disambiguation
-3. **Monitor Performance**: Regularly check metrics and health status
-4. **Configure Timeouts Appropriately**: Balance responsiveness with reliability
-5. **Handle Failures Gracefully**: Implement fallback strategies for critical operations
+### 3. Configuration File
 
-## Architecture
+**src/test/resources/autoheal.properties:**
 
+<details>
+<summary>⚙️ autoheal.properties (Click to expand)</summary>
+
+```properties
+# AI Configuration
+autoheal.ai.provider=GOOGLE_GEMINI                    # AI service (GOOGLE_GEMINI, OPENAI, ANTHROPIC_CLAUDE)
+autoheal.ai.api-key=${GOOGLE_GEMINI_API_KEY}          # API key from environment variable
+autoheal.ai.timeout=30s                               # AI request timeout
+autoheal.ai.max-retries=3                             # Retry attempts for failed AI calls
+autoheal.ai.visual-analysis-enabled=true              # Enable screenshot-based element detection
+
+# Cache Configuration
+autoheal.cache.type=PERSISTENT_FILE                   # Cache type (CAFFEINE, REDIS, PERSISTENT_FILE, HYBRID)
+autoheal.cache.maximum-size=10000                     # Maximum cache entries
+autoheal.cache.expire-after-write=24h                 # Cache expiry after writing
+autoheal.cache.expire-after-access=2h                 # Cache expiry after last access
+autoheal.cache.record-stats=true                      # Enable cache statistics
+
+# Performance Configuration
+autoheal.performance.thread-pool-size=4               # Concurrent healing threads
+autoheal.performance.element-timeout=45s              # Element wait timeout
+autoheal.performance.enable-metrics=true              # Enable performance metrics
+autoheal.performance.execution-strategy=SMART_SEQUENTIAL  # Healing strategy (DOM_ONLY, VISUAL_ONLY, SMART_SEQUENTIAL, HYBRID)
+
+# Reporting Configuration
+autoheal.reporting.enabled=true                       # Enable healing reports
+autoheal.reporting.generate-html=true                 # Generate HTML reports
+autoheal.reporting.generate-json=true                 # Generate JSON reports
+autoheal.reporting.console-logging=true               # Log healing activities to console
+autoheal.reporting.output-directory=target/autoheal-reports  # Reports output directory
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   AutoHeal      │    │   Selector      │    │   AI Service    │
-│   Locator       │────│   Cache         │────│   (OpenAI)      │
-│                 │    │                 │    │                 │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         │                       │                       │
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Element       │    │   Circuit       │    │   Metrics &     │
-│   Locators      │    │   Breaker       │    │   Monitoring    │
-│                 │    │                 │    │                 │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+
+</details>
+
+### 4. Sample Test Class
+
+**src/test/java/com/yourcompany/tests/LoginTest.java:**
+
+<details>
+<summary>🧪 Sample Test (Click to expand)</summary>
+
+```java
+package com.yourcompany.tests;
+
+import com.yourcompany.utils.AutoHealManager;
+import com.autoheal.AutoHealLocator;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.*;
+
+public class LoginTest {
+    private WebDriver driver;
+    private AutoHealLocator autoHeal;
+
+    @BeforeMethod
+    public void setUp() {
+        driver = new ChromeDriver();
+        autoHeal = AutoHealManager.createMinimalAutoHeal(driver);
+        driver.get("https://saucedemo.com");
+    }
+
+    @Test
+    public void testSuccessfulLogin() {
+        // These locators might be wrong - AutoHeal will fix them automatically!
+        // AutoHeal supports multiple locator types and auto-detects them
+        autoHeal.findElement("username-wrong", "Username field")  // ID (auto-detected)
+               .sendKeys("standard_user");
+
+        autoHeal.findElement("#password-wrong", "Password field")  // CSS (auto-detected)
+               .sendKeys("secret_sauce");
+
+        autoHeal.findElement("//button[@id='login-btn-wrong']", "Login button")  // XPath (auto-detected)
+               .click();
+
+        // Verify login success - AutoHeal will find this even if selector changes
+        WebElement inventoryTitle = autoHeal.findElement(".title", "Inventory title");
+        Assert.assertEquals(inventoryTitle.getText(), "Products");
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
 ```
 
-## Contributing
+</details>
+
+### 5. TestNG Configuration
+
+**src/test/resources/testng.xml:**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="AutoHeal Test Suite" verbose="1">
+    <test name="Login Tests">
+        <classes>
+            <class name="com.yourcompany.tests.LoginTest"/>
+        </classes>
+    </test>
+</suite>
+```
+
+---
+
+## 🎯 Usage Examples
+
+### Basic Usage
+
+```java
+// AutoHeal auto-detects locator types and heals if they break
+WebElement button1 = autoHeal.findElement("submit", "Submit button");           // ID
+WebElement button2 = autoHeal.findElement("#submit", "Submit button");         // CSS
+WebElement button3 = autoHeal.findElement("//button[@id='submit']", "Submit button"); // XPath
+WebElement button4 = autoHeal.findElement("btn-primary", "Submit button");     // Class Name
+
+// Multiple elements with any locator type
+List<WebElement> items = autoHeal.findElements(".product-item", "Product items");
+
+// With explicit wait
+WebElement element = autoHeal.waitForElement("#dynamic-content", "Dynamic content", 10);
+```
+
+### Page Object Model
+
+```java
+public class LoginPage {
+    private AutoHealLocator autoHeal;
+
+    public LoginPage(AutoHealLocator autoHeal) {
+        this.autoHeal = autoHeal;
+    }
+
+    public void login(String username, String password) {
+        // Mix different locator types - AutoHeal handles them all
+        autoHeal.findElement("username", "Username field").sendKeys(username);        // ID
+        autoHeal.findElement("#password", "Password field").sendKeys(password);      // CSS
+        autoHeal.findElement("//button[contains(text(),'Login')]", "Login button").click(); // XPath
+    }
+}
+```
+
+### Advanced Configuration
+
+```java
+public static AutoHealLocator createAdvancedAutoHeal(WebDriver driver) {
+    return AutoHealLocator.builder()
+        .withWebAdapter(new SeleniumWebAutomationAdapter(driver))
+        .withConfiguration(AutoHealConfiguration.builder()
+            .ai(AIConfig.builder()
+                .provider(AIProvider.OPENAI)
+                .apiKey(System.getenv("OPENAI_API_KEY"))
+                .timeout(Duration.ofSeconds(45))
+                .maxRetries(5)
+                .build())
+            .cache(CacheConfig.builder()
+                .cacheType(CacheConfig.CacheType.REDIS)
+                .redisHost("localhost")  // or your Redis server
+                .redisPort(6379)
+                .expireAfterWrite(Duration.ofDays(7))
+                .build())
+            .performance(PerformanceConfig.builder()
+                .executionStrategy(ExecutionStrategy.DOM_ONLY)
+                .threadPoolSize(8)
+                .enableMetrics(true)
+                .build())
+            .build())
+        .build();
+}
+```
+
+---
+
+## 🔄 How AutoHeal Works
+
+```mermaid
+flowchart TD
+    A[🧪 Test calls autoHeal.findElement] --> B{🔍 Auto-detect<br/>Locator Type}
+    B --> C[📝 CSS, XPath, ID, Name,<br/>Class, Tag, Link Text]
+    C --> D{🎯 Try Original<br/>Selector}
+
+    D -->|✅ Success| E[🎉 Return WebElement]
+    D -->|❌ Failed| F{💾 Check Cache<br/>for Previous Fix}
+
+    F -->|🎯 Cache Hit| G[🚀 Use Cached<br/>Selector]
+    G --> H{🔄 Test Cached<br/>Selector}
+    H -->|✅ Success| E
+    H -->|❌ Failed| I[🗑️ Clear Bad Cache]
+
+    F -->|❌ Cache Miss| I
+    I --> J{🤖 Choose AI<br/>Strategy}
+
+    J -->|🧠 Smart Mode| K[📊 DOM Analysis<br/>+ Visual Analysis]
+    J -->|⚡ Fast Mode| L[📊 DOM Analysis Only]
+    J -->|👁️ Visual Mode| M[📸 Visual Analysis Only]
+
+    K --> N{🔍 AI Analysis<br/>Success?}
+    L --> N
+    M --> N
+
+    N -->|✅ Success| O[📝 Get AI Suggested<br/>Selectors]
+    N -->|❌ Failed| P[💥 Throw AutoHeal<br/>Exception]
+
+    O --> Q{🧪 Test Each<br/>AI Suggestion}
+    Q -->|✅ Found Working<br/>Selector| R[💾 Cache Successful<br/>Result]
+    Q -->|❌ All Failed| P
+
+    R --> E
+
+    style A fill:#e3f2fd,color:#1565c0
+    style E fill:#e8f5e9,color:#2e7d32
+    style P fill:#ffebee,color:#c62828
+    style K fill:#fff8e1,color:#ef6c00
+    style L fill:#f3e5f5,color:#7b1fa2
+    style M fill:#e8f5e8,color:#388e3c
+```
+
+**AutoHeal Process Flow:**
+1. **🔍 Auto-Detection**: Identifies locator type (CSS, XPath, ID, etc.)
+2. **🎯 Original Attempt**: Tries your selector first
+3. **💾 Cache Check**: Looks for previous successful healing
+4. **🤖 AI Analysis**: Uses DOM/Visual analysis when needed
+5. **🧪 Smart Testing**: Tests AI suggestions until one works
+6. **💾 Caching**: Saves successful results for future use
+
+---
+
+## 🔧 AI Healing Strategies
+
+AutoHeal uses multiple intelligent strategies to find elements:
+
+| Strategy | Description | When Used |
+|----------|------------|-----------|
+| **🎯 Original Selector** | Uses your exact locator as-is | When locator works correctly |
+| **🧠 DOM Analysis** | AI analyzes HTML structure to find alternative selectors | When original locator fails |
+| **👁️ Visual Analysis** | AI analyzes screenshots to locate elements visually | For complex UI elements |
+| **🔄 Hybrid Approach** | Combines DOM + Visual analysis for best results | For maximum accuracy |
+| **⚡ Cached Results** | Reuses previously successful healing solutions | For performance optimization |
+
+### Supported Locator Types
+
+AutoHeal intelligently detects and heals **all Selenium locator types**:
+
+- **CSS Selectors**: `#id`, `.class`, `input[name='username']`
+- **XPath**: `//input[@name='username']`, `//*[@id='login']`
+- **ID**: `username`, `login-button`
+- **Name**: `username`, `password`
+- **Class Name**: `btn-primary`, `form-control`
+- **Tag Name**: `input`, `button`, `div`
+- **Link Text**: `Click Here`, `Learn More`
+- **Partial Link Text**: `Click`, `Learn`
+
+---
+
+## 🎛️ AI Providers
+
+AutoHeal supports multiple AI providers:
+
+| Provider | API Key Environment Variable | Cost | Speed | Accuracy |
+|----------|----------------------------|------|--------|----------|
+| **Google Gemini** | `GOOGLE_GEMINI_API_KEY` | 💰 Low | ⚡ Fast | 🎯 High |
+| **OpenAI GPT-4** | `OPENAI_API_KEY` | 💰💰 Medium | ⚡ Fast | 🎯🎯 Very High |
+| **Anthropic Claude** | `ANTHROPIC_API_KEY` | 💰💰 Medium | ⚡ Medium | 🎯🎯 Very High |
+| **Mock Provider** | None | 💰 Free | ⚡⚡ Instant | 🎯 Basic |
+
+### Get API Keys
+
+- **Google Gemini**: https://makersuite.google.com/app/apikey
+- **OpenAI**: https://platform.openai.com/api-keys
+- **Anthropic**: https://console.anthropic.com/
+
+---
+
+## 📊 Reporting
+
+AutoHeal generates comprehensive reports:
+
+### HTML Report
+```
+target/autoheal-reports/
+├── AutoHeal-Report-20240101-120000.html
+├── AutoHeal-Report-20240101-120000.json
+└── summary.json
+```
+
+### Sample Report Output
+```
+🤖 AutoHeal Execution Summary
+═══════════════════════════════════
+✅ Elements Found: 15
+🔧 Healing Events: 3
+💰 Total Cost: $0.06
+⚡ Cache Hit Rate: 78%
+🕒 Average Response Time: 1.2s
+```
+
+---
+
+## 🔧 Running Tests
+
+### Basic Test Run
+```bash
+mvn test
+```
+
+### With Specific AI Provider
+```bash
+mvn test -DGOOGLE_GEMINI_API_KEY=your-key
+```
+
+### Generate Reports Only
+```bash
+mvn test -Dautoheal.reporting.enabled=true
+```
+
+### Performance Mode (DOM Only)
+```bash
+mvn test -Dautoheal.performance.execution-strategy=DOM_ONLY
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**❌ API Key Not Found**
+```
+Error: AI provider authentication failed
+```
+**✅ Solution**: Set environment variable correctly
+```bash
+export GOOGLE_GEMINI_API_KEY=your-actual-api-key
+echo $GOOGLE_GEMINI_API_KEY  # Verify it's set
+```
+
+**❌ Cache Directory Issues**
+```
+Error: Failed to create cache directory
+```
+**✅ Solution**: Check permissions
+```bash
+mkdir -p target/autoheal-cache
+chmod 755 target/autoheal-cache
+```
+
+**❌ Element Still Not Found**
+```
+Error: AutoHeal failed to heal selector
+```
+**✅ Solution**: Enable debug mode
+```properties
+autoheal.advanced.debug-mode=true
+autoheal.advanced.save-screenshots=true
+```
+
+### Debug Mode
+
+Enable detailed logging:
+```properties
+autoheal.reporting.console-logging=true               # Show healing activities in console
+autoheal.cache.record-stats=true                      # Track cache hit/miss rates
+```
+
+---
+
+## 🚀 Performance Optimization
+
+### For Large Test Suites
+
+```properties
+# Use faster execution strategy
+autoheal.performance.execution-strategy=DOM_ONLY      # Skip visual analysis for speed
+
+# Optimize cache
+autoheal.cache.expire-after-write=7d                  # Keep successful healings longer
+autoheal.cache.maximum-size=50000                     # Increase cache size
+
+# Reduce timeouts
+autoheal.performance.element-timeout=20s              # Faster element waits
+autoheal.ai.timeout=15s                               # Faster AI responses
+```
+
+### Cost Optimization
+
+```properties
+# Longer cache retention
+autoheal.cache.expire-after-write=30d                 # Reduce repeated AI calls
+
+# Disable expensive features
+autoheal.ai.visual-analysis-enabled=false             # Use DOM analysis only (cheaper)
+
+# Conservative retries
+autoheal.ai.max-retries=1                             # Fewer retry attempts
+```
+
+---
+
+## 📚 Documentation
+
+- **📖 Complete Guide**: [selenium-usage-guide.md](selenium-usage-guide.md)
+- **🔧 Advanced Configuration**: [extended-documentation.md](extended-documentation.md)
+- **🎯 Examples**: Check the `src/test/java` directory
+- **❓ FAQ**: [GitHub Issues](https://github.com/SanjayPG/autoheal-locator/issues)
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our contributing guidelines:
 
 1. Fork the repository
 2. Create a feature branch
@@ -302,13 +602,34 @@ class MyTest {
 4. Add tests
 5. Submit a pull request
 
-## License
+---
+
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
+---
 
-- 📖 [Documentation](https://autoheal.github.io/autoheal-locator)
-- 🐛 [Issue Tracker](https://github.com/autoheal/autoheal-locator/issues)
-- 💬 [Discussions](https://github.com/autoheal/autoheal-locator/discussions)
-- 📧 [Email Support](mailto:support@autoheal.com)
+## 🙋‍♂️ Support
+
+- **🐛 Bug Reports**: [GitHub Issues](https://github.com/SanjayPG/autoheal-locator/issues)
+- **💡 Feature Requests**: [GitHub Discussions](https://github.com/SanjayPG/autoheal-locator/discussions)
+- **📧 Email**: [Create an issue](https://github.com/SanjayPG/autoheal-locator/issues/new)
+
+---
+
+## ⭐ Star History
+
+If you find AutoHeal useful, please give it a star! ⭐
+
+[![Star History Chart](https://api.star-history.com/svg?repos=SanjayPG/autoheal-locator&type=Date)](https://star-history.com/#SanjayPG/autoheal-locator&Date)
+
+---
+
+<div align="center">
+
+**Made with ❤️ for the Test Automation Community**
+
+[⬆ Back to Top](#-autoheal-locator)
+
+</div>
