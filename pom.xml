@@ -2,13 +2,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.example</groupId>
+  <groupId>com.autoheal</groupId>
   <artifactId>autoheal-locator</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
-  <name>autoheal-locator</name>
-  <url>http://maven.apache.org</url>
+  <name>AutoHeal Locator</name>
+  <description>AI-powered Selenium element locator with self-healing capabilities</description>
+  <url>https://github.com/SanjayPG/autoheal-locator</url>
 
   <licenses>
     <license>
@@ -19,11 +20,19 @@
 
   <developers>
     <developer>
-      <id>your-team</id>
-      <name>Your Team</name>
-      <email>your-team@company.com</email>
+      <id>SanjayPG</id>
+      <name>Sanjay PG</name>
+      <email>sanjay@example.com</email>
+      <url>https://github.com/SanjayPG</url>
     </developer>
   </developers>
+
+  <!-- SCM Information -->
+  <scm>
+    <connection>scm:git:git://github.com/SanjayPG/autoheal-locator.git</connection>
+    <developerConnection>scm:git:ssh://github.com/SanjayPG/autoheal-locator.git</developerConnection>
+    <url>https://github.com/SanjayPG/autoheal-locator/tree/main</url>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -290,6 +299,40 @@
           </execution>
         </executions>
       </plugin> -->
+
+      <!-- Source JAR Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Javadoc JAR Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.4.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <source>15</source>
+          <doclint>none</doclint>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -366,17 +409,11 @@
   </profiles>
 
   <distributionManagement>
-    <!-- Configure for your artifact repository -->
     <repository>
-      <id>releases</id>
-      <name>Company Releases</name>
-      <url>https://your-nexus.company.com/repository/maven-releases/</url>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/SanjayPG/autoheal-locator</url>
     </repository>
-    <snapshotRepository>
-      <id>snapshots</id>
-      <name>Company Snapshots</name>
-      <url>https://your-nexus.company.com/repository/maven-snapshots/</url>
-    </snapshotRepository>
   </distributionManagement>
 
 
