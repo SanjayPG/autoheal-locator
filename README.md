@@ -21,14 +21,22 @@ Traditional test automation fails when developers change the UI. AutoHeal solves
 
 ---
 
-## 📦 Quick Installation
+## 📦 Installation Methods
 
-### Step 1: Add GitHub Packages Repository
+Choose one of the following installation methods:
+
+### Method 1: GitHub Packages (Recommended)
+
+#### Step 1: Add GitHub Packages Repository
 
 Add this to your `pom.xml`:
 
 ```xml
 <repositories>
+  <repository>
+    <id>central</id>
+    <url>https://repo.maven.apache.org/maven2</url>
+  </repository>
   <repository>
     <id>github</id>
     <url>https://maven.pkg.github.com/SanjayPG/autoheal-locator</url>
@@ -36,7 +44,9 @@ Add this to your `pom.xml`:
 </repositories>
 ```
 
-### Step 2: Add Maven Dependency
+> **⚠️ Important**: Include Maven Central repository to ensure other dependencies (JUnit, Selenium, etc.) are downloaded correctly.
+
+#### Step 2: Add Maven Dependency
 
 ```xml
 <dependency>
@@ -46,9 +56,13 @@ Add this to your `pom.xml`:
 </dependency>
 ```
 
-### Step 3: Configure GitHub Token
+#### Step 3: Configure GitHub Token
 
 Create `~/.m2/settings.xml`:
+
+**Windows**: `C:\Users\<YourUsername>\.m2\settings.xml`
+**Mac**: `/Users/<YourUsername>/.m2/settings.xml`
+**Linux**: `/home/<YourUsername>/.m2/settings.xml`
 
 ```xml
 <settings>
@@ -63,6 +77,81 @@ Create `~/.m2/settings.xml`:
 ```
 
 > **📝 Note**: Generate a GitHub token at https://github.com/settings/personal-access-tokens with `read:packages` scope.
+> **💡 Windows Tip**: Run `echo %USERPROFILE%` in Command Prompt to find your user directory path.
+> **💡 Mac/Linux Tip**: Run `echo $HOME` in Terminal to find your home directory path.
+
+---
+
+### Method 2: Download JAR Directly
+
+1. **Download the JAR file** from [GitHub Releases](https://github.com/SanjayPG/autoheal-locator/releases)
+2. **Create a `lib` folder** in your project root
+3. **Copy the JAR** to `lib/autoheal-locator-1.0.0.jar`
+
+#### Option A: Add to IDE Build Path (No Maven needed)
+
+**IntelliJ IDEA:**
+- Right-click project → Open Module Settings → Libraries → + → Java → Select the JAR
+
+**Eclipse:**
+- Right-click project → Build Path → Configure Build Path → Libraries → Add JARs → Select the JAR
+
+**VS Code:**
+- Add to `.classpath` or configure in `settings.json`
+
+#### Option B: Add to Maven POM
+
+```xml
+<dependency>
+  <groupId>com.autoheal</groupId>
+  <artifactId>autoheal-locator</artifactId>
+  <version>1.0.0</version>
+  <scope>system</scope>
+  <systemPath>${project.basedir}/lib/autoheal-locator-1.0.0.jar</systemPath>
+</dependency>
+```
+
+> **⚠️ Note**: You'll also need to manually download all transitive dependencies (Selenium, etc.)
+
+---
+
+### Method 3: Build from Source
+
+1. **Clone the repository**:
+```bash
+git clone https://github.com/SanjayPG/autoheal-locator.git
+cd autoheal-locator
+```
+
+2. **Build the project** (skip tests):
+```bash
+mvn clean install -DskipTests
+```
+
+3. **Use in your project** - Add this to your `pom.xml`:
+```xml
+<dependency>
+  <groupId>com.autoheal</groupId>
+  <artifactId>autoheal-locator</artifactId>
+  <version>1.0.1-SNAPSHOT</version>
+</dependency>
+```
+
+> **📝 Note**: Building from source creates a SNAPSHOT version. The JAR will be installed in your local Maven repository (`~/.m2/repository/com/autoheal/autoheal-locator/1.0.1-SNAPSHOT/`)
+
+---
+
+### Method 4: Maven Central (Coming Soon)
+
+```xml
+<dependency>
+  <groupId>com.autoheal</groupId>
+  <artifactId>autoheal-locator</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+> **📢 Status**: Publication to Maven Central is in progress. Once available, no additional repository configuration will be needed.
 
 ---
 
@@ -72,13 +161,16 @@ Create `~/.m2/settings.xml`:
 
 ```bash
 # Windows
-set GOOGLE_GEMINI_API_KEY=your-api-key-here
+set GEMINI_API_KEY=your-api-key-here
+echo %GEMINI_API_KEY%
 
 # Mac/Linux
-export GOOGLE_GEMINI_API_KEY=your-api-key-here
+export GEMINI_API_KEY=your-api-key-here
+echo $GEMINI_API_KEY
 ```
 
 > **🔑 Get API Key**: Visit https://makersuite.google.com/app/apikey
+> **✅ Verify**: Run the `echo` command to confirm the key is set correctly
 
 ### 2. Replace Your WebDriver Code
 
@@ -143,6 +235,7 @@ import com.autoheal.AutoHealLocator;
 import com.autoheal.config.AutoHealConfiguration;
 import com.autoheal.config.AIConfig;
 import com.autoheal.config.CacheConfig;
+import com.autoheal.config.PerformanceConfig;
 import com.autoheal.model.AIProvider;
 import org.openqa.selenium.WebDriver;
 import java.time.Duration;
@@ -155,7 +248,9 @@ public class AutoHealManager {
         AutoHealConfiguration config = AutoHealConfiguration.builder()
                 .ai(AIConfig.builder()
                         .provider(AIProvider.GOOGLE_GEMINI)
-                        .apiKey(System.getenv("GOOGLE_GEMINI_API_KEY"))
+                        .apiKey(System.getenv("GEMINI_API_KEY"))
+                        .timeout(Duration.ofSeconds(60))
+                        .maxRetries(3)
                         .build())
                 .cache(CacheConfig.builder()
                         .cacheType(CacheConfig.CacheType.PERSISTENT_FILE)
@@ -163,6 +258,11 @@ public class AutoHealManager {
                         .expireAfterWrite(Duration.ofHours(24))
                         .expireAfterAccess(Duration.ofHours(2))
                         .recordStats(true)
+                        .build())
+                .performance(PerformanceConfig.builder()
+                        .elementTimeout(Duration.ofSeconds(60))
+                        .threadPoolSize(4)
+                        .enableMetrics(true)
                         .build())
                 .reporting(enabledWithDefaults())
                 .build();
@@ -186,8 +286,9 @@ public class AutoHealManager {
 
 ```properties
 # AI Configuration
-autoheal.ai.provider=GOOGLE_GEMINI                    # AI service (GOOGLE_GEMINI, OPENAI, ANTHROPIC_CLAUDE)
-autoheal.ai.api-key=${GOOGLE_GEMINI_API_KEY}          # API key from environment variable
+autoheal.ai.provider=GOOGLE_GEMINI                    # AI service (GOOGLE_GEMINI, OPENAI, ANTHROPIC_CLAUDE, DEEPSEEK, GROK, LOCAL_MODEL)
+autoheal.ai.model=gemini-2.0-flash                    # AI model (gpt-4o-mini, gpt-4o, gemini-2.0-flash, claude-3-5-sonnet-20241022) - optional, uses provider default if not specified
+autoheal.ai.api-key=${GEMINI_API_KEY}                 # API key from environment variable
 autoheal.ai.timeout=30s                               # AI request timeout
 autoheal.ai.max-retries=3                             # Retry attempts for failed AI calls
 autoheal.ai.visual-analysis-enabled=true              # Enable screenshot-based element detection
@@ -337,8 +438,8 @@ public static AutoHealLocator createAdvancedAutoHeal(WebDriver driver) {
             .ai(AIConfig.builder()
                 .provider(AIProvider.OPENAI)
                 .apiKey(System.getenv("OPENAI_API_KEY"))
-                .timeout(Duration.ofSeconds(45))
-                .maxRetries(5)
+                .timeout(Duration.ofSeconds(60))
+                .maxRetries(3)
                 .build())
             .cache(CacheConfig.builder()
                 .cacheType(CacheConfig.CacheType.REDIS)
@@ -347,6 +448,7 @@ public static AutoHealLocator createAdvancedAutoHeal(WebDriver driver) {
                 .expireAfterWrite(Duration.ofDays(7))
                 .build())
             .performance(PerformanceConfig.builder()
+                .elementTimeout(Duration.ofSeconds(60))
                 .executionStrategy(ExecutionStrategy.DOM_ONLY)
                 .threadPoolSize(8)
                 .enableMetrics(true)
@@ -443,18 +545,76 @@ AutoHeal intelligently detects and heals **all Selenium locator types**:
 
 AutoHeal supports multiple AI providers:
 
-| Provider | API Key Environment Variable | Cost | Speed | Accuracy |
-|----------|----------------------------|------|--------|----------|
-| **Google Gemini** | `GOOGLE_GEMINI_API_KEY` | 💰 Low | ⚡ Fast | 🎯 High |
-| **OpenAI GPT-4** | `OPENAI_API_KEY` | 💰💰 Medium | ⚡ Fast | 🎯🎯 Very High |
-| **Anthropic Claude** | `ANTHROPIC_API_KEY` | 💰💰 Medium | ⚡ Medium | 🎯🎯 Very High |
-| **Mock Provider** | None | 💰 Free | ⚡⚡ Instant | 🎯 Basic |
+| Provider | Default Model | API Key Environment Variable | Cost | Speed | Accuracy |
+|----------|---------------|----------------------------|------|--------|----------|
+| **Google Gemini** | `gemini-2.0-flash` | `GEMINI_API_KEY` | 💰 Low | ⚡ Fast | 🎯 High |
+| **OpenAI** | `gpt-4o-mini` | `OPENAI_API_KEY` | 💰💰 Medium | ⚡ Fast | 🎯🎯 Very High |
+| **Anthropic Claude** | `claude-3-sonnet` | `ANTHROPIC_API_KEY` | 💰💰 Medium | ⚡ Medium | 🎯🎯 Very High |
+| **DeepSeek** | `deepseek-chat` | `DEEPSEEK_API_KEY` | 💰 Low | ⚡ Fast | 🎯 High |
+| **Grok** | `grok-beta` | `GROK_API_KEY` | 💰💰 Medium | ⚡ Fast | 🎯 High |
+| **Local Models** | `local-model` | None | 💰 Free | ⚡ Varies | 🎯 Varies |
+| **Mock Provider** | `mock-model` | None | 💰 Free | ⚡⚡ Instant | 🎯 Basic |
+
+> **📝 Note**: Default models are used if `autoheal.ai.model` is not specified in your configuration. You can override by setting `autoheal.ai.model` to any supported model (e.g., `gpt-4o`, `gemini-1.5-pro`, `claude-3-5-sonnet-20241022`).
 
 ### Get API Keys
 
 - **Google Gemini**: https://makersuite.google.com/app/apikey
 - **OpenAI**: https://platform.openai.com/api-keys
 - **Anthropic**: https://console.anthropic.com/
+- **DeepSeek**: https://platform.deepseek.com/
+- **Grok**: https://console.x.ai/
+
+### 🖥️ Local Model Setup
+
+Run AI models locally for **free, private, and offline** element healing! Perfect for cost reduction and data privacy.
+
+#### Quick Setup with Ollama
+
+1. **Install Ollama**: Download from https://ollama.ai/
+
+2. **Pull a model**:
+   ```bash
+   ollama pull llama3.2:3b
+   ```
+
+3. **Verify it's running**:
+   ```bash
+   ollama list
+   ```
+
+4. **Configure AutoHeal** - Update your `autoheal.properties`:
+   ```properties
+   # Local Model Configuration
+   autoheal.ai.provider=LOCAL_MODEL
+   autoheal.ai.api-key=not-required
+   autoheal.ai.base-url=http://localhost:11434/v1
+   autoheal.ai.model=llama3.2:3b
+   autoheal.ai.timeout=60s
+   autoheal.ai.visual-analysis-enabled=false
+   ```
+
+#### Other Local Model Servers
+
+| Server | Endpoint | Installation |
+|--------|----------|--------------|
+| **Ollama** | `http://localhost:11434/v1` | https://ollama.ai/ |
+| **LM Studio** | `http://localhost:1234/v1` | https://lmstudio.ai/ |
+| **vLLM** | `http://localhost:8000/v1` | `pip install vllm` |
+| **LocalAI** | `http://localhost:8080/v1` | https://localai.io/ |
+
+#### Recommended Models for AutoHeal
+
+- **Fast & Efficient**: `llama3.2:3b`, `mistral:7b`
+- **Better Accuracy**: `llama3.1:8b`, `codellama:13b`
+- **Best Results**: `llama3.1:70b` (requires powerful GPU)
+
+#### Important Notes
+
+- 🔍 **Visual Analysis**: Most local models don't support image analysis - set `autoheal.ai.visual-analysis-enabled=false`
+- ⏱️ **Timeout**: Local models may be slower - increase `autoheal.ai.timeout` to 60s or higher
+- 💻 **Hardware**: Smaller models (3B-7B) work on CPU, larger models need GPU
+- 🔒 **Privacy**: All processing happens locally - no data leaves your machine
 
 ---
 
@@ -492,7 +652,7 @@ mvn test
 
 ### With Specific AI Provider
 ```bash
-mvn test -DGOOGLE_GEMINI_API_KEY=your-key
+mvn test -DGEMINI_API_KEY=your-key
 ```
 
 ### Generate Reports Only
@@ -511,14 +671,24 @@ mvn test -Dautoheal.performance.execution-strategy=DOM_ONLY
 
 ### Common Issues
 
+**❌ Dependency Download Issues**
+```
+Error: Could not find artifact com.autoheal:autoheal-locator
+```
+**✅ Solution**: Clean and recompile the project
+```bash
+mvn clean compile
+```
+If issues persist, check your `~/.m2/settings.xml` is configured correctly with your GitHub credentials.
+
 **❌ API Key Not Found**
 ```
 Error: AI provider authentication failed
 ```
 **✅ Solution**: Set environment variable correctly
 ```bash
-export GOOGLE_GEMINI_API_KEY=your-actual-api-key
-echo $GOOGLE_GEMINI_API_KEY  # Verify it's set
+export GEMINI_API_KEY=your-actual-api-key
+echo $GEMINI_API_KEY  # Verify it's set
 ```
 
 **❌ Cache Directory Issues**
