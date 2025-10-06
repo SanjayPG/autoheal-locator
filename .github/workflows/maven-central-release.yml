@@ -36,6 +36,16 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
 
+    - name: Configure GPG
+      env:
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      run: |
+        echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+        echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+        gpg-connect-agent reloadagent /bye
+        echo "GPG configured successfully"
+        gpg --list-secret-keys
+
     - name: Set version
       run: |
         mvn versions:set -DnewVersion=${{ inputs.release-version }}
