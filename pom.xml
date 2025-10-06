@@ -427,13 +427,6 @@
   </profiles>
 
   <distributionManagement>
-    <!-- GitHub Packages -->
-    <repository>
-      <id>github</id>
-      <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/SanjayPG/autoheal-locator</url>
-    </repository>
-
     <!-- Maven Central via Central Portal -->
     <snapshotRepository>
       <id>central</id>
