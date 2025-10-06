@@ -26,27 +26,33 @@ jobs:
         gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
         gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
+    - name: Cache Maven packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
     - name: Create Maven settings.xml
       run: |
         mkdir -p ~/.m2
         cat > ~/.m2/settings.xml <<EOF
-        <settings>
+        <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
           <servers>
             <server>
               <id>central</id>
-              <username>${{ secrets.CENTRAL_TOKEN_USERNAME }}</username>
-              <password>${{ secrets.CENTRAL_TOKEN_PASSWORD }}</password>
+              <username>${CENTRAL_TOKEN_USERNAME}</username>
+              <password>${CENTRAL_TOKEN_PASSWORD}</password>
             </server>
           </servers>
         </settings>
         EOF
-
-    - name: Cache Maven packages
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
+        cat ~/.m2/settings.xml
+      env:
+        CENTRAL_TOKEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+        CENTRAL_TOKEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
 
     - name: Configure GPG
       env:
