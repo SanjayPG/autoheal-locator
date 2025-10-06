@@ -23,11 +23,23 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        server-id: central
-        server-username: MAVEN_USERNAME
-        server-password: MAVEN_PASSWORD
         gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
         gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+    - name: Create Maven settings.xml
+      run: |
+        mkdir -p ~/.m2
+        cat > ~/.m2/settings.xml <<EOF
+        <settings>
+          <servers>
+            <server>
+              <id>central</id>
+              <username>${{ secrets.CENTRAL_TOKEN_USERNAME }}</username>
+              <password>${{ secrets.CENTRAL_TOKEN_PASSWORD }}</password>
+            </server>
+          </servers>
+        </settings>
+        EOF
 
     - name: Cache Maven packages
       uses: actions/cache@v4
