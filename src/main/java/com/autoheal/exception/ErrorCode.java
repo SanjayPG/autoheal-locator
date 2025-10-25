@@ -37,5 +37,10 @@ public enum ErrorCode {
     /**
      * Circuit breaker is open, blocking requests
      */
-    CIRCUIT_BREAKER_OPEN
+    CIRCUIT_BREAKER_OPEN,
+
+    /**
+     * Invalid locator format or unable to parse locator
+     */
+    INVALID_LOCATOR
 }

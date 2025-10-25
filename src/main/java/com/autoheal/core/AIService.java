@@ -1,6 +1,7 @@
 package com.autoheal.core;
 
 import com.autoheal.model.AIAnalysisResult;
+import com.autoheal.model.AutomationFramework;
 import com.autoheal.metrics.AIServiceMetrics;
 import org.openqa.selenium.WebElement;
 
@@ -13,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 public interface AIService {
 
     /**
-     * Analyze DOM structure to find element selectors
+     * Analyze DOM structure to find element selectors (Selenium default)
      *
      * @param html The HTML content to analyze
      * @param description Human-readable description of the target element
@@ -21,6 +22,17 @@ public interface AIService {
      * @return CompletableFuture containing AI analysis result
      */
     CompletableFuture<AIAnalysisResult> analyzeDOM(String html, String description, String previousSelector);
+
+    /**
+     * Analyze DOM structure to find element selectors with framework awareness
+     *
+     * @param html The HTML content to analyze
+     * @param description Human-readable description of the target element
+     * @param previousSelector The selector that previously worked but now fails
+     * @param framework The automation framework (SELENIUM or PLAYWRIGHT)
+     * @return CompletableFuture containing AI analysis result
+     */
+    CompletableFuture<AIAnalysisResult> analyzeDOM(String html, String description, String previousSelector, AutomationFramework framework);
 
     /**
      * Analyze visual screenshot to find element locations

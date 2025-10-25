@@ -1,6 +1,7 @@
 package com.autoheal.impl.adapter;
 
 import com.autoheal.core.WebAutomationAdapter;
+import com.autoheal.model.AutomationFramework;
 import com.autoheal.model.ElementContext;
 import com.autoheal.model.ElementFingerprint;
 import com.autoheal.model.Position;
@@ -20,13 +21,18 @@ import java.util.stream.Collectors;
  */
 public class PlaywrightWebAutomationAdapter implements WebAutomationAdapter {
     private static final Logger logger = LoggerFactory.getLogger(PlaywrightWebAutomationAdapter.class);
-    
+
     private final Page page;
     private final PlaywrightElementWrapper elementWrapper;
-    
+
     public PlaywrightWebAutomationAdapter(Page page) {
         this.page = page;
         this.elementWrapper = new PlaywrightElementWrapper();
+    }
+
+    @Override
+    public AutomationFramework getFrameworkType() {
+        return AutomationFramework.PLAYWRIGHT;
     }
     
     @Override
@@ -142,13 +148,75 @@ public class PlaywrightWebAutomationAdapter implements WebAutomationAdapter {
         });
     }
     
-    
+
     // Playwright-specific methods
     public Page getPage() {
         return page;
     }
-    
+
     public PlaywrightElementWrapper getElementWrapper() {
         return elementWrapper;
+    }
+
+    /**
+     * Execute a PlaywrightLocator and return native Playwright Locator object
+     *
+     * @param playwrightLocator The PlaywrightLocator to execute
+     * @return Native Playwright Locator
+     */
+    public com.microsoft.playwright.Locator executePlaywrightLocator(com.autoheal.model.PlaywrightLocator playwrightLocator) {
+        return switch (playwrightLocator.getType()) {
+            case GET_BY_ROLE -> {
+                String roleName = playwrightLocator.getValue();
+                Object nameOption = playwrightLocator.getOption("name");
+
+                // Parse role enum
+                com.microsoft.playwright.options.AriaRole role = parseAriaRole(roleName);
+
+                if (nameOption != null) {
+                    yield page.getByRole(role,
+                            new com.microsoft.playwright.Page.GetByRoleOptions()
+                                    .setName(nameOption.toString()));
+                } else {
+                    yield page.getByRole(role);
+                }
+            }
+            case GET_BY_LABEL -> page.getByLabel(playwrightLocator.getValue());
+            case GET_BY_PLACEHOLDER -> page.getByPlaceholder(playwrightLocator.getValue());
+            case GET_BY_TEXT -> page.getByText(playwrightLocator.getValue());
+            case GET_BY_ALT_TEXT -> page.getByAltText(playwrightLocator.getValue());
+            case GET_BY_TITLE -> page.getByTitle(playwrightLocator.getValue());
+            case GET_BY_TEST_ID -> page.getByTestId(playwrightLocator.getValue());
+            case CSS_SELECTOR, XPATH -> page.locator(playwrightLocator.getValue());
+        };
+    }
+
+    /**
+     * Parse ARIA role string to AriaRole enum
+     */
+    private com.microsoft.playwright.options.AriaRole parseAriaRole(String roleName) {
+        try {
+            // Convert to uppercase and replace spaces with underscores
+            String enumName = roleName.toUpperCase().replace(" ", "_");
+            return com.microsoft.playwright.options.AriaRole.valueOf(enumName);
+        } catch (IllegalArgumentException e) {
+            logger.warn("Unknown ARIA role: {}, falling back to BUTTON", roleName);
+            return com.microsoft.playwright.options.AriaRole.BUTTON;
+        }
+    }
+
+    /**
+     * Try executing a locator and return count of matching elements
+     *
+     * @param locator The Playwright locator to test
+     * @return Number of matching elements, or 0 if failed
+     */
+    public int countElements(com.microsoft.playwright.Locator locator) {
+        try {
+            return locator.count();
+        } catch (PlaywrightException e) {
+            logger.debug("Failed to count elements: {}", e.getMessage());
+            return 0;
+        }
     }
 }

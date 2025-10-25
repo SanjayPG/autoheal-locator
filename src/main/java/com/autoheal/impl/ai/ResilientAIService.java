@@ -65,6 +65,13 @@ public class ResilientAIService implements AIService {
 
     @Override
     public CompletableFuture<AIAnalysisResult> analyzeDOM(String html, String description, String previousSelector) {
+        // Default to Selenium for backward compatibility
+        return analyzeDOM(html, description, previousSelector, com.autoheal.model.AutomationFramework.SELENIUM);
+    }
+
+    @Override
+    public CompletableFuture<AIAnalysisResult> analyzeDOM(String html, String description, String previousSelector,
+                                                           com.autoheal.model.AutomationFramework framework) {
         if (!circuitBreaker.canExecute()) {
             metrics.recordCircuitBreakerOpen();
             return CompletableFuture.failedFuture(
@@ -75,19 +82,24 @@ public class ResilientAIService implements AIService {
         return CompletableFuture.supplyAsync(() -> {
             long startTime = System.currentTimeMillis();
             try {
-                String prompt = buildDOMAnalysisPrompt(html, description, previousSelector);
-                AIAnalysisResult result = callAIWithRetry(prompt);
+                // Build prompt based on framework
+                String prompt = framework == com.autoheal.model.AutomationFramework.PLAYWRIGHT
+                        ? buildPlaywrightDOMAnalysisPrompt(html, description, previousSelector)
+                        : buildDOMAnalysisPrompt(html, description, previousSelector);
+
+                AIAnalysisResult result = callAIWithRetry(prompt, framework);
 
                 circuitBreaker.recordSuccess();
                 metrics.recordRequest(true, System.currentTimeMillis() - startTime);
                 costMetrics.recordDomRequest(); // Track DOM cost
-                logger.debug("DOM analysis completed successfully for: {} (Cost: ${})", description, 0.02);
+                logger.debug("{} DOM analysis completed successfully for: {} (Cost: ${})",
+                        framework, description, 0.02);
                 return result;
 
             } catch (Exception e) {
                 circuitBreaker.recordFailure();
                 metrics.recordRequest(false, System.currentTimeMillis() - startTime);
-                logger.error("DOM analysis failed for: {}", description, e);
+                logger.error("{} DOM analysis failed for: {}", framework, description, e);
                 throw new RuntimeException("AI analysis failed", e);
             }
         }, executorService);
@@ -240,14 +252,60 @@ public class ResilientAIService implements AIService {
             """, description, previousSelector, html);
     }
 
-    private AIAnalysisResult callAIWithRetry(String prompt) {
+    private String buildPlaywrightDOMAnalysisPrompt(String html, String description, String previousLocator) {
+        return String.format("""
+            You are a Playwright automation expert. Find the best user-facing locator for: "%s"
+
+            The previous locator "%s" is broken. Analyze the HTML and find the correct element.
+
+            HTML:
+            %s
+
+            PRIORITY ORDER (try in this sequence):
+            1. getByRole() - ARIA role with accessible name (e.g., button, textbox, heading, link)
+            2. getByLabel() - Form label text associated with input
+            3. getByPlaceholder() - Input placeholder text
+            4. getByText() - Visible text content
+            5. getByTestId() - Test ID attribute (data-testid, data-test)
+            6. CSS Selector - FALLBACK ONLY if no user-facing option exists
+
+            RULES:
+            - Prefer accessibility-first locators (1-5) over CSS selectors
+            - Use CSS selector ONLY as last resort when no good user-facing option exists
+            - Ensure locator is unique and stable
+            - Avoid index-based or complex brittle selectors
+            - For getByRole, include the accessible name in options if available
+
+            Respond with valid JSON only:
+            {
+                "locatorType": "getByRole|getByLabel|getByPlaceholder|getByText|getByTestId|css",
+                "value": "button|Username|.class-name",
+                "options": {"name": "Submit"},
+                "confidence": 0.95,
+                "reasoning": "brief explanation why this locator was chosen",
+                "alternatives": [
+                    {"type": "css", "value": "#username"},
+                    {"type": "getByTestId", "value": "user-input"}
+                ]
+            }
+
+            Examples:
+            - Button: {"locatorType": "getByRole", "value": "button", "options": {"name": "Submit"}}
+            - Input with label: {"locatorType": "getByLabel", "value": "Username"}
+            - Input with placeholder: {"locatorType": "getByPlaceholder", "value": "Enter email"}
+            - Text element: {"locatorType": "getByText", "value": "Welcome"}
+            - Fallback CSS: {"locatorType": "css", "value": ".user-input"}
+            """, description, previousLocator, html);
+    }
+
+    private AIAnalysisResult callAIWithRetry(String prompt, com.autoheal.model.AutomationFramework framework) {
         int maxRetries = config.getMaxRetries();
         Exception lastException = null;
 
         for (int attempt = 0; attempt < maxRetries; attempt++) {
             try {
-                // Simulated AI call - replace with actual implementation
-                return simulateAICall(prompt);
+                // Route to framework-specific AI call
+                return simulateAICall(prompt, framework);
             } catch (Exception e) {
                 lastException = e;
                 if (attempt < maxRetries - 1) {
@@ -264,12 +322,12 @@ public class ResilientAIService implements AIService {
         throw new RuntimeException("AI call failed after " + maxRetries + " attempts", lastException);
     }
 
-    private AIAnalysisResult simulateAICall(String prompt) {
+    private AIAnalysisResult simulateAICall(String prompt, com.autoheal.model.AutomationFramework framework) {
         try {
-            // Route to provider-specific implementation
-            return performProviderSpecificDOMAnalysis(prompt);
+            // Route to provider-specific implementation with framework awareness
+            return performProviderSpecificDOMAnalysis(prompt, framework);
         } catch (Exception e) {
-            logger.error("{} API call failed", config.getProvider(), e);
+            logger.error("{} API call failed for framework {}", config.getProvider(), framework, e);
             throw new RuntimeException(config.getProvider() + " API call failed", e);
         }
     }
@@ -284,27 +342,41 @@ public class ResilientAIService implements AIService {
 
     // ==================== DOM ANALYSIS HELPER METHODS ====================
 
-    private AIAnalysisResult performProviderSpecificDOMAnalysis(String prompt) {
+    private AIAnalysisResult performProviderSpecificDOMAnalysis(String prompt, com.autoheal.model.AutomationFramework framework) {
         switch (config.getProvider()) {
             case OPENAI:
-                return performOpenAIDOMAnalysis(prompt);
+                return performOpenAIDOMAnalysis(prompt, framework);
             case GOOGLE_GEMINI:
-                return performGeminiDOMAnalysis(prompt);
+                return performGeminiDOMAnalysis(prompt, framework);
             case DEEPSEEK:
-                return performDeepSeekDOMAnalysis(prompt);
+                return performDeepSeekDOMAnalysis(prompt, framework);
             case ANTHROPIC_CLAUDE:
-                return performAnthropicDOMAnalysis(prompt);
+                return performAnthropicDOMAnalysis(prompt, framework);
             case GROK:
-                return performGrokDOMAnalysis(prompt);
+                return performGrokDOMAnalysis(prompt, framework);
             case LOCAL_MODEL:
-                return performLocalModelDOMAnalysis(prompt);
+                return performLocalModelDOMAnalysis(prompt, framework);
             case MOCK:
-                return performMockDOMAnalysis(prompt);
+                return performMockDOMAnalysis(prompt, framework);
             default:
                 throw new UnsupportedOperationException(
                     String.format("DOM analysis not implemented for provider: %s", config.getProvider())
                 );
         }
+    }
+
+    private AIAnalysisResult performOpenAIDOMAnalysis(String prompt, com.autoheal.model.AutomationFramework framework) {
+        // For now, delegate to Selenium-only version
+        // TODO: Parse Playwright response format from OpenAI
+        AIAnalysisResult result = performOpenAIDOMAnalysis(prompt);
+        return AIAnalysisResult.builder()
+                .recommendedSelector(result.getRecommendedSelector())
+                .playwrightLocator(result.getPlaywrightLocator())
+                .targetFramework(framework)
+                .confidence(result.getConfidence())
+                .reasoning(result.getReasoning())
+                .alternatives(result.getAlternatives())
+                .build();
     }
 
     private AIAnalysisResult performOpenAIDOMAnalysis(String prompt) {
@@ -368,6 +440,18 @@ public class ResilientAIService implements AIService {
         }
     }
 
+    private AIAnalysisResult performGeminiDOMAnalysis(String prompt, com.autoheal.model.AutomationFramework framework) {
+        AIAnalysisResult result = performGeminiDOMAnalysis(prompt);
+        return AIAnalysisResult.builder()
+                .recommendedSelector(result.getRecommendedSelector())
+                .playwrightLocator(result.getPlaywrightLocator())
+                .targetFramework(framework)
+                .confidence(result.getConfidence())
+                .reasoning(result.getReasoning())
+                .alternatives(result.getAlternatives())
+                .build();
+    }
+
     private AIAnalysisResult performDeepSeekDOMAnalysis(String prompt) {
         try {
             String requestBody = createDeepSeekDOMRequestBody(prompt);
@@ -396,6 +480,18 @@ public class ResilientAIService implements AIService {
         } catch (Exception e) {
             throw new RuntimeException("DeepSeek DOM analysis failed", e);
         }
+    }
+
+    private AIAnalysisResult performDeepSeekDOMAnalysis(String prompt, com.autoheal.model.AutomationFramework framework) {
+        AIAnalysisResult result = performDeepSeekDOMAnalysis(prompt);
+        return AIAnalysisResult.builder()
+                .recommendedSelector(result.getRecommendedSelector())
+                .playwrightLocator(result.getPlaywrightLocator())
+                .targetFramework(framework)
+                .confidence(result.getConfidence())
+                .reasoning(result.getReasoning())
+                .alternatives(result.getAlternatives())
+                .build();
     }
 
     private AIAnalysisResult performAnthropicDOMAnalysis(String prompt) {
@@ -429,6 +525,18 @@ public class ResilientAIService implements AIService {
         }
     }
 
+    private AIAnalysisResult performAnthropicDOMAnalysis(String prompt, com.autoheal.model.AutomationFramework framework) {
+        AIAnalysisResult result = performAnthropicDOMAnalysis(prompt);
+        return AIAnalysisResult.builder()
+                .recommendedSelector(result.getRecommendedSelector())
+                .playwrightLocator(result.getPlaywrightLocator())
+                .targetFramework(framework)
+                .confidence(result.getConfidence())
+                .reasoning(result.getReasoning())
+                .alternatives(result.getAlternatives())
+                .build();
+    }
+
     private AIAnalysisResult performGrokDOMAnalysis(String prompt) {
         try {
             String requestBody = createGrokDOMRequestBody(prompt);
@@ -459,6 +567,18 @@ public class ResilientAIService implements AIService {
         }
     }
 
+    private AIAnalysisResult performGrokDOMAnalysis(String prompt, com.autoheal.model.AutomationFramework framework) {
+        AIAnalysisResult result = performGrokDOMAnalysis(prompt);
+        return AIAnalysisResult.builder()
+                .recommendedSelector(result.getRecommendedSelector())
+                .playwrightLocator(result.getPlaywrightLocator())
+                .targetFramework(framework)
+                .confidence(result.getConfidence())
+                .reasoning(result.getReasoning())
+                .alternatives(result.getAlternatives())
+                .build();
+    }
+
     private AIAnalysisResult performLocalModelDOMAnalysis(String prompt) {
         // Detect if this is Ollama based on URL pattern
         boolean isOllama = config.getApiUrl() != null && config.getApiUrl().contains("11434");
@@ -469,6 +589,18 @@ public class ResilientAIService implements AIService {
             // Existing LOCAL_MODEL implementation for other local models
             return performStandardLocalModelDOMAnalysis(prompt);
         }
+    }
+
+    private AIAnalysisResult performLocalModelDOMAnalysis(String prompt, com.autoheal.model.AutomationFramework framework) {
+        AIAnalysisResult result = performLocalModelDOMAnalysis(prompt);
+        return AIAnalysisResult.builder()
+                .recommendedSelector(result.getRecommendedSelector())
+                .playwrightLocator(result.getPlaywrightLocator())
+                .targetFramework(framework)
+                .confidence(result.getConfidence())
+                .reasoning(result.getReasoning())
+                .alternatives(result.getAlternatives())
+                .build();
     }
 
     private AIAnalysisResult performStandardLocalModelDOMAnalysis(String prompt) {
@@ -530,17 +662,38 @@ public class ResilientAIService implements AIService {
         }
     }
 
-    private AIAnalysisResult performMockDOMAnalysis(String prompt) {
-        logger.debug("Performing mock DOM analysis");
-        return AIAnalysisResult.builder()
-                .recommendedSelector("input[data-test='password1']")
-                .confidence(0.9)
-                .reasoning("Mock DOM analysis: Generated selector for testing")
-                .alternatives(Arrays.asList(
-                    new ElementCandidate("#password", 0.8, "Mock alternative", null, new HashMap<>()),
-                    new ElementCandidate("input[name='password']", 0.7, "Mock name-based", null, new HashMap<>())
-                ))
-                .build();
+    private AIAnalysisResult performMockDOMAnalysis(String prompt, com.autoheal.model.AutomationFramework framework) {
+        logger.debug("Performing mock DOM analysis for framework: {}", framework);
+
+        if (framework == com.autoheal.model.AutomationFramework.PLAYWRIGHT) {
+            // Mock Playwright locator response
+            com.autoheal.model.PlaywrightLocator mockLocator = com.autoheal.model.PlaywrightLocator.builder()
+                    .byTestId("password1")
+                    .build();
+
+            return AIAnalysisResult.builder()
+                    .playwrightLocator(mockLocator)
+                    .targetFramework(com.autoheal.model.AutomationFramework.PLAYWRIGHT)
+                    .confidence(0.9)
+                    .reasoning("Mock Playwright analysis: Generated getByTestId locator for testing")
+                    .alternatives(Arrays.asList(
+                        new ElementCandidate("getByLabel('Password')", 0.8, "Mock label alternative", null, new HashMap<>()),
+                        new ElementCandidate("getByPlaceholder('Enter password')", 0.7, "Mock placeholder", null, new HashMap<>())
+                    ))
+                    .build();
+        } else {
+            // Mock Selenium selector response
+            return AIAnalysisResult.builder()
+                    .recommendedSelector("input[data-test='password1']")
+                    .targetFramework(com.autoheal.model.AutomationFramework.SELENIUM)
+                    .confidence(0.9)
+                    .reasoning("Mock Selenium analysis: Generated CSS selector for testing")
+                    .alternatives(Arrays.asList(
+                        new ElementCandidate("#password", 0.8, "Mock alternative", null, new HashMap<>()),
+                        new ElementCandidate("input[name='password']", 0.7, "Mock name-based", null, new HashMap<>())
+                    ))
+                    .build();
+        }
     }
 
     private String createOpenAIDOMRequestBody(String prompt) {
@@ -621,46 +774,18 @@ public class ResilientAIService implements AIService {
             logger.debug("Raw Gemini response content: {}", content);
 
             // Clean the content if needed (remove markdown formatting)
-            String cleanContent = content.trim();
-            if (cleanContent.startsWith("```json")) {
-                cleanContent = cleanContent.substring(7);
-            }
-            if (cleanContent.startsWith("```")) {
-                cleanContent = cleanContent.substring(3);
-            }
-            if (cleanContent.endsWith("```")) {
-                cleanContent = cleanContent.substring(0, cleanContent.length() - 3);
-            }
-            cleanContent = cleanContent.trim();
-
+            String cleanContent = cleanMarkdown(content);
             logger.debug("Cleaned Gemini response content: {}", cleanContent);
 
             // Parse the JSON response from AI
             JsonNode aiResponse = mapper.readTree(cleanContent);
 
-            String selector = aiResponse.path("selector").asText();
-            double confidence = aiResponse.path("confidence").asDouble(0.8);
-            String reasoning = aiResponse.path("reasoning").asText("Gemini-generated selector");
-
-            logger.debug("Parsed selector: '{}', confidence: {}", selector, confidence);
-
-            List<ElementCandidate> alternatives = new ArrayList<>();
-            JsonNode alternativesNode = aiResponse.path("alternatives");
-            if (alternativesNode.isArray()) {
-                for (JsonNode alt : alternativesNode) {
-                    if (alt.isTextual()) {
-                        alternatives.add(new ElementCandidate(alt.asText(), confidence * 0.8,
-                            "Alternative selector", null, new HashMap<>()));
-                    }
-                }
+            // Detect if this is Playwright format or Selenium format
+            if (aiResponse.has("locatorType")) {
+                return parsePlaywrightDOMContent(aiResponse);
+            } else {
+                return parseSeleniumDOMContent(aiResponse);
             }
-
-            return AIAnalysisResult.builder()
-                    .recommendedSelector(selector)
-                    .confidence(confidence)
-                    .reasoning(reasoning)
-                    .alternatives(alternatives)
-                    .build();
 
         } catch (Exception e) {
             logger.error("Failed to parse Gemini response. ResponseBody: {}", responseBody, e);
@@ -677,28 +802,149 @@ public class ResilientAIService implements AIService {
             logger.debug("Raw AI response content: {}", content);
 
             // Clean the content if needed (remove markdown formatting)
-            String cleanContent = content.trim();
-            if (cleanContent.startsWith("```json")) {
-                cleanContent = cleanContent.substring(7);
-            }
-            if (cleanContent.startsWith("```")) {
-                cleanContent = cleanContent.substring(3);
-            }
-            if (cleanContent.endsWith("```")) {
-                cleanContent = cleanContent.substring(0, cleanContent.length() - 3);
-            }
-            cleanContent = cleanContent.trim();
-
+            String cleanContent = cleanMarkdown(content);
             logger.debug("Cleaned AI response content: {}", cleanContent);
 
             // Parse the JSON response from AI
             JsonNode aiResponse = mapper.readTree(cleanContent);
 
+            // Detect if this is Playwright format or Selenium format
+            if (aiResponse.has("locatorType")) {
+                return parsePlaywrightDOMContent(aiResponse);
+            } else {
+                return parseSeleniumDOMContent(aiResponse);
+            }
+
+        } catch (Exception e) {
+            logger.error("Failed to parse OpenAI response. ResponseBody: {}", responseBody, e);
+            throw new RuntimeException("Failed to parse AI response", e);
+        }
+    }
+
+    /**
+     * Clean markdown formatting from AI response content
+     */
+    private String cleanMarkdown(String content) {
+        String cleanContent = content.trim();
+        if (cleanContent.startsWith("```json")) {
+            cleanContent = cleanContent.substring(7);
+        }
+        if (cleanContent.startsWith("```")) {
+            cleanContent = cleanContent.substring(3);
+        }
+        if (cleanContent.endsWith("```")) {
+            cleanContent = cleanContent.substring(0, cleanContent.length() - 3);
+        }
+        return cleanContent.trim();
+    }
+
+    /**
+     * Parse Playwright-specific DOM analysis response
+     */
+    private AIAnalysisResult parsePlaywrightDOMContent(JsonNode aiResponse) {
+        try {
+            String locatorType = aiResponse.path("locatorType").asText();
+            String value = aiResponse.path("value").asText();
+            double confidence = aiResponse.path("confidence").asDouble(0.8);
+            String reasoning = aiResponse.path("reasoning").asText("AI-generated Playwright locator");
+
+            logger.debug("Parsed Playwright locator: type='{}', value='{}', confidence={}",
+                        locatorType, value, confidence);
+
+            // Build PlaywrightLocator
+            com.autoheal.model.PlaywrightLocator.Builder locatorBuilder = com.autoheal.model.PlaywrightLocator.builder();
+
+            // Parse options if present
+            JsonNode optionsNode = aiResponse.path("options");
+            java.util.Map<String, Object> options = new HashMap<>();
+            if (optionsNode.isObject()) {
+                optionsNode.fields().forEachRemaining(entry -> {
+                    options.put(entry.getKey(), entry.getValue().asText());
+                });
+            }
+
+            // Build locator based on type
+            com.autoheal.model.PlaywrightLocator playwrightLocator;
+            switch (locatorType.toLowerCase()) {
+                case "getbyrole":
+                    String roleName = options.containsKey("name") ? (String) options.get("name") : null;
+                    if (roleName != null) {
+                        playwrightLocator = locatorBuilder.byRole(value, roleName).build();
+                    } else {
+                        playwrightLocator = locatorBuilder.byRole(value).build();
+                    }
+                    break;
+                case "getbylabel":
+                    playwrightLocator = locatorBuilder.byLabel(value).build();
+                    break;
+                case "getbyplaceholder":
+                    playwrightLocator = locatorBuilder.byPlaceholder(value).build();
+                    break;
+                case "getbytext":
+                    playwrightLocator = locatorBuilder.byText(value).build();
+                    break;
+                case "getbyalttext":
+                    playwrightLocator = locatorBuilder.byAltText(value).build();
+                    break;
+                case "getbytitle":
+                    playwrightLocator = locatorBuilder.byTitle(value).build();
+                    break;
+                case "getbytestid":
+                    playwrightLocator = locatorBuilder.byTestId(value).build();
+                    break;
+                case "css":
+                    playwrightLocator = locatorBuilder.cssSelector(value).build();
+                    break;
+                case "xpath":
+                    playwrightLocator = locatorBuilder.xpath(value).build();
+                    break;
+                default:
+                    logger.warn("Unknown Playwright locator type: {}, falling back to CSS", locatorType);
+                    playwrightLocator = locatorBuilder.cssSelector(value).build();
+            }
+
+            // Parse alternatives
+            List<ElementCandidate> alternatives = new ArrayList<>();
+            JsonNode alternativesNode = aiResponse.path("alternatives");
+            if (alternativesNode.isArray()) {
+                for (JsonNode alt : alternativesNode) {
+                    if (alt.isObject()) {
+                        String altType = alt.path("type").asText();
+                        String altValue = alt.path("value").asText();
+                        String altSelector = altType + "('" + altValue + "')";
+                        alternatives.add(new ElementCandidate(altSelector, confidence * 0.8,
+                            "Alternative Playwright locator", null, new HashMap<>()));
+                    } else if (alt.isTextual()) {
+                        alternatives.add(new ElementCandidate(alt.asText(), confidence * 0.8,
+                            "Alternative selector", null, new HashMap<>()));
+                    }
+                }
+            }
+
+            return AIAnalysisResult.builder()
+                    .playwrightLocator(playwrightLocator)
+                    .targetFramework(com.autoheal.model.AutomationFramework.PLAYWRIGHT)
+                    .confidence(confidence)
+                    .reasoning(reasoning)
+                    .alternatives(alternatives)
+                    .build();
+
+        } catch (Exception e) {
+            logger.error("Failed to parse Playwright DOM content", e);
+            throw new RuntimeException("Failed to parse Playwright DOM content", e);
+        }
+    }
+
+    /**
+     * Parse Selenium-specific DOM analysis response (CSS selectors)
+     */
+    private AIAnalysisResult parseSeleniumDOMContent(JsonNode aiResponse) {
+        try {
             String selector = aiResponse.path("selector").asText();
             double confidence = aiResponse.path("confidence").asDouble(0.8);
             String reasoning = aiResponse.path("reasoning").asText("AI-generated selector");
 
-            logger.debug("Parsed selector: '{}', confidence: {}", selector, confidence);
+            logger.debug("Parsed Selenium selector: '{}', confidence: {}", selector, confidence);
 
             List<ElementCandidate> alternatives = new ArrayList<>();
             JsonNode alternativesNode = aiResponse.path("alternatives");
@@ -713,14 +959,15 @@ public class ResilientAIService implements AIService {
 
             return AIAnalysisResult.builder()
                     .recommendedSelector(selector)
+                    .targetFramework(com.autoheal.model.AutomationFramework.SELENIUM)
                     .confidence(confidence)
                     .reasoning(reasoning)
                     .alternatives(alternatives)
                     .build();
 
         } catch (Exception e) {
-            logger.error("Failed to parse OpenAI response. ResponseBody: {}", responseBody, e);
-            throw new RuntimeException("Failed to parse AI response", e);
+            logger.error("Failed to parse Selenium DOM content", e);
+            throw new RuntimeException("Failed to parse Selenium DOM content", e);
         }
     }
 
@@ -856,46 +1103,18 @@ public class ResilientAIService implements AIService {
             logger.debug("Raw Anthropic response content: {}", content);
 
             // Clean the content if needed (remove markdown formatting)
-            String cleanContent = content.trim();
-            if (cleanContent.startsWith("```json")) {
-                cleanContent = cleanContent.substring(7);
-            }
-            if (cleanContent.startsWith("```")) {
-                cleanContent = cleanContent.substring(3);
-            }
-            if (cleanContent.endsWith("```")) {
-                cleanContent = cleanContent.substring(0, cleanContent.length() - 3);
-            }
-            cleanContent = cleanContent.trim();
-
+            String cleanContent = cleanMarkdown(content);
             logger.debug("Cleaned Anthropic response content: {}", cleanContent);
 
             // Parse the JSON response from AI
             JsonNode aiResponse = mapper.readTree(cleanContent);
 
-            String selector = aiResponse.path("selector").asText();
-            double confidence = aiResponse.path("confidence").asDouble(0.8);
-            String reasoning = aiResponse.path("reasoning").asText("Anthropic-generated selector");
-
-            logger.debug("Parsed selector: '{}', confidence: {}", selector, confidence);
-
-            List<ElementCandidate> alternatives = new ArrayList<>();
-            JsonNode alternativesNode = aiResponse.path("alternatives");
-            if (alternativesNode.isArray()) {
-                for (JsonNode alt : alternativesNode) {
-                    if (alt.isTextual()) {
-                        alternatives.add(new ElementCandidate(alt.asText(), confidence * 0.8,
-                            "Alternative selector", null, new HashMap<>()));
-                    }
-                }
+            // Detect if this is Playwright format or Selenium format
+            if (aiResponse.has("locatorType")) {
+                return parsePlaywrightDOMContent(aiResponse);
+            } else {
+                return parseSeleniumDOMContent(aiResponse);
             }
-
-            return AIAnalysisResult.builder()
-                    .recommendedSelector(selector)
-                    .confidence(confidence)
-                    .reasoning(reasoning)
-                    .alternatives(alternatives)
-                    .build();
 
         } catch (Exception e) {
             logger.error("Failed to parse Anthropic response. ResponseBody: {}", responseBody, e);

@@ -1,6 +1,7 @@
 package com.autoheal.impl.adapter;
 
 import com.autoheal.core.WebAutomationAdapter;
+import com.autoheal.model.AutomationFramework;
 import com.autoheal.model.ElementContext;
 import com.autoheal.model.Position;
 import org.openqa.selenium.By;
@@ -26,6 +27,11 @@ public class MockWebAutomationAdapter implements WebAutomationAdapter {
 
     public MockWebAutomationAdapter() {
         logger.debug("MockWebAutomationAdapter initialized");
+    }
+
+    @Override
+    public AutomationFramework getFrameworkType() {
+        return AutomationFramework.SELENIUM;
     }
 
     public void addMockElement(String selector, WebElement element) {

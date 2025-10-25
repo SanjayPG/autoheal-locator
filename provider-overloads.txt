@@ -1,0 +1,59 @@
+    private AIAnalysisResult performGeminiDOMAnalysis(String prompt, com.autoheal.model.AutomationFramework framework) {
+        AIAnalysisResult result = performGeminiDOMAnalysis(prompt);
+        return AIAnalysisResult.builder()
+                .recommendedSelector(result.getRecommendedSelector())
+                .playwrightLocator(result.getPlaywrightLocator())
+                .targetFramework(framework)
+                .confidence(result.getConfidence())
+                .reasoning(result.getReasoning())
+                .alternatives(result.getAlternatives())
+                .build();
+    }
+
+    private AIAnalysisResult performDeepSeekDOMAnalysis(String prompt, com.autoheal.model.AutomationFramework framework) {
+        AIAnalysisResult result = performDeepSeekDOMAnalysis(prompt);
+        return AIAnalysisResult.builder()
+                .recommendedSelector(result.getRecommendedSelector())
+                .playwrightLocator(result.getPlaywrightLocator())
+                .targetFramework(framework)
+                .confidence(result.getConfidence())
+                .reasoning(result.getReasoning())
+                .alternatives(result.getAlternatives())
+                .build();
+    }
+
+    private AIAnalysisResult performAnthropicDOMAnalysis(String prompt, com.autoheal.model.AutomationFramework framework) {
+        AIAnalysisResult result = performAnthropicDOMAnalysis(prompt);
+        return AIAnalysisResult.builder()
+                .recommendedSelector(result.getRecommendedSelector())
+                .playwrightLocator(result.getPlaywrightLocator())
+                .targetFramework(framework)
+                .confidence(result.getConfidence())
+                .reasoning(result.getReasoning())
+                .alternatives(result.getAlternatives())
+                .build();
+    }
+
+    private AIAnalysisResult performGrokDOMAnalysis(String prompt, com.autoheal.model.AutomationFramework framework) {
+        AIAnalysisResult result = performGrokDOMAnalysis(prompt);
+        return AIAnalysisResult.builder()
+                .recommendedSelector(result.getRecommendedSelector())
+                .playwrightLocator(result.getPlaywrightLocator())
+                .targetFramework(framework)
+                .confidence(result.getConfidence())
+                .reasoning(result.getReasoning())
+                .alternatives(result.getAlternatives())
+                .build();
+    }
+
+    private AIAnalysisResult performLocalModelDOMAnalysis(String prompt, com.autoheal.model.AutomationFramework framework) {
+        AIAnalysisResult result = performLocalModelDOMAnalysis(prompt);
+        return AIAnalysisResult.builder()
+                .recommendedSelector(result.getRecommendedSelector())
+                .playwrightLocator(result.getPlaywrightLocator())
+                .targetFramework(framework)
+                .confidence(result.getConfidence())
+                .reasoning(result.getReasoning())
+                .alternatives(result.getAlternatives())
+                .build();
+    }

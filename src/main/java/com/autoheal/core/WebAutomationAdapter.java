@@ -1,5 +1,6 @@
 package com.autoheal.core;
 
+import com.autoheal.model.AutomationFramework;
 import com.autoheal.model.ElementContext;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -11,6 +12,13 @@ import java.util.concurrent.CompletableFuture;
  * Adapter interface for web automation frameworks
  */
 public interface WebAutomationAdapter {
+
+    /**
+     * Get the automation framework type of this adapter
+     *
+     * @return The automation framework type (SELENIUM or PLAYWRIGHT)
+     */
+    AutomationFramework getFrameworkType();
 
     /**
      * Find elements using the given selector

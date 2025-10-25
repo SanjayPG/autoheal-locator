@@ -3,6 +3,7 @@ package com.autoheal.impl.ai;
 import com.autoheal.core.AIService;
 import com.autoheal.metrics.AIServiceMetrics;
 import com.autoheal.model.AIAnalysisResult;
+import com.autoheal.model.AutomationFramework;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,11 @@ public class MockAIService implements AIService {
 
     @Override
     public CompletableFuture<AIAnalysisResult> analyzeDOM(String html, String description, String previousSelector) {
+        return analyzeDOM(html, description, previousSelector, AutomationFramework.SELENIUM);
+    }
+
+    @Override
+    public CompletableFuture<AIAnalysisResult> analyzeDOM(String html, String description, String previousSelector, AutomationFramework framework) {
         long startTime = System.currentTimeMillis();
 
         return CompletableFuture.supplyAsync(() -> {
@@ -51,12 +57,13 @@ public class MockAIService implements AIService {
                 AIAnalysisResult result = mockResponses.getOrDefault(description,
                         AIAnalysisResult.builder()
                                 .recommendedSelector("button[data-testid='mock-element']")
+                                .targetFramework(framework)
                                 .confidence(0.85)
                                 .reasoning("Mock AI analysis for: " + description)
                                 .build());
 
                 metrics.recordRequest(true, System.currentTimeMillis() - startTime);
-                logger.debug("Mock AI analyzed DOM for: {} -> {}", description, result.getRecommendedSelector());
+                logger.debug("Mock AI analyzed DOM for: {} (framework: {}) -> {}", description, framework, result.getRecommendedSelector());
                 return result;
 
             } catch (InterruptedException e) {

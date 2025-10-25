@@ -1,6 +1,7 @@
 package com.autoheal.impl.adapter;
 
 import com.autoheal.core.WebAutomationAdapter;
+import com.autoheal.model.AutomationFramework;
 import com.autoheal.model.ElementContext;
 import com.autoheal.model.ElementFingerprint;
 import com.autoheal.model.Position;
@@ -36,6 +37,11 @@ public class SeleniumWebAutomationAdapter implements WebAutomationAdapter {
         this.driver = driver;
         this.executorService = Executors.newFixedThreadPool(4);
         logger.info("SeleniumWebAutomationAdapter initialized");
+    }
+
+    @Override
+    public AutomationFramework getFrameworkType() {
+        return AutomationFramework.SELENIUM;
     }
 
     @Override
