@@ -101,7 +101,7 @@ Add this to your `pom.xml`:
 <dependency>
   <groupId>io.github.sanjaypg</groupId>
   <artifactId>autoheal-locator</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.5</version>
 </dependency>
 ```
 
@@ -434,7 +434,7 @@ Framework: Playwright (or Selenium)
 <dependency>
   <groupId>io.github.sanjaypg</groupId>
   <artifactId>autoheal-locator</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.5</version>
 </dependency>
 ```
 
@@ -451,7 +451,7 @@ Then use in your project:
 <dependency>
   <groupId>io.github.sanjaypg</groupId>
   <artifactId>autoheal-locator</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.5</version>
 </dependency>
 ```
 
@@ -488,7 +488,7 @@ autoheal.advanced.save-screenshots=true
 
 **❌ Playwright Filter Not Working**
 
-Check that you're using the latest version (1.0.3+) which includes full filter support.
+Check that you're using the latest version (1.0.5+) which includes full filter support.
 
 ---
 
