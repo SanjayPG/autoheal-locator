@@ -8,7 +8,7 @@
   <packaging>jar</packaging>
 
   <name>AutoHeal Locator</name>
-  <description>AI-powered Selenium element locator with self-healing capabilities</description>
+  <description>AI-powered Selenium and Playwright element locator with self-healing capabilities</description>
   <url>https://github.com/SanjayPG/autoheal-locator</url>
 
   <licenses>
